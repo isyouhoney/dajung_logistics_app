@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "641319945837",
+    "project_id": "dajung-logistics-c32f2",
+    "storage_bucket": "dajung-logistics-c32f2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:641319945837:android:94c3bec59cf57a163c6164",
+        "android_client_info": {
+          "package_name": "com.ex"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9ymlUAehkA7Rb3cfV98_31sfA8zQ5PsA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

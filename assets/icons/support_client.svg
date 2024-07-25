@@ -1,0 +1,23 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Frame 460">
+<g id="Group 12">
+<g id="Rectangle 202">
+<mask id="path-1-inside-1_4782_14205" fill="white">
+<path d="M3 10C3 5.02944 7.02944 1 12 1C16.9706 1 21 5.02944 21 10V15H3V10Z"/>
+</mask>
+<path d="M0 10C0 3.37258 5.37258 -2 12 -2C18.6274 -2 24 3.37258 24 10H18C18 6.68629 15.3137 4 12 4C8.68629 4 6 6.68629 6 10H0ZM21 15H3H21ZM0 15V10C0 3.37258 5.37258 -2 12 -2V4C8.68629 4 6 6.68629 6 10V15H0ZM12 -2C18.6274 -2 24 3.37258 24 10V15H18V10C18 6.68629 15.3137 4 12 4V-2Z" fill="#9FB6EC" mask="url(#path-1-inside-1_4782_14205)"/>
+</g>
+<g id="Mask group">
+<mask id="mask0_4782_14205" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="10" y="12" width="10" height="10">
+<circle id="Ellipse 54" cx="15" cy="17" r="4" stroke="#D9D9D9" stroke-width="2"/>
+</mask>
+<g mask="url(#mask0_4782_14205)">
+<rect id="Rectangle 205" x="15" y="17" width="5" height="5" fill="#9FB6EC"/>
+</g>
+</g>
+<path id="Rectangle 203" d="M2 11C2 10.4477 2.44772 10 3 10H5C5.55228 10 6 10.4477 6 11V17C6 17.5523 5.55228 18 5 18H3C2.44772 18 2 17.5523 2 17V11Z" fill="#4774DA"/>
+<path id="Rectangle 205_2" d="M9 20C9 19.4477 9.44772 19 10 19H14C14.5523 19 15 19.4477 15 20V22C15 22.5523 14.5523 23 14 23H10C9.44772 23 9 22.5523 9 22V20Z" fill="#4774DA"/>
+<path id="Rectangle 204" d="M18 11C18 10.4477 18.4477 10 19 10H21C21.5523 10 22 10.4477 22 11V17C22 17.5523 21.5523 18 21 18H19C18.4477 18 18 17.5523 18 17V11Z" fill="#4774DA"/>
+</g>
+</g>
+</svg>

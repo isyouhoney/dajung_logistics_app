@@ -15,6 +15,7 @@ class CW {
         double? width,
         double? height,
         double? fontSize,
+        double? radius,
       }) {
     return SizedBox(
       width: width ?? double.maxFinite,
@@ -31,7 +32,7 @@ class CW {
           side: MaterialStateProperty.all<BorderSide?>(BorderSide(color: borderColor ?? Colors.transparent)),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(radius??12),
               )
           ),
             backgroundColor: MaterialStatePropertyAll<Color>(color?? CC.mainColor)),
@@ -82,10 +83,10 @@ class CW {
           title: Center(child: Text(title)),
           content: content.runtimeType == String?Text(content):content,
           actions: [
-            if(onPressedNo) TextButton(onPressed: (){
+            if(onPressedNo) textButton('취소',onPressed: (){
               if(actionNo!=null){actionNo?.call();}
-              Navigator.of(ctx).pop();}, child: const Text('취소')),
-            TextButton(onPressed: onPressedYes, child: const Text('확인'))
+              Navigator.of(ctx).pop();}),
+            textButton('확인', onPressed: onPressedYes)
           ],
         ));
     // :
@@ -99,21 +100,22 @@ class CW {
     //     )
     // );
   }
-  static allParkDialog(BuildContext ctx, String title, String yesText, Function() onPressedYes, bool onPressedNo){
+  static dajungDialog(BuildContext ctx, String title, String yesText, Function() onPressedYes, bool onPressedNo){
     showDialog(context: ctx, builder: (ctx) =>
         AlertDialog(
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(16))),
           actionsPadding: const EdgeInsets.fromLTRB(15, 0, 15, 15),
-          title: Center(child: Text(title)),
+          title: Center(child: Text(title, style: Theme.of(ctx).textTheme.titleSmall), ),
           // content: content.runtimeType == String?Text(content):content,
           actions: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-
-            if(onPressedNo) textButton('취소',onPressed: ()=>Navigator.of(ctx).pop(),width: 120, height: 40, textColor : Colors.black, color: Colors.white, borderColor: Colors.grey[300], pressedColor: CC.mainColorShadedLight),
-            const SizedBox(width: 10),
+            if(onPressedNo) Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: textButton('취소',onPressed: ()=>Navigator.of(ctx).pop(),width: 120, height: 40, textColor : Colors.black, color: Colors.white, borderColor: Colors.grey[300], pressedColor: CC.mainColorShadedLight),
+            ),
                 textButton(yesText,onPressed: onPressedYes,width: 120, height: 40),
               ],
             )
