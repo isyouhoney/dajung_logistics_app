@@ -16,7 +16,7 @@ class Item with _$Item {
     required String description,
     required ItemCategory category,
     ItemStatus? status,
-    required User owner,
+    User? owner,
     List<Role>? targets,
 }) = _Item;
 

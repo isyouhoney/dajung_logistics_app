@@ -9,9 +9,10 @@ part 'item_category.g.dart';
 class ItemCategory with _$ItemCategory {
   const ItemCategory._();
   factory ItemCategory({
+    required int id,
     required String categoryName,
-    required User mainStore,
-    required Item items,
+    User? mainStore,
+    List<Item>? items,
 }) = _ItemCategory;
 
   factory ItemCategory.fromJson(Map<String, dynamic> json) =>

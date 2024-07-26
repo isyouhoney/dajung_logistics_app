@@ -1,5 +1,3 @@
-import 'package:bakery_app/utils/themeData.dart';
-import 'package:bakery_app/view/main/item/add_item.dart';
 import 'package:bakery_app/viewmodels/item_service.dart';
 import 'package:bakery_app/widgets/add_item_button.dart';
 import 'package:bakery_app/widgets/custom_container.dart';
@@ -27,21 +25,12 @@ class ItemManagement extends StatelessWidget {
                   return const Center(child: Text("오류가 발생했습니다."));
                 }
                 print(snapshot.data);
-                return ItemField(name: '소금빵');
+                return Column(children:
+
+                snapshot.data!.map((e)=>ItemField(name: e['itemName'])).toList()
+                );
               }),
-          // Expanded(
-          //   child: ListView.builder(
-          //     shrinkWrap: true,
-          //     physics: const NeverScrollableScrollPhysics(),
-          //     itemBuilder: (BuildContext context, int index) {
-          //     return ItemField(name: '상품명');
-          //   },),
-          // ),
-          const ItemField(name: '소금빵'),
-          const ItemField(name: '대파크림치즈 소금빵'),
-          const ItemField(name: '초코 소금빵'),
-          const ItemField(name: '치아바타'),
-          AddItemButton()
+          const AddItemButton()
         ]),
       ),
     );

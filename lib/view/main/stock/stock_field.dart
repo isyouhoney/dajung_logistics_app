@@ -15,7 +15,7 @@ class StockField extends StatelessWidget {
       child: Row(children: [
         Text(name, style: Theme.of(context).textTheme.titleSmall),
         const Spacer(),
-        const CustomDropdown(width: 100, height: 40,)
+        CustomDropdown(width: 100, height: 40,)
       ],),
     );
   }

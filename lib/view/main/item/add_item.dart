@@ -1,5 +1,6 @@
 import 'package:bakery_app/models/item.dart';
 import 'package:bakery_app/models/item_category.dart';
+import 'package:bakery_app/utils/themeData.dart';
 import 'package:bakery_app/viewmodels/auth_service.dart';
 import 'package:bakery_app/viewmodels/item_service.dart';
 import 'package:bakery_app/widgets/custom_dropdown.dart';
@@ -7,7 +8,9 @@ import 'package:bakery_app/widgets/custom_textfield.dart';
 import 'package:bakery_app/widgets/custom_widget.dart';
 import 'package:bakery_app/widgets/image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class AddItem extends StatefulWidget {
@@ -21,16 +24,17 @@ class _AddItemState extends State<AddItem> {
   late TextEditingController itemNameController;
   late TextEditingController priceController;
   late TextEditingController descriptionController;
-  late String image;
-  late RxBool subStore;
+  RxList<String> categoryNameList = ['카테고리'].obs;
+  List<dynamic> categoryList=[];
+  RxBool subStore = false.obs;
 
   @override
   void initState() {
     super.initState();
+    getCategoryNameList();
     itemNameController = TextEditingController();
     priceController = TextEditingController();
     descriptionController = TextEditingController();
-    subStore = false.obs;
   }
 
   @override
@@ -39,6 +43,13 @@ class _AddItemState extends State<AddItem> {
     priceController.dispose();
     descriptionController.dispose();
     super.dispose();
+  }
+
+  Future getCategoryNameList() async{
+    categoryList = (await ItemService.to.fetchCategories())!;
+    for (var e in categoryList) {
+      categoryNameList.add(e.categoryName);
+    }
   }
 
   @override
@@ -54,17 +65,28 @@ class _AddItemState extends State<AddItem> {
           content: SingleChildScrollView(
             child: Column(children: [
               CustomTextField(hintText: '상품명', controller: itemNameController),
-              const CustomDropdown(),
-              const CustomImagePicker(),
+              CustomDropdown(list: categoryNameList.value, selectedValue: ItemService.to.addItemCategory),//, selectedValue: ItemService.to.addItemCategory),
+              CustomImagePicker(),
               CustomTextField(hintText: '가격', controller: priceController),
               CustomTextField(hintText: '상세 설명', controller: descriptionController, maxLine: 5,counterText: true,),
+              Obx(()=>Row(
+                children: [
+                  Checkbox(value: subStore.value, onChanged: (value) => subStore.value = value!, materialTapTargetSize: MaterialTapTargetSize.shrinkWrap, activeColor: CC.mainColor),
+                  Text('가맹점 메뉴', style: Theme.of(context).textTheme.titleSmall)
+                ],
+              ),)
             ],),
           ),
           actions: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceAround,children: [
             CW.textButton('취소',onPressed: ()=>Navigator.of(context).pop(), width: 35.w, height: 40, color: Colors.grey),
             CW.textButton('확인', onPressed: (){
-            }, width: 35.w, height: 40)])
+              ItemCategory category = ItemCategory(id: 0, categoryName: ItemService.to.addItemCategory!.value);
+                  categoryList.forEach((e){if(e.categoryName==ItemService.to.addItemCategory?.value) category = e;});
+              ItemService.to.addItem(Item(itemName: itemNameController.text, price: int.parse(priceController.text), images: ItemService.to.addItemImage.value, description: descriptionController.text, category: category));
+            Get.back();
+            setState(() {});
+              }, width: 35.w, height: 40)])
           ],
         );
   }

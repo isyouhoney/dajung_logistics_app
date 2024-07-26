@@ -28,7 +28,7 @@ class _DataStatisticsState extends State<DataStatistics> {
             ],),
             const SizedBox(height: 10),
             const DatePicker(),
-            const CustomDropdown(),
+            CustomDropdown(),
             Table()
           ]),
     );

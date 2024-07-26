@@ -26,7 +26,7 @@ mixin _$Item {
   String get description => throw _privateConstructorUsedError;
   ItemCategory get category => throw _privateConstructorUsedError;
   ItemStatus? get status => throw _privateConstructorUsedError;
-  User get owner => throw _privateConstructorUsedError;
+  User? get owner => throw _privateConstructorUsedError;
   List<Role>? get targets => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -46,11 +46,11 @@ abstract class $ItemCopyWith<$Res> {
       String description,
       ItemCategory category,
       ItemStatus? status,
-      User owner,
+      User? owner,
       List<Role>? targets});
 
   $ItemCategoryCopyWith<$Res> get category;
-  $UserCopyWith<$Res> get owner;
+  $UserCopyWith<$Res>? get owner;
 }
 
 /// @nodoc
@@ -72,7 +72,7 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
     Object? description = null,
     Object? category = null,
     Object? status = freezed,
-    Object? owner = null,
+    Object? owner = freezed,
     Object? targets = freezed,
   }) {
     return _then(_value.copyWith(
@@ -100,10 +100,10 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as ItemStatus?,
-      owner: null == owner
+      owner: freezed == owner
           ? _value.owner
           : owner // ignore: cast_nullable_to_non_nullable
-              as User,
+              as User?,
       targets: freezed == targets
           ? _value.targets
           : targets // ignore: cast_nullable_to_non_nullable
@@ -121,8 +121,12 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
 
   @override
   @pragma('vm:prefer-inline')
-  $UserCopyWith<$Res> get owner {
-    return $UserCopyWith<$Res>(_value.owner, (value) {
+  $UserCopyWith<$Res>? get owner {
+    if (_value.owner == null) {
+      return null;
+    }
+
+    return $UserCopyWith<$Res>(_value.owner!, (value) {
       return _then(_value.copyWith(owner: value) as $Val);
     });
   }
@@ -142,13 +146,13 @@ abstract class _$$ItemImplCopyWith<$Res> implements $ItemCopyWith<$Res> {
       String description,
       ItemCategory category,
       ItemStatus? status,
-      User owner,
+      User? owner,
       List<Role>? targets});
 
   @override
   $ItemCategoryCopyWith<$Res> get category;
   @override
-  $UserCopyWith<$Res> get owner;
+  $UserCopyWith<$Res>? get owner;
 }
 
 /// @nodoc
@@ -167,7 +171,7 @@ class __$$ItemImplCopyWithImpl<$Res>
     Object? description = null,
     Object? category = null,
     Object? status = freezed,
-    Object? owner = null,
+    Object? owner = freezed,
     Object? targets = freezed,
   }) {
     return _then(_$ItemImpl(
@@ -195,10 +199,10 @@ class __$$ItemImplCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as ItemStatus?,
-      owner: null == owner
+      owner: freezed == owner
           ? _value.owner
           : owner // ignore: cast_nullable_to_non_nullable
-              as User,
+              as User?,
       targets: freezed == targets
           ? _value._targets
           : targets // ignore: cast_nullable_to_non_nullable
@@ -217,7 +221,7 @@ class _$ItemImpl extends _Item {
       required this.description,
       required this.category,
       this.status,
-      required this.owner,
+      this.owner,
       final List<Role>? targets})
       : _targets = targets,
         super._();
@@ -238,7 +242,7 @@ class _$ItemImpl extends _Item {
   @override
   final ItemStatus? status;
   @override
-  final User owner;
+  final User? owner;
   final List<Role>? _targets;
   @override
   List<Role>? get targets {
@@ -307,7 +311,7 @@ abstract class _Item extends Item {
       required final String description,
       required final ItemCategory category,
       final ItemStatus? status,
-      required final User owner,
+      final User? owner,
       final List<Role>? targets}) = _$ItemImpl;
   _Item._() : super._();
 
@@ -326,7 +330,7 @@ abstract class _Item extends Item {
   @override
   ItemStatus? get status;
   @override
-  User get owner;
+  User? get owner;
   @override
   List<Role>? get targets;
   @override

@@ -27,7 +27,7 @@ class OrderForm extends StatelessWidget {
   Widget orderItem(BuildContext context){
     return ItemFieldLayout(name: '올리브 치아바타',
         mainWidget: Column(children: [
-          const CustomDropdown(width: 80,height: 40,),
+          CustomDropdown(width: 80,height: 40,),
           Text('재고 : 10EA', style: TextStyle(color: CC.errorColor),)
         ],),
         subWidget:CW.textButton('상세', width: 60, height: 40, color: CC.mainColor, radius: 10,

@@ -13,7 +13,9 @@ _$ItemImpl _$$ItemImplFromJson(Map<String, dynamic> json) => _$ItemImpl(
       description: json['description'] as String,
       category: ItemCategory.fromJson(json['category'] as Map<String, dynamic>),
       status: $enumDecodeNullable(_$ItemStatusEnumMap, json['status']),
-      owner: User.fromJson(json['owner'] as Map<String, dynamic>),
+      owner: json['owner'] == null
+          ? null
+          : User.fromJson(json['owner'] as Map<String, dynamic>),
       targets: (json['targets'] as List<dynamic>?)
           ?.map((e) => $enumDecode(_$RoleEnumMap, e))
           .toList(),
