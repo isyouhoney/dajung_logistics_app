@@ -478,6 +478,19 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.2.0"
+  flutter_localization:
+    dependency: "direct main"
+    description:
+      name: flutter_localization
+      sha256: c2918388c56fe2d555074215dba44bc47bd5c1036e6b237f72f210b7136cfe61
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.1"
+  flutter_localizations:
+    dependency: transitive
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_native_splash:
     dependency: "direct main"
     description:
@@ -833,7 +846,7 @@ packages:
     source: hosted
     version: "1.12.0"
   mime:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: mime
       sha256: "2e123074287cc9fd6c09de8336dae606d1ddb88d9ac47358826db698c176a1f2"
@@ -1133,6 +1146,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.0"
+  sprintf:
+    dependency: transitive
+    description:
+      name: sprintf
+      sha256: "1fc9ffe69d4df602376b52949af107d8f5703b77cda567c4d7d86a0693120f23"
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.0.0"
   stack_trace:
     dependency: transitive
     description:
@@ -1213,6 +1234,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.2"
+  uuid:
+    dependency: "direct main"
+    description:
+      name: uuid
+      sha256: "83d37c7ad7aaf9aa8e275490669535c8080377cfa7a7004c24dfac53afffaa90"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.4.2"
   vector_graphics:
     dependency: transitive
     description:

@@ -1,8 +1,15 @@
+import 'package:bakery_app/models/product.dart';
+import 'package:bakery_app/utils/timeFormatting.dart';
 import 'package:bakery_app/view/main/stock/stock_field.dart';
+import 'package:bakery_app/viewModels/production_service.dart';
+import 'package:bakery_app/viewmodels/item_service.dart';
+import 'package:bakery_app/widgets/custom_accordion.dart';
 import 'package:bakery_app/widgets/custom_container.dart';
 import 'package:bakery_app/widgets/custom_widget.dart';
 import 'package:bakery_app/widgets/default_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class DailyStock extends StatefulWidget {
   const DailyStock({super.key});
@@ -12,22 +19,38 @@ class DailyStock extends StatefulWidget {
 }
 
 class _DailyStockState extends State<DailyStock> {
+  List<Product> products = [];
+
+  @override
+  void initState() {
+    super.initState();
+    ItemService.to.fetchItems();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultLayout(title: '당일 재고 입력', bottomSheet: CW.textButton('저장'),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Padding(
-        padding: const EdgeInsets.only(left: 20),
-        child: Text('2024.07.30', style: Theme.of(context).textTheme.titleMedium),
-      ),
-      const CustomContainer(child: Column(children: [
-        StockField(name: '소금빵'),
-        StockField(name: '초코 소금빵'),
-        StockField(name: '대파 소금빵'),
-        StockField(name: '소금빵'),
-        StockField(name: '상품명'),
-        StockField(name: '상품명'),
-      ],))
-    ],),);
+    return DefaultLayout(title: '일일 생산량 등록', isPadded: false,
+      bottomSheet: CW.textButton('저장', onPressed: (){
+        ProductionService.to.postProduction(products);
+      }),
+      child: SingleChildScrollView(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Padding(padding: const EdgeInsets.only(left: 20),
+            child: Text(dateFormat(DateTime.now()), style: Theme.of(context).textTheme.titleMedium),
+          ),
+          const ExpansionPanelListExample(),
+          CustomContainer(height:62.h,
+            child: Obx(()=>Column(crossAxisAlignment:CrossAxisAlignment.start, children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Text('오늘 생산한 빵', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey)),
+                  ),
+              SingleChildScrollView(child: Column(children:
+              ItemService.to.ItemList != [] ? ItemService.to.ItemList.map((e) => StockField(name: e.itemName, count: (String value) => products.add(Product(item: e, total: int.parse(value))))).toList()
+                      : [const SizedBox()],))
+            ]),
+          ))
+            ],),
+      ),);
   }
 }

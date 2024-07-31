@@ -8,22 +8,16 @@ part of 'product.dart';
 
 _$ProductImpl _$$ProductImplFromJson(Map<String, dynamic> json) =>
     _$ProductImpl(
-      itemName: json['itemName'] as String,
-      price: json['price'] as String,
-      image: json['image'] as String,
-      description: json['description'] as String,
-      item: json['item'] as String,
-      total: json['total'] as String,
-      inventory: json['inventory'] as String,
-      production: json['production'] as String,
+      item: Item.fromJson(json['item'] as Map<String, dynamic>),
+      total: (json['total'] as num).toInt(),
+      inventory: (json['inventory'] as num?)?.toInt(),
+      production: json['production'] == null
+          ? null
+          : Production.fromJson(json['production'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$ProductImplToJson(_$ProductImpl instance) =>
     <String, dynamic>{
-      'itemName': instance.itemName,
-      'price': instance.price,
-      'image': instance.image,
-      'description': instance.description,
       'item': instance.item,
       'total': instance.total,
       'inventory': instance.inventory,

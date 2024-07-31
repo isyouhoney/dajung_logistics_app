@@ -31,7 +31,8 @@ class OrderForm extends StatelessWidget {
           Text('재고 : 10EA', style: TextStyle(color: CC.errorColor),)
         ],),
         subWidget:CW.textButton('상세', width: 60, height: 40, color: CC.mainColor, radius: 10,
-              onPressed: () => showDialog(context: context, builder: (ctx) => ItemDetail())),
+              // onPressed: () => showDialog(context: context, builder: (ctx) => ItemDetail())
+    ),
         );
   }
 }

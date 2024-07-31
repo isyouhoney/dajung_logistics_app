@@ -6,12 +6,14 @@ class ItemService extends GetxService {
   final ItemRepository itemRepository = ItemRepository();
   static ItemService get to => Get.find();
   final RxString addItemCategory = '카테고리'.obs;
-  final addItemImage = ''.obs;
+  final RxString addItemImage = ''.obs;
+  RxList ItemList = [].obs;
 
-  Future<List?> fetchItems() async {
+  Future<RxList?> fetchItems() async {
     var fetchedItems = await itemRepository.getItems();
     if (fetchedItems != null){
-      return fetchedItems;
+      ItemList.value = fetchedItems;
+      return ItemList;
     } else {
       print('제품목록을 불러오는데 실패했습니다.');
     }

@@ -20,14 +20,10 @@ Product _$ProductFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Product {
-  String get itemName => throw _privateConstructorUsedError;
-  String get price => throw _privateConstructorUsedError;
-  String get image => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
-  String get item => throw _privateConstructorUsedError;
-  String get total => throw _privateConstructorUsedError;
-  String get inventory => throw _privateConstructorUsedError;
-  String get production => throw _privateConstructorUsedError;
+  Item get item => throw _privateConstructorUsedError;
+  int get total => throw _privateConstructorUsedError;
+  int? get inventory => throw _privateConstructorUsedError;
+  Production? get production => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -39,15 +35,10 @@ abstract class $ProductCopyWith<$Res> {
   factory $ProductCopyWith(Product value, $Res Function(Product) then) =
       _$ProductCopyWithImpl<$Res, Product>;
   @useResult
-  $Res call(
-      {String itemName,
-      String price,
-      String image,
-      String description,
-      String item,
-      String total,
-      String inventory,
-      String production});
+  $Res call({Item item, int total, int? inventory, Production? production});
+
+  $ItemCopyWith<$Res> get item;
+  $ProductionCopyWith<$Res>? get production;
 }
 
 /// @nodoc
@@ -63,49 +54,49 @@ class _$ProductCopyWithImpl<$Res, $Val extends Product>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? itemName = null,
-    Object? price = null,
-    Object? image = null,
-    Object? description = null,
     Object? item = null,
     Object? total = null,
-    Object? inventory = null,
-    Object? production = null,
+    Object? inventory = freezed,
+    Object? production = freezed,
   }) {
     return _then(_value.copyWith(
-      itemName: null == itemName
-          ? _value.itemName
-          : itemName // ignore: cast_nullable_to_non_nullable
-              as String,
-      price: null == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as String,
-      image: null == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
       item: null == item
           ? _value.item
           : item // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Item,
       total: null == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
-              as String,
-      inventory: null == inventory
+              as int,
+      inventory: freezed == inventory
           ? _value.inventory
           : inventory // ignore: cast_nullable_to_non_nullable
-              as String,
-      production: null == production
+              as int?,
+      production: freezed == production
           ? _value.production
           : production // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Production?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ItemCopyWith<$Res> get item {
+    return $ItemCopyWith<$Res>(_value.item, (value) {
+      return _then(_value.copyWith(item: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ProductionCopyWith<$Res>? get production {
+    if (_value.production == null) {
+      return null;
+    }
+
+    return $ProductionCopyWith<$Res>(_value.production!, (value) {
+      return _then(_value.copyWith(production: value) as $Val);
+    });
   }
 }
 
@@ -116,15 +107,12 @@ abstract class _$$ProductImplCopyWith<$Res> implements $ProductCopyWith<$Res> {
       __$$ProductImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String itemName,
-      String price,
-      String image,
-      String description,
-      String item,
-      String total,
-      String inventory,
-      String production});
+  $Res call({Item item, int total, int? inventory, Production? production});
+
+  @override
+  $ItemCopyWith<$Res> get item;
+  @override
+  $ProductionCopyWith<$Res>? get production;
 }
 
 /// @nodoc
@@ -138,48 +126,28 @@ class __$$ProductImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? itemName = null,
-    Object? price = null,
-    Object? image = null,
-    Object? description = null,
     Object? item = null,
     Object? total = null,
-    Object? inventory = null,
-    Object? production = null,
+    Object? inventory = freezed,
+    Object? production = freezed,
   }) {
     return _then(_$ProductImpl(
-      itemName: null == itemName
-          ? _value.itemName
-          : itemName // ignore: cast_nullable_to_non_nullable
-              as String,
-      price: null == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as String,
-      image: null == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
       item: null == item
           ? _value.item
           : item // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Item,
       total: null == total
           ? _value.total
           : total // ignore: cast_nullable_to_non_nullable
-              as String,
-      inventory: null == inventory
+              as int,
+      inventory: freezed == inventory
           ? _value.inventory
           : inventory // ignore: cast_nullable_to_non_nullable
-              as String,
-      production: null == production
+              as int?,
+      production: freezed == production
           ? _value.production
           : production // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Production?,
     ));
   }
 }
@@ -188,39 +156,27 @@ class __$$ProductImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ProductImpl extends _Product {
   _$ProductImpl(
-      {required this.itemName,
-      required this.price,
-      required this.image,
-      required this.description,
-      required this.item,
+      {required this.item,
       required this.total,
-      required this.inventory,
-      required this.production})
+      this.inventory,
+      this.production})
       : super._();
 
   factory _$ProductImpl.fromJson(Map<String, dynamic> json) =>
       _$$ProductImplFromJson(json);
 
   @override
-  final String itemName;
+  final Item item;
   @override
-  final String price;
+  final int total;
   @override
-  final String image;
+  final int? inventory;
   @override
-  final String description;
-  @override
-  final String item;
-  @override
-  final String total;
-  @override
-  final String inventory;
-  @override
-  final String production;
+  final Production? production;
 
   @override
   String toString() {
-    return 'Product(itemName: $itemName, price: $price, image: $image, description: $description, item: $item, total: $total, inventory: $inventory, production: $production)';
+    return 'Product(item: $item, total: $total, inventory: $inventory, production: $production)';
   }
 
   @override
@@ -228,12 +184,6 @@ class _$ProductImpl extends _Product {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ProductImpl &&
-            (identical(other.itemName, itemName) ||
-                other.itemName == itemName) &&
-            (identical(other.price, price) || other.price == price) &&
-            (identical(other.image, image) || other.image == image) &&
-            (identical(other.description, description) ||
-                other.description == description) &&
             (identical(other.item, item) || other.item == item) &&
             (identical(other.total, total) || other.total == total) &&
             (identical(other.inventory, inventory) ||
@@ -244,8 +194,8 @@ class _$ProductImpl extends _Product {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, itemName, price, image,
-      description, item, total, inventory, production);
+  int get hashCode =>
+      Object.hash(runtimeType, item, total, inventory, production);
 
   @JsonKey(ignore: true)
   @override
@@ -263,34 +213,22 @@ class _$ProductImpl extends _Product {
 
 abstract class _Product extends Product {
   factory _Product(
-      {required final String itemName,
-      required final String price,
-      required final String image,
-      required final String description,
-      required final String item,
-      required final String total,
-      required final String inventory,
-      required final String production}) = _$ProductImpl;
+      {required final Item item,
+      required final int total,
+      final int? inventory,
+      final Production? production}) = _$ProductImpl;
   _Product._() : super._();
 
   factory _Product.fromJson(Map<String, dynamic> json) = _$ProductImpl.fromJson;
 
   @override
-  String get itemName;
+  Item get item;
   @override
-  String get price;
+  int get total;
   @override
-  String get image;
+  int? get inventory;
   @override
-  String get description;
-  @override
-  String get item;
-  @override
-  String get total;
-  @override
-  String get inventory;
-  @override
-  String get production;
+  Production? get production;
   @override
   @JsonKey(ignore: true)
   _$$ProductImplCopyWith<_$ProductImpl> get copyWith =>

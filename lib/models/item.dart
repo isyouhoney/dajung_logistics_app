@@ -10,12 +10,13 @@ part 'item.g.dart';
 class Item with _$Item {
   const Item._();
   factory Item({
+    int? id,
     required String itemName,
     required int price,
-    required String images,
+    required String image,
     required String description,
-    required ItemCategory category,
-    ItemStatus? status,
+    ItemCategory? category,
+    dynamic? status,
     User? owner,
     List<Role>? targets,
 }) = _Item;

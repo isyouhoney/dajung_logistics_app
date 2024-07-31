@@ -4,3 +4,7 @@ import 'package:intl/intl.dart';
 String formatDateTimeAMPM(DateTime dateTime) {
   return DateFormat('a hh:mm').format(dateTime);
 }
+
+String dateFormat(DateTime dateTime) {
+  return DateFormat('yyyy.MM.dd').format(dateTime);
+}

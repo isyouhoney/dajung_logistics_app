@@ -1,3 +1,4 @@
+import 'package:bakery_app/repositories/s3_repository.dart';
 import 'package:bakery_app/viewmodels/item_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,29 +7,23 @@ import 'package:image_picker/image_picker.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class CustomImagePicker extends StatefulWidget {
-  CustomImagePicker({super.key});//, required this.image});
-  // late final ValueChanged<String> image;
+  const CustomImagePicker({super.key});
 
   @override
   State<CustomImagePicker> createState() => _CustomImagePickerState();
 }
 
 class _CustomImagePickerState extends State<CustomImagePicker> {
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    ItemService.to.addItemImage.value = '';
+  }
+
   @override
   Widget build(BuildContext context) {
-    XFile? image;
-    // RxString imagePath = ''.obs;
-    final ImagePicker picker = ImagePicker();
-
-    Future getImage(ImageSource imageSource) async {
-      final XFile? pickedFile = await picker.pickImage(source: imageSource);
-      if (pickedFile != null) {
-          image = XFile(pickedFile.path);
-          ItemService.to.addItemImage.value = image!.path;
-          // widget.image(imagePath.value);
-      }
-    }
-
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 5),
         child: Container(
@@ -49,9 +44,7 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.grey)),
                 )),
                 GestureDetector(
-                  onTap: () {
-                    getImage(ImageSource.gallery);
-                  },
+                  onTap: () => S3Repository.to.getImage(ImageSource.gallery),
                   child: const Icon(Icons.image, color: Colors.grey,),
                 )
               ],

@@ -60,7 +60,7 @@ class HomeScreen extends StatelessWidget {
                       child: CustomContainer(
                           width: 130,
                           height: 70,
-                          child: Center(child: Text(user.role == Role.MAIN ? '재고 관리' : '수시 요청', style: Theme.of(context).textTheme.titleMedium)))),
+                          child: Center(child: Text(user.role == Role.MAIN ? '일일 생산 등록' : '수시 요청', style: Theme.of(context).textTheme.titleMedium)))),
                 ],
               )),
           HomeSection(

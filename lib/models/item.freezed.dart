@@ -20,12 +20,13 @@ Item _$ItemFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Item {
+  int? get id => throw _privateConstructorUsedError;
   String get itemName => throw _privateConstructorUsedError;
   int get price => throw _privateConstructorUsedError;
-  String get images => throw _privateConstructorUsedError;
+  String get image => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  ItemCategory get category => throw _privateConstructorUsedError;
-  ItemStatus? get status => throw _privateConstructorUsedError;
+  ItemCategory? get category => throw _privateConstructorUsedError;
+  dynamic? get status => throw _privateConstructorUsedError;
   User? get owner => throw _privateConstructorUsedError;
   List<Role>? get targets => throw _privateConstructorUsedError;
 
@@ -40,16 +41,17 @@ abstract class $ItemCopyWith<$Res> {
       _$ItemCopyWithImpl<$Res, Item>;
   @useResult
   $Res call(
-      {String itemName,
+      {int? id,
+      String itemName,
       int price,
-      String images,
+      String image,
       String description,
-      ItemCategory category,
-      ItemStatus? status,
+      ItemCategory? category,
+      dynamic? status,
       User? owner,
       List<Role>? targets});
 
-  $ItemCategoryCopyWith<$Res> get category;
+  $ItemCategoryCopyWith<$Res>? get category;
   $UserCopyWith<$Res>? get owner;
 }
 
@@ -66,16 +68,21 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? itemName = null,
     Object? price = null,
-    Object? images = null,
+    Object? image = null,
     Object? description = null,
-    Object? category = null,
+    Object? category = freezed,
     Object? status = freezed,
     Object? owner = freezed,
     Object? targets = freezed,
   }) {
     return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       itemName: null == itemName
           ? _value.itemName
           : itemName // ignore: cast_nullable_to_non_nullable
@@ -84,22 +91,22 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as int,
-      images: null == images
-          ? _value.images
-          : images // ignore: cast_nullable_to_non_nullable
+      image: null == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
               as String,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      category: null == category
+      category: freezed == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
-              as ItemCategory,
+              as ItemCategory?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as ItemStatus?,
+              as dynamic?,
       owner: freezed == owner
           ? _value.owner
           : owner // ignore: cast_nullable_to_non_nullable
@@ -113,8 +120,12 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
 
   @override
   @pragma('vm:prefer-inline')
-  $ItemCategoryCopyWith<$Res> get category {
-    return $ItemCategoryCopyWith<$Res>(_value.category, (value) {
+  $ItemCategoryCopyWith<$Res>? get category {
+    if (_value.category == null) {
+      return null;
+    }
+
+    return $ItemCategoryCopyWith<$Res>(_value.category!, (value) {
       return _then(_value.copyWith(category: value) as $Val);
     });
   }
@@ -140,17 +151,18 @@ abstract class _$$ItemImplCopyWith<$Res> implements $ItemCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String itemName,
+      {int? id,
+      String itemName,
       int price,
-      String images,
+      String image,
       String description,
-      ItemCategory category,
-      ItemStatus? status,
+      ItemCategory? category,
+      dynamic? status,
       User? owner,
       List<Role>? targets});
 
   @override
-  $ItemCategoryCopyWith<$Res> get category;
+  $ItemCategoryCopyWith<$Res>? get category;
   @override
   $UserCopyWith<$Res>? get owner;
 }
@@ -165,16 +177,21 @@ class __$$ItemImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? itemName = null,
     Object? price = null,
-    Object? images = null,
+    Object? image = null,
     Object? description = null,
-    Object? category = null,
+    Object? category = freezed,
     Object? status = freezed,
     Object? owner = freezed,
     Object? targets = freezed,
   }) {
     return _then(_$ItemImpl(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       itemName: null == itemName
           ? _value.itemName
           : itemName // ignore: cast_nullable_to_non_nullable
@@ -183,22 +200,22 @@ class __$$ItemImplCopyWithImpl<$Res>
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as int,
-      images: null == images
-          ? _value.images
-          : images // ignore: cast_nullable_to_non_nullable
+      image: null == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
               as String,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      category: null == category
+      category: freezed == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
-              as ItemCategory,
+              as ItemCategory?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as ItemStatus?,
+              as dynamic?,
       owner: freezed == owner
           ? _value.owner
           : owner // ignore: cast_nullable_to_non_nullable
@@ -215,11 +232,12 @@ class __$$ItemImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ItemImpl extends _Item {
   _$ItemImpl(
-      {required this.itemName,
+      {this.id,
+      required this.itemName,
       required this.price,
-      required this.images,
+      required this.image,
       required this.description,
-      required this.category,
+      this.category,
       this.status,
       this.owner,
       final List<Role>? targets})
@@ -230,17 +248,19 @@ class _$ItemImpl extends _Item {
       _$$ItemImplFromJson(json);
 
   @override
+  final int? id;
+  @override
   final String itemName;
   @override
   final int price;
   @override
-  final String images;
+  final String image;
   @override
   final String description;
   @override
-  final ItemCategory category;
+  final ItemCategory? category;
   @override
-  final ItemStatus? status;
+  final dynamic? status;
   @override
   final User? owner;
   final List<Role>? _targets;
@@ -255,7 +275,7 @@ class _$ItemImpl extends _Item {
 
   @override
   String toString() {
-    return 'Item(itemName: $itemName, price: $price, images: $images, description: $description, category: $category, status: $status, owner: $owner, targets: $targets)';
+    return 'Item(id: $id, itemName: $itemName, price: $price, image: $image, description: $description, category: $category, status: $status, owner: $owner, targets: $targets)';
   }
 
   @override
@@ -263,15 +283,16 @@ class _$ItemImpl extends _Item {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ItemImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.itemName, itemName) ||
                 other.itemName == itemName) &&
             (identical(other.price, price) || other.price == price) &&
-            (identical(other.images, images) || other.images == images) &&
+            (identical(other.image, image) || other.image == image) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.category, category) ||
                 other.category == category) &&
-            (identical(other.status, status) || other.status == status) &&
+            const DeepCollectionEquality().equals(other.status, status) &&
             (identical(other.owner, owner) || other.owner == owner) &&
             const DeepCollectionEquality().equals(other._targets, _targets));
   }
@@ -280,12 +301,13 @@ class _$ItemImpl extends _Item {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      id,
       itemName,
       price,
-      images,
+      image,
       description,
       category,
-      status,
+      const DeepCollectionEquality().hash(status),
       owner,
       const DeepCollectionEquality().hash(_targets));
 
@@ -305,12 +327,13 @@ class _$ItemImpl extends _Item {
 
 abstract class _Item extends Item {
   factory _Item(
-      {required final String itemName,
+      {final int? id,
+      required final String itemName,
       required final int price,
-      required final String images,
+      required final String image,
       required final String description,
-      required final ItemCategory category,
-      final ItemStatus? status,
+      final ItemCategory? category,
+      final dynamic? status,
       final User? owner,
       final List<Role>? targets}) = _$ItemImpl;
   _Item._() : super._();
@@ -318,17 +341,19 @@ abstract class _Item extends Item {
   factory _Item.fromJson(Map<String, dynamic> json) = _$ItemImpl.fromJson;
 
   @override
+  int? get id;
+  @override
   String get itemName;
   @override
   int get price;
   @override
-  String get images;
+  String get image;
   @override
   String get description;
   @override
-  ItemCategory get category;
+  ItemCategory? get category;
   @override
-  ItemStatus? get status;
+  dynamic? get status;
   @override
   User? get owner;
   @override

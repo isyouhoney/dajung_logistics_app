@@ -1,20 +1,20 @@
-import 'package:bakery_app/widgets/custom_widget.dart';
 import 'package:flutter/material.dart';
 
 class CustomContainer extends StatelessWidget {
-  const CustomContainer({super.key, required this.child, this.width, this.height});
+  const CustomContainer({super.key, required this.child, this.width, this.height, this.insidePadding});
   final Widget child;
   final double? width;
   final double? height;
+  final double? insidePadding;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(15),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: Container(
         width: width,
         height: height,
-        padding: const EdgeInsets.all(10),
+        padding: EdgeInsets.all(insidePadding??10),
         decoration: BoxDecoration(
     color: Colors.white,
     borderRadius: BorderRadius.circular(14),

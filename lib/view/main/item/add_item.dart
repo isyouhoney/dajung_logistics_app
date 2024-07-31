@@ -1,7 +1,7 @@
 import 'package:bakery_app/models/item.dart';
 import 'package:bakery_app/models/item_category.dart';
+import 'package:bakery_app/repositories/s3_repository.dart';
 import 'package:bakery_app/utils/themeData.dart';
-import 'package:bakery_app/viewmodels/auth_service.dart';
 import 'package:bakery_app/viewmodels/item_service.dart';
 import 'package:bakery_app/widgets/custom_dropdown.dart';
 import 'package:bakery_app/widgets/custom_textfield.dart';
@@ -9,12 +9,11 @@ import 'package:bakery_app/widgets/custom_widget.dart';
 import 'package:bakery_app/widgets/image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class AddItem extends StatefulWidget {
-  const AddItem({super.key});
+  const AddItem({super.key, this.item});
+  final Item? item;
 
   @override
   State<AddItem> createState() => _AddItemState();
@@ -42,6 +41,7 @@ class _AddItemState extends State<AddItem> {
     itemNameController.dispose();
     priceController.dispose();
     descriptionController.dispose();
+    ItemService.to.addItemCategory.value = '카테고리';
     super.dispose();
   }
 
@@ -50,6 +50,15 @@ class _AddItemState extends State<AddItem> {
     for (var e in categoryList) {
       categoryNameList.add(e.categoryName);
     }
+  }
+
+  Future postItem() async{
+    ItemCategory category = ItemCategory(id: 0, categoryName: ItemService.to.addItemCategory!.value);
+    categoryList.forEach((e){if(e.categoryName==ItemService.to.addItemCategory?.value) category = e;});
+    await S3Repository.to.getPresignedUrl();
+    await ItemService.to.addItem(
+        Item(itemName: itemNameController.text, price: int.parse(priceController.text),
+            image: S3Repository.to.objectUrl, description: descriptionController.text, category: category));
   }
 
   @override
@@ -66,7 +75,7 @@ class _AddItemState extends State<AddItem> {
             child: Column(children: [
               CustomTextField(hintText: '상품명', controller: itemNameController),
               CustomDropdown(list: categoryNameList.value, selectedValue: ItemService.to.addItemCategory),//, selectedValue: ItemService.to.addItemCategory),
-              CustomImagePicker(),
+              const CustomImagePicker(),
               CustomTextField(hintText: '가격', controller: priceController),
               CustomTextField(hintText: '상세 설명', controller: descriptionController, maxLine: 5,counterText: true,),
               Obx(()=>Row(
@@ -80,12 +89,10 @@ class _AddItemState extends State<AddItem> {
           actions: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceAround,children: [
             CW.textButton('취소',onPressed: ()=>Navigator.of(context).pop(), width: 35.w, height: 40, color: Colors.grey),
-            CW.textButton('확인', onPressed: (){
-              ItemCategory category = ItemCategory(id: 0, categoryName: ItemService.to.addItemCategory!.value);
-                  categoryList.forEach((e){if(e.categoryName==ItemService.to.addItemCategory?.value) category = e;});
-              ItemService.to.addItem(Item(itemName: itemNameController.text, price: int.parse(priceController.text), images: ItemService.to.addItemImage.value, description: descriptionController.text, category: category));
-            Get.back();
-            setState(() {});
+            CW.textButton('확인', onPressed: () async {
+              await postItem();
+              Get.back();
+              ItemService.to.fetchItems();
               }, width: 35.w, height: 40)])
           ],
         );

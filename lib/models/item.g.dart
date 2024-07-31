@@ -7,12 +7,15 @@ part of 'item.dart';
 // **************************************************************************
 
 _$ItemImpl _$$ItemImplFromJson(Map<String, dynamic> json) => _$ItemImpl(
+      id: (json['id'] as num?)?.toInt(),
       itemName: json['itemName'] as String,
       price: (json['price'] as num).toInt(),
-      images: json['images'] as String,
+      image: json['image'] as String,
       description: json['description'] as String,
-      category: ItemCategory.fromJson(json['category'] as Map<String, dynamic>),
-      status: $enumDecodeNullable(_$ItemStatusEnumMap, json['status']),
+      category: json['category'] == null
+          ? null
+          : ItemCategory.fromJson(json['category'] as Map<String, dynamic>),
+      status: json['status'],
       owner: json['owner'] == null
           ? null
           : User.fromJson(json['owner'] as Map<String, dynamic>),
@@ -23,20 +26,16 @@ _$ItemImpl _$$ItemImplFromJson(Map<String, dynamic> json) => _$ItemImpl(
 
 Map<String, dynamic> _$$ItemImplToJson(_$ItemImpl instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'itemName': instance.itemName,
       'price': instance.price,
-      'images': instance.images,
+      'image': instance.image,
       'description': instance.description,
       'category': instance.category,
-      'status': _$ItemStatusEnumMap[instance.status],
+      'status': instance.status,
       'owner': instance.owner,
       'targets': instance.targets?.map((e) => _$RoleEnumMap[e]!).toList(),
     };
-
-const _$ItemStatusEnumMap = {
-  ItemStatus.onSale: 'onSale',
-  ItemStatus.endOfSale: 'endOfSale',
-};
 
 const _$RoleEnumMap = {
   Role.MASTER: 'MASTER',
