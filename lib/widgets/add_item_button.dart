@@ -2,12 +2,13 @@ import 'package:bakery_app/view/main/item/add_item.dart';
 import 'package:flutter/material.dart';
 
 class AddItemButton extends StatelessWidget {
-  const AddItemButton({super.key});
+  const AddItemButton({super.key, this.nextPage});
+  final Widget? nextPage;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => showDialog(context: context, builder: (ctx) => AddItem()),
+      onTap: () => showDialog(context: context, builder: (ctx) => nextPage ?? const AddItem()),
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Column(children: [

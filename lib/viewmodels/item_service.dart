@@ -7,6 +7,7 @@ class ItemService extends GetxService {
   static ItemService get to => Get.find();
   final RxString addItemCategory = '카테고리'.obs;
   final RxString addItemImage = ''.obs;
+  final RxString addItemName = '제품명'.obs;
   RxList ItemList = [].obs;
 
   Future<RxList?> fetchItems() async {

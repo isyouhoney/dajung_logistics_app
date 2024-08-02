@@ -9,13 +9,9 @@ part 'order_item.g.dart';
 class OrderItem with _$OrderItem {
   const OrderItem._();
   factory OrderItem({
-    required String itemName,
-    required num price,
-    required String image,
-    required String description,
-    required OrderSheet orderSheet,
     required Item item,
     required num quantity,
+    OrderSheet? orderSheet,
 }) = _OrderItem;
 
   factory OrderItem.fromJson(Map<String, dynamic> json) =>

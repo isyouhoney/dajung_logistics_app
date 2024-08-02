@@ -20,13 +20,9 @@ OrderItem _$OrderItemFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$OrderItem {
-  String get itemName => throw _privateConstructorUsedError;
-  num get price => throw _privateConstructorUsedError;
-  String get image => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
-  OrderSheet get orderSheet => throw _privateConstructorUsedError;
   Item get item => throw _privateConstructorUsedError;
   num get quantity => throw _privateConstructorUsedError;
+  OrderSheet? get orderSheet => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -39,17 +35,10 @@ abstract class $OrderItemCopyWith<$Res> {
   factory $OrderItemCopyWith(OrderItem value, $Res Function(OrderItem) then) =
       _$OrderItemCopyWithImpl<$Res, OrderItem>;
   @useResult
-  $Res call(
-      {String itemName,
-      num price,
-      String image,
-      String description,
-      OrderSheet orderSheet,
-      Item item,
-      num quantity});
+  $Res call({Item item, num quantity, OrderSheet? orderSheet});
 
-  $OrderSheetCopyWith<$Res> get orderSheet;
   $ItemCopyWith<$Res> get item;
+  $OrderSheetCopyWith<$Res>? get orderSheet;
 }
 
 /// @nodoc
@@ -65,35 +54,11 @@ class _$OrderItemCopyWithImpl<$Res, $Val extends OrderItem>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? itemName = null,
-    Object? price = null,
-    Object? image = null,
-    Object? description = null,
-    Object? orderSheet = null,
     Object? item = null,
     Object? quantity = null,
+    Object? orderSheet = freezed,
   }) {
     return _then(_value.copyWith(
-      itemName: null == itemName
-          ? _value.itemName
-          : itemName // ignore: cast_nullable_to_non_nullable
-              as String,
-      price: null == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as num,
-      image: null == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      orderSheet: null == orderSheet
-          ? _value.orderSheet
-          : orderSheet // ignore: cast_nullable_to_non_nullable
-              as OrderSheet,
       item: null == item
           ? _value.item
           : item // ignore: cast_nullable_to_non_nullable
@@ -102,15 +67,11 @@ class _$OrderItemCopyWithImpl<$Res, $Val extends OrderItem>
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
               as num,
+      orderSheet: freezed == orderSheet
+          ? _value.orderSheet
+          : orderSheet // ignore: cast_nullable_to_non_nullable
+              as OrderSheet?,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $OrderSheetCopyWith<$Res> get orderSheet {
-    return $OrderSheetCopyWith<$Res>(_value.orderSheet, (value) {
-      return _then(_value.copyWith(orderSheet: value) as $Val);
-    });
   }
 
   @override
@@ -118,6 +79,18 @@ class _$OrderItemCopyWithImpl<$Res, $Val extends OrderItem>
   $ItemCopyWith<$Res> get item {
     return $ItemCopyWith<$Res>(_value.item, (value) {
       return _then(_value.copyWith(item: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $OrderSheetCopyWith<$Res>? get orderSheet {
+    if (_value.orderSheet == null) {
+      return null;
+    }
+
+    return $OrderSheetCopyWith<$Res>(_value.orderSheet!, (value) {
+      return _then(_value.copyWith(orderSheet: value) as $Val);
     });
   }
 }
@@ -130,19 +103,12 @@ abstract class _$$OrderItemImplCopyWith<$Res>
       __$$OrderItemImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String itemName,
-      num price,
-      String image,
-      String description,
-      OrderSheet orderSheet,
-      Item item,
-      num quantity});
+  $Res call({Item item, num quantity, OrderSheet? orderSheet});
 
   @override
-  $OrderSheetCopyWith<$Res> get orderSheet;
-  @override
   $ItemCopyWith<$Res> get item;
+  @override
+  $OrderSheetCopyWith<$Res>? get orderSheet;
 }
 
 /// @nodoc
@@ -156,35 +122,11 @@ class __$$OrderItemImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? itemName = null,
-    Object? price = null,
-    Object? image = null,
-    Object? description = null,
-    Object? orderSheet = null,
     Object? item = null,
     Object? quantity = null,
+    Object? orderSheet = freezed,
   }) {
     return _then(_$OrderItemImpl(
-      itemName: null == itemName
-          ? _value.itemName
-          : itemName // ignore: cast_nullable_to_non_nullable
-              as String,
-      price: null == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as num,
-      image: null == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      orderSheet: null == orderSheet
-          ? _value.orderSheet
-          : orderSheet // ignore: cast_nullable_to_non_nullable
-              as OrderSheet,
       item: null == item
           ? _value.item
           : item // ignore: cast_nullable_to_non_nullable
@@ -193,6 +135,10 @@ class __$$OrderItemImplCopyWithImpl<$Res>
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
               as num,
+      orderSheet: freezed == orderSheet
+          ? _value.orderSheet
+          : orderSheet // ignore: cast_nullable_to_non_nullable
+              as OrderSheet?,
     ));
   }
 }
@@ -200,37 +146,22 @@ class __$$OrderItemImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$OrderItemImpl extends _OrderItem {
-  _$OrderItemImpl(
-      {required this.itemName,
-      required this.price,
-      required this.image,
-      required this.description,
-      required this.orderSheet,
-      required this.item,
-      required this.quantity})
+  _$OrderItemImpl({required this.item, required this.quantity, this.orderSheet})
       : super._();
 
   factory _$OrderItemImpl.fromJson(Map<String, dynamic> json) =>
       _$$OrderItemImplFromJson(json);
 
   @override
-  final String itemName;
-  @override
-  final num price;
-  @override
-  final String image;
-  @override
-  final String description;
-  @override
-  final OrderSheet orderSheet;
-  @override
   final Item item;
   @override
   final num quantity;
+  @override
+  final OrderSheet? orderSheet;
 
   @override
   String toString() {
-    return 'OrderItem(itemName: $itemName, price: $price, image: $image, description: $description, orderSheet: $orderSheet, item: $item, quantity: $quantity)';
+    return 'OrderItem(item: $item, quantity: $quantity, orderSheet: $orderSheet)';
   }
 
   @override
@@ -238,23 +169,16 @@ class _$OrderItemImpl extends _OrderItem {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$OrderItemImpl &&
-            (identical(other.itemName, itemName) ||
-                other.itemName == itemName) &&
-            (identical(other.price, price) || other.price == price) &&
-            (identical(other.image, image) || other.image == image) &&
-            (identical(other.description, description) ||
-                other.description == description) &&
-            (identical(other.orderSheet, orderSheet) ||
-                other.orderSheet == orderSheet) &&
             (identical(other.item, item) || other.item == item) &&
             (identical(other.quantity, quantity) ||
-                other.quantity == quantity));
+                other.quantity == quantity) &&
+            (identical(other.orderSheet, orderSheet) ||
+                other.orderSheet == orderSheet));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, itemName, price, image,
-      description, orderSheet, item, quantity);
+  int get hashCode => Object.hash(runtimeType, item, quantity, orderSheet);
 
   @JsonKey(ignore: true)
   @override
@@ -272,32 +196,20 @@ class _$OrderItemImpl extends _OrderItem {
 
 abstract class _OrderItem extends OrderItem {
   factory _OrderItem(
-      {required final String itemName,
-      required final num price,
-      required final String image,
-      required final String description,
-      required final OrderSheet orderSheet,
-      required final Item item,
-      required final num quantity}) = _$OrderItemImpl;
+      {required final Item item,
+      required final num quantity,
+      final OrderSheet? orderSheet}) = _$OrderItemImpl;
   _OrderItem._() : super._();
 
   factory _OrderItem.fromJson(Map<String, dynamic> json) =
       _$OrderItemImpl.fromJson;
 
   @override
-  String get itemName;
-  @override
-  num get price;
-  @override
-  String get image;
-  @override
-  String get description;
-  @override
-  OrderSheet get orderSheet;
-  @override
   Item get item;
   @override
   num get quantity;
+  @override
+  OrderSheet? get orderSheet;
   @override
   @JsonKey(ignore: true)
   _$$OrderItemImplCopyWith<_$OrderItemImpl> get copyWith =>

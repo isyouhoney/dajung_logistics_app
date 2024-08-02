@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class ExpansionPanelListExample extends StatefulWidget {
-  const ExpansionPanelListExample({super.key});
+class OrderStockPanel extends StatefulWidget {
+  const OrderStockPanel({super.key});
 
   @override
-  State<ExpansionPanelListExample> createState() =>
-      _ExpansionPanelListExampleState();
+  State<OrderStockPanel> createState() =>
+      _OrderStockPanelState();
 }
 
-class _ExpansionPanelListExampleState extends State<ExpansionPanelListExample> {
+class _OrderStockPanelState extends State<OrderStockPanel> {
   final List data = [];
   RxBool isExpanded = false.obs;
 
@@ -30,9 +30,7 @@ class _ExpansionPanelListExampleState extends State<ExpansionPanelListExample> {
           child: ExpansionPanelList.radio(
               expandedHeaderPadding:EdgeInsets.zero,
             elevation: 0,
-                expansionCallback: (int index, onTap) {
-          isExpanded.value = onTap;
-                },
+                expansionCallback: (int index, onTap) =>isExpanded.value = onTap,
                 children:[
           ExpansionPanelRadio(
             canTapOnHeader: true,
@@ -46,16 +44,11 @@ class _ExpansionPanelListExampleState extends State<ExpansionPanelListExample> {
               child: SingleChildScrollView(
                 child: Column(children:
                 [
-                  StockField(name: '소금빵'),
-                  StockField(name: '소금빵'),
-                  StockField(name: '소금빵'),
-                  StockField(name: '소금빵'),
-                  StockField(name: '소금빵'),
-                  StockField(name: '소금빵'),
-                  StockField(name: '소금빵'),
-                  StockField(name: '소금빵'),
+                  StockField(name: '소금빵', quantity: 3,),
+                  StockField(name: '초코 소금빵', quantity: 3,),
+                  StockField(name: '대파 크림치즈 소금빵', quantity: 3,),
                 ]
-                // data.map((e)=>StockField(name: e.itemName)).toList()
+                // data.map((e)=>StockField(name: e.itemName, quantity: e.quantity)).toList()
                 ),
               ),
             ), value: isExpanded.value

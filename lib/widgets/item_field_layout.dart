@@ -12,12 +12,9 @@ class ItemFieldLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(5,5,5,5),
-      child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 13),
-          child: Text(name, style: Theme.of(context).textTheme.titleMedium),
-        ),
+      padding: const EdgeInsets.symmetric(horizontal: 5),
+      child: Row(children: [
+        Text(name, style: Theme.of(context).textTheme.titleMedium),
         const Spacer(),
         mainWidget,
         const SizedBox(width: 5),

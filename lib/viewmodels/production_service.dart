@@ -6,13 +6,13 @@ class ProductionService extends GetxService {
   static ProductionService get to => Get.find();
   final RxString addItemCategory = '카테고리'.obs;
   final RxString addItemImage = ''.obs;
-  RxList ProductionList = [].obs;
+  RxList productionList = [].obs;
 
   Future<RxList?> fetchProduction() async {
     var fetchedProduction = await productionRepository.getProductions();
     if (fetchedProduction != null){
-      ProductionList.value = fetchedProduction;
-      return ProductionList;
+      productionList.value = fetchedProduction;
+      return productionList;
     } else {
       print('생산목록을 불러오는데 실패했습니다.');
     }

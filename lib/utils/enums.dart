@@ -24,6 +24,7 @@ enum Role {
     }
     return null;
   }
+
   static Role? fromKor(String kor) {
     for (Role role in Role.values) {
       if (role.kor == kor) {
@@ -43,7 +44,6 @@ enum JoinStatus {
   const JoinStatus(this.kor);
 
   static JoinStatus? fromKor(String kor) {
-    print('kor : $kor');
     for (JoinStatus joinStatus in JoinStatus.values) {
       if (joinStatus.kor == kor) {
         return joinStatus;
@@ -92,4 +92,13 @@ enum DayOfWeek {
 
   final String kor;
   const DayOfWeek(this.kor);
+
+  static DayOfWeek? fromKor(String kor) {
+    for (DayOfWeek dayOfWeek in DayOfWeek.values) {
+      if (dayOfWeek.kor == kor) {
+        return dayOfWeek;
+      }
+    }
+    return null;
+  }
 }

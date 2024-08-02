@@ -3,7 +3,7 @@ import 'package:bakery_app/utils/timeFormatting.dart';
 import 'package:bakery_app/view/main/stock/stock_field.dart';
 import 'package:bakery_app/viewModels/production_service.dart';
 import 'package:bakery_app/viewmodels/item_service.dart';
-import 'package:bakery_app/widgets/custom_accordion.dart';
+import 'package:bakery_app/view/main/stock/order_stock_panel.dart';
 import 'package:bakery_app/widgets/custom_container.dart';
 import 'package:bakery_app/widgets/custom_widget.dart';
 import 'package:bakery_app/widgets/default_layout.dart';
@@ -38,8 +38,8 @@ class _DailyStockState extends State<DailyStock> {
           Padding(padding: const EdgeInsets.only(left: 20),
             child: Text(dateFormat(DateTime.now()), style: Theme.of(context).textTheme.titleMedium),
           ),
-          const ExpansionPanelListExample(),
-          CustomContainer(height:62.h,
+          const OrderStockPanel(),
+          CustomContainer(height:62.h, width: 100.w,
             child: Obx(()=>Column(crossAxisAlignment:CrossAxisAlignment.start, children: [
                   Padding(
                     padding: const EdgeInsets.all(10),

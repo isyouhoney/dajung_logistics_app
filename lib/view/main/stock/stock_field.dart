@@ -6,9 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
 class StockField extends StatefulWidget {
-  const StockField({super.key, required this.name, this.count});
+  const StockField({super.key, required this.name, this.count, this.quantity});
   final String name;
   final ValueChanged<String>? count;
+  final int? quantity;
 
 
   @override
@@ -27,7 +28,15 @@ class _StockFieldState extends State<StockField> {
       child: Row(children: [
         Text(widget.name, style: Theme.of(context).textTheme.titleMedium),
         const Spacer(),
-        CustomDropdown(width: 80, height: 40, selectedValue: number, list: numbers.value, onChange: (value)=>widget.count!(value),)
+        widget.count!=null?
+        CustomDropdown(width: 80, height: 40, selectedValue: number, list: numbers.value, onChange: (value)=>widget.count!(value),):
+            Padding(
+              padding: const EdgeInsets.all(2),
+              child: Container(width:60, height:35, padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: CC.mainColorOpacity,
+                  borderRadius: BorderRadius.circular(12)),child: Center(child: Text('${widget.quantity} EA', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),)),),
+            )
       ],),
     );
   }

@@ -21,10 +21,10 @@ OrderSheet _$OrderSheetFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$OrderSheet {
   DayOfWeek get dayOfTheWeek => throw _privateConstructorUsedError;
-  bool get activated => throw _privateConstructorUsedError;
-  User get orderer => throw _privateConstructorUsedError;
+  bool? get activated => throw _privateConstructorUsedError;
+  User? get orderer => throw _privateConstructorUsedError;
   List<OrderItem> get orderItems => throw _privateConstructorUsedError;
-  String get orders => throw _privateConstructorUsedError;
+  String? get orders => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,12 +40,12 @@ abstract class $OrderSheetCopyWith<$Res> {
   @useResult
   $Res call(
       {DayOfWeek dayOfTheWeek,
-      bool activated,
-      User orderer,
+      bool? activated,
+      User? orderer,
       List<OrderItem> orderItems,
-      String orders});
+      String? orders});
 
-  $UserCopyWith<$Res> get orderer;
+  $UserCopyWith<$Res>? get orderer;
 }
 
 /// @nodoc
@@ -62,39 +62,43 @@ class _$OrderSheetCopyWithImpl<$Res, $Val extends OrderSheet>
   @override
   $Res call({
     Object? dayOfTheWeek = null,
-    Object? activated = null,
-    Object? orderer = null,
+    Object? activated = freezed,
+    Object? orderer = freezed,
     Object? orderItems = null,
-    Object? orders = null,
+    Object? orders = freezed,
   }) {
     return _then(_value.copyWith(
       dayOfTheWeek: null == dayOfTheWeek
           ? _value.dayOfTheWeek
           : dayOfTheWeek // ignore: cast_nullable_to_non_nullable
               as DayOfWeek,
-      activated: null == activated
+      activated: freezed == activated
           ? _value.activated
           : activated // ignore: cast_nullable_to_non_nullable
-              as bool,
-      orderer: null == orderer
+              as bool?,
+      orderer: freezed == orderer
           ? _value.orderer
           : orderer // ignore: cast_nullable_to_non_nullable
-              as User,
+              as User?,
       orderItems: null == orderItems
           ? _value.orderItems
           : orderItems // ignore: cast_nullable_to_non_nullable
               as List<OrderItem>,
-      orders: null == orders
+      orders: freezed == orders
           ? _value.orders
           : orders // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $UserCopyWith<$Res> get orderer {
-    return $UserCopyWith<$Res>(_value.orderer, (value) {
+  $UserCopyWith<$Res>? get orderer {
+    if (_value.orderer == null) {
+      return null;
+    }
+
+    return $UserCopyWith<$Res>(_value.orderer!, (value) {
       return _then(_value.copyWith(orderer: value) as $Val);
     });
   }
@@ -110,13 +114,13 @@ abstract class _$$OrderSheetImplCopyWith<$Res>
   @useResult
   $Res call(
       {DayOfWeek dayOfTheWeek,
-      bool activated,
-      User orderer,
+      bool? activated,
+      User? orderer,
       List<OrderItem> orderItems,
-      String orders});
+      String? orders});
 
   @override
-  $UserCopyWith<$Res> get orderer;
+  $UserCopyWith<$Res>? get orderer;
 }
 
 /// @nodoc
@@ -131,32 +135,32 @@ class __$$OrderSheetImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? dayOfTheWeek = null,
-    Object? activated = null,
-    Object? orderer = null,
+    Object? activated = freezed,
+    Object? orderer = freezed,
     Object? orderItems = null,
-    Object? orders = null,
+    Object? orders = freezed,
   }) {
     return _then(_$OrderSheetImpl(
       dayOfTheWeek: null == dayOfTheWeek
           ? _value.dayOfTheWeek
           : dayOfTheWeek // ignore: cast_nullable_to_non_nullable
               as DayOfWeek,
-      activated: null == activated
+      activated: freezed == activated
           ? _value.activated
           : activated // ignore: cast_nullable_to_non_nullable
-              as bool,
-      orderer: null == orderer
+              as bool?,
+      orderer: freezed == orderer
           ? _value.orderer
           : orderer // ignore: cast_nullable_to_non_nullable
-              as User,
+              as User?,
       orderItems: null == orderItems
           ? _value._orderItems
           : orderItems // ignore: cast_nullable_to_non_nullable
               as List<OrderItem>,
-      orders: null == orders
+      orders: freezed == orders
           ? _value.orders
           : orders // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -166,10 +170,10 @@ class __$$OrderSheetImplCopyWithImpl<$Res>
 class _$OrderSheetImpl extends _OrderSheet {
   _$OrderSheetImpl(
       {required this.dayOfTheWeek,
-      required this.activated,
-      required this.orderer,
+      this.activated,
+      this.orderer,
       required final List<OrderItem> orderItems,
-      required this.orders})
+      this.orders})
       : _orderItems = orderItems,
         super._();
 
@@ -179,9 +183,9 @@ class _$OrderSheetImpl extends _OrderSheet {
   @override
   final DayOfWeek dayOfTheWeek;
   @override
-  final bool activated;
+  final bool? activated;
   @override
-  final User orderer;
+  final User? orderer;
   final List<OrderItem> _orderItems;
   @override
   List<OrderItem> get orderItems {
@@ -191,7 +195,7 @@ class _$OrderSheetImpl extends _OrderSheet {
   }
 
   @override
-  final String orders;
+  final String? orders;
 
   @override
   String toString() {
@@ -235,10 +239,10 @@ class _$OrderSheetImpl extends _OrderSheet {
 abstract class _OrderSheet extends OrderSheet {
   factory _OrderSheet(
       {required final DayOfWeek dayOfTheWeek,
-      required final bool activated,
-      required final User orderer,
+      final bool? activated,
+      final User? orderer,
       required final List<OrderItem> orderItems,
-      required final String orders}) = _$OrderSheetImpl;
+      final String? orders}) = _$OrderSheetImpl;
   _OrderSheet._() : super._();
 
   factory _OrderSheet.fromJson(Map<String, dynamic> json) =
@@ -247,13 +251,13 @@ abstract class _OrderSheet extends OrderSheet {
   @override
   DayOfWeek get dayOfTheWeek;
   @override
-  bool get activated;
+  bool? get activated;
   @override
-  User get orderer;
+  User? get orderer;
   @override
   List<OrderItem> get orderItems;
   @override
-  String get orders;
+  String? get orders;
   @override
   @JsonKey(ignore: true)
   _$$OrderSheetImplCopyWith<_$OrderSheetImpl> get copyWith =>

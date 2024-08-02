@@ -1,7 +1,6 @@
 import 'package:bakery_app/viewmodels/item_service.dart';
 import 'package:bakery_app/widgets/add_item_button.dart';
 import 'package:bakery_app/widgets/custom_container.dart';
-import 'package:bakery_app/widgets/custom_widget.dart';
 import 'package:bakery_app/view/main/item/item_field.dart';
 import 'package:bakery_app/widgets/default_layout.dart';
 import 'package:flutter/material.dart';
