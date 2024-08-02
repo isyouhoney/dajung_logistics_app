@@ -81,6 +81,14 @@ enum RequestStatus {
   const RequestStatus(this.kor);
 }
 
+enum RequestedBy {
+  byMe('내가한요청'),
+  byOthers('타지점요청');
+
+  final String kor;
+  const RequestedBy(this.kor);
+}
+
 enum DayOfWeek {
   mon('월'),
   tue('화'),

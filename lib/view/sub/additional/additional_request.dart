@@ -1,6 +1,8 @@
+import 'package:bakery_app/utils/enums.dart';
 import 'package:bakery_app/utils/themeData.dart';
 import 'package:bakery_app/view/sub/additional/request_additional_item.dart';
 import 'package:bakery_app/view/sub/widgets/item_list_card.dart';
+import 'package:bakery_app/viewmodels/request_service.dart';
 import 'package:bakery_app/widgets/custom_widget.dart';
 import 'package:bakery_app/widgets/default_layout.dart';
 import 'package:flutter/material.dart';
@@ -13,12 +15,26 @@ class AdditionalRequest extends StatefulWidget {
 }
 
 class _AdditionalRequestState extends State<AdditionalRequest> {
+
+  @override
+  void initState() {
+    super.initState();
+    RequestService.to.fetchRequests(RequestedBy.byMe);
+    RequestService.to.fetchRequests(RequestedBy.byOthers);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultLayout(title: '제품 요청', child: Column(children: [
-      ItemListCard(dateTime: '', itemList: [],)
-    ],),
-      bottomSheet: CW.textButton('제품 요청하기', onPressed: () => showDialog(context: context, builder: (ctx) => RequestAdditionalItem()), color: CC.mainColorOpacity),
+    return DefaultLayout(title: '제품 요청',
+      bottomSheet: CW.textButton('제품 요청하기', onPressed: () => showDialog(context: context, builder: (ctx) => RequestAdditionalItem()), color: CC.mainColorOpacity), child:
+    SingleChildScrollView(
+      child: Column(
+        children: [
+          Column(children: RequestService.to.requestList.map((value) => ItemListCard(dateTime: value.requestDate, itemList: value.item)).toList()),
+          Column(children: RequestService.to.myRequestHistory.map((value) => ItemListCard(dateTime: value.requestDate, itemList: value.item)).toList()),
+        ],
+      ),
+    ),
     );
   }
 }

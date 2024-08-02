@@ -2,6 +2,7 @@ import 'package:bakery_app/firebase_options.dart';
 import 'package:bakery_app/repositories/item_repository.dart';
 import 'package:bakery_app/repositories/order_repository.dart';
 import 'package:bakery_app/repositories/production_repository.dart';
+import 'package:bakery_app/repositories/request_repository.dart';
 import 'package:bakery_app/repositories/s3_repository.dart';
 import 'package:bakery_app/repositories/search_place_repository.dart';
 import 'package:bakery_app/utils/router.dart';
@@ -11,6 +12,7 @@ import 'package:bakery_app/viewModels/production_service.dart';
 import 'package:bakery_app/viewmodels/auth_service.dart';
 import 'package:bakery_app/viewmodels/item_service.dart';
 import 'package:bakery_app/viewmodels/order_service.dart';
+import 'package:bakery_app/viewmodels/request_service.dart';
 import 'package:bakery_app/viewmodels/search_place_service.dart';
 import 'package:bakery_app/viewmodels/userType_service.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -47,6 +49,8 @@ class InitialBinding extends Bindings {
     Get.lazyPut(()=>OrderService());
     Get.lazyPut(()=>ProductionRepository());
     Get.lazyPut(()=>ProductionService());
+    Get.lazyPut(()=>RequestRepository());
+    Get.lazyPut(()=>RequestService());
   }
 }
 
