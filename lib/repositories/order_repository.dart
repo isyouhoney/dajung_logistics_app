@@ -151,4 +151,34 @@ class OrderRepository extends GetxController {
       return false;
     }
   }
+
+  Future<List?> getOrderHistory(orderDate) async {
+    String dayOfTheWeek = DateFormat('yyyy-MM-dd').format(orderDate);
+    final Uri url = Uri.parse('$baseUrl/order/history?orderStartDate=$orderDate&orderEndDate=$orderDate');
+    String? accessToken = await SecureStorage.get(Cached.ACCESS);
+
+    if (accessToken == null) {
+      logger.e('액세스 토큰이 없습니다.');
+      return null;
+    }
+
+    final response = await http.get(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $accessToken',
+      },
+    );
+
+    var responseBody = jsonDecode(response.body);
+    var bodyStatusCode = responseBody['statusCode'];
+    print(responseBody);
+
+    if (bodyStatusCode == 200) {
+      List data = responseBody['data'];
+      return data;
+    } else {
+      logger.e('주문 내역 조회 요청 실패: $responseBody');
+    }
+  }
 }

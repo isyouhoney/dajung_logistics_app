@@ -28,8 +28,8 @@ class _ItemManagementState extends State<ItemManagement> {
       child: CustomContainer(
         width: 100.w,
         child: Obx(()=>Column(children: [
-          ItemService.to.ItemList != [] ?
-          Column(children:ItemService.to.ItemList.map((e) => ItemField(item: e)).toList()):
+          ItemService.to.itemList != [] ?
+          Column(children:ItemService.to.itemList.map((e) => ItemField(item: e)).toList()):
           const SizedBox(),
           const AddItemButton()
         ])),

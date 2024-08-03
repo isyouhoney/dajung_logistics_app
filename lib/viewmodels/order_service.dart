@@ -9,6 +9,7 @@ class OrderService extends GetxService {
   static OrderService get to => Get.find();
   List<OrderSheet> orderSheets = [];
   RxList<OrderItem> dailyOrderList = <OrderItem>[].obs;
+  Rx<DateTime> selectDay = DateTime.now().obs;
 
   Future<bool?> postOrders(DayOfWeek dayOfWeek, List<OrderItem> orderItems) async {
     var fetchedOrders = await orderRepository.postOrder(dayOfWeek, orderItems);
@@ -56,6 +57,15 @@ class OrderService extends GetxService {
       return fetchedDayTotalOrders;
     } else {
       print('일일 주문량을 불러오는데 실패했습니다.');
+    }
+  }
+
+  Future<List?> fetchDayOrderHistory() async {
+    var fetchedDayOrderHistory = await orderRepository.getOrderHistory(selectDay.value);
+    if (fetchedDayOrderHistory != null){
+      return fetchedDayOrderHistory;
+    } else {
+      print('일일 주문서를 불러오는데 실패했습니다.');
     }
   }
 }

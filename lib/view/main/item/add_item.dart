@@ -45,7 +45,7 @@ class _AddItemState extends State<AddItem> {
     super.dispose();
   }
 
-  Future getCategoryNameList() async{
+  Future getCategoryNameList() async {
     categoryList = (await ItemService.to.fetchCategories())!;
     for (var e in categoryList) {
       categoryNameList.add(e.categoryName);
@@ -74,7 +74,7 @@ class _AddItemState extends State<AddItem> {
           content: SingleChildScrollView(
             child: Column(children: [
               CustomTextField(hintText: '상품명', controller: itemNameController),
-              CustomDropdown(list: categoryNameList.value, selectedValue: ItemService.to.addItemCategory),//, selectedValue: ItemService.to.addItemCategory),
+              CustomDropdown(list: categoryNameList.value, selectedValue: ItemService.to.addItemCategory),
               const CustomImagePicker(),
               CustomTextField(hintText: '가격', controller: priceController),
               CustomTextField(hintText: '상세 설명', controller: descriptionController, maxLine: 5,counterText: true,),

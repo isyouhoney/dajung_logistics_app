@@ -6,6 +6,7 @@ import 'package:bakery_app/viewmodels/request_service.dart';
 import 'package:bakery_app/widgets/custom_widget.dart';
 import 'package:bakery_app/widgets/default_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
 class AdditionalRequest extends StatefulWidget {
   const AdditionalRequest({super.key});
@@ -27,14 +28,14 @@ class _AdditionalRequestState extends State<AdditionalRequest> {
   Widget build(BuildContext context) {
     return DefaultLayout(title: '제품 요청',
       bottomSheet: CW.textButton('제품 요청하기', onPressed: () => showDialog(context: context, builder: (ctx) => RequestAdditionalItem()), color: CC.mainColorOpacity), child:
-    SingleChildScrollView(
+    Obx(()=>SingleChildScrollView(
       child: Column(
         children: [
           Column(children: RequestService.to.requestList.map((value) => ItemListCard(dateTime: value.requestDate, itemList: value.item)).toList()),
           Column(children: RequestService.to.myRequestHistory.map((value) => ItemListCard(dateTime: value.requestDate, itemList: value.item)).toList()),
         ],
       ),
-    ),
+    )),
     );
   }
 }

@@ -68,13 +68,14 @@ class HomeScreen extends StatelessWidget {
             child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 GestureDetector(
-                    onTap: () => Get.to(() =>  user.role == Role.MAIN ? DataStatistics() : SalesHistory()),
+                    onTap: () => Get.to(() =>  user.role == Role.MAIN ? const DataStatistics() : SalesHistory()),
                     child: CustomContainer(
                       width: 130,
                       height: 70,
                       child: Center(child: Text(user.role == Role.MAIN ? '주문 데이터' : '판매 내역', style: Theme.of(context).textTheme.titleMedium)),
-                    )),GestureDetector(
-                    onTap: () => Get.to(() =>  user.role == Role.MAIN ? DataStatistics() : OrderHistory()),
+                    )),
+                GestureDetector(
+                    onTap: () => Get.to(() =>  user.role == Role.MAIN ? const DataStatistics() : const OrderHistory()),
                     child: CustomContainer(
                       width: 130,
                       height: 70,

@@ -46,7 +46,7 @@ class _DailyStockState extends State<DailyStock> {
                     child: Text('오늘 생산한 빵', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey)),
                   ),
               SingleChildScrollView(child: Column(children:
-              ItemService.to.ItemList != [] ? ItemService.to.ItemList.map((e) => StockField(name: e.itemName, count: (String value) => products.add(Product(item: e, total: int.parse(value))))).toList()
+              ItemService.to.itemList != [] ? ItemService.to.itemList.map((e) => StockField(name: e.itemName, count: (String value) => products.add(Product(item: e, total: int.parse(value))))).toList()
                       : [const SizedBox()],))
             ]),
           ))
