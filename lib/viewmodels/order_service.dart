@@ -17,14 +17,16 @@ class OrderService extends GetxService {
     if (fetchedOrders != null){
       return true;
     } else {
-      print('주문목록을 불러오는데 실패했습니다.');
+      print('주문서 저장에 실패했습니다.');
     }
   }
 
   Future<void> fetchOrderSheets() async {
+    orderSheets = [];
     var fetchedOrderSheets = await orderRepository.getOrderSheets();
     if (fetchedOrderSheets != null){
       orderSheets = fetchedOrderSheets;
+      // print(orderSheets);
     } else {
       print('주간 주문서을 불러오는데 실패했습니다.');
     }
@@ -36,6 +38,7 @@ class OrderService extends GetxService {
       orderSheets.map((orderSheet){
         if(orderSheet.dayOfTheWeek == dayOfWeek){
           dailyOrderList.value = orderSheet.orderItems;
+          // print(dailyOrderList);
         }
       }).toList();
     } else {

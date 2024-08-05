@@ -31,23 +31,21 @@ class OrderRepository extends GetxController {
 
     var responseBody = jsonDecode(response.body);
     var bodyStatusCode = responseBody['statusCode'];
-    print(responseBody);
 
     if (bodyStatusCode == 200) {
       dynamic data = responseBody['data'];
       List<OrderSheet> orderSheets = [];
-      List<OrderItem> orderItems = [];
+      List<OrderItem> orderItemList = [];
 
       if(data.isNotEmpty) {
-        data.map((orderSheet) {
+        data.forEach((orderSheet) {
           String dayOfTheWeek = orderSheet['dayOfTheWeek'];
-          List orderItemList = orderSheet['orderItems'];
-          orderItemList.map((orderItem){
-            orderItems.add(OrderItem(item:Item.fromJson(orderItem), quantity: orderItem['quantity']));
-          }).toList();
-          orderSheets.add(OrderSheet(dayOfTheWeek: DayOfWeek.fromKor(dayOfTheWeek)!, orderItems: orderItems));
-        }).toList();
-
+          orderSheet['orderItems'].forEach((orderItem){
+            orderItemList.add(OrderItem(item:Item.fromJson(orderItem['item']), quantity: orderItem['quantity']));
+          });
+          orderSheets.add(OrderSheet(dayOfTheWeek: DayOfWeek.fromKor(dayOfTheWeek)!, orderItems: orderItemList));
+          orderItemList=[];
+        });
       }
       return orderSheets;
     } else {
@@ -179,7 +177,6 @@ class OrderRepository extends GetxController {
 
     var responseBody = jsonDecode(response.body);
     var bodyStatusCode = responseBody['statusCode'];
-    print(responseBody);
 
     if (bodyStatusCode == 200) {
       List data = responseBody['data'];

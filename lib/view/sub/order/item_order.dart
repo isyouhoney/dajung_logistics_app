@@ -27,6 +27,7 @@ class _ItemOrderState extends State<ItemOrder> {
     await OrderService.to.fetchOrderSheets();
     await OrderService.to.fetchTodayOrderSheets(dayOfWeek);
   }
+
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(

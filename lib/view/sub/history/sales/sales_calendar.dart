@@ -44,7 +44,7 @@ class _SalesCalendarState extends State<SalesCalendar> {
             children: [
               TableCalendar(
                 locale: 'ko_KR',
-                firstDay: DateTime(2024, 08, 01),
+                firstDay: DateTime(2024, 07, 01),
                 lastDay: DateTime(2050, 1, 1),
                 focusedDay: widget.selectDay.value,
                 headerStyle: HeaderStyle(formatButtonVisible: false, titleCentered: true,
