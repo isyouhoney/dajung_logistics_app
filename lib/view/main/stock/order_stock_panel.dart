@@ -42,7 +42,7 @@ class _OrderStockPanelState extends State<OrderStockPanel> {
             headerBuilder: (BuildContext context, bool isExpanded) {
               return Align(alignment: Alignment.centerLeft,child: Padding(
                 padding: const EdgeInsets.only(left: 10),
-                child: Text('오늘 들어온 주문량', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey)),
+                child: Text('제품 주문량', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey)),
               ));
             },
             body: SizedBox(height: 30.h,
@@ -51,7 +51,7 @@ class _OrderStockPanelState extends State<OrderStockPanel> {
                 data.map((e)=>StockField(name: e.itemName, quantity: e.quantity)).toList()
                 ): Center(child: Padding(
                   padding: EdgeInsets.only(top: 11.h),
-                  child: const Text('오늘 주문이 없습니다.'),
+                  child: const Text('들어온 주문이 없습니다.'),
                 )),
               ),
             ), value: isExpanded.value

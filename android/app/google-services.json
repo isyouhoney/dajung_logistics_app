@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:641319945837:android:94c3bec59cf57a163c6164",
         "android_client_info": {
-          "package_name": "com.ex"
+          "package_name": "com.example.bakery_app"
         }
       },
       "oauth_client": [],

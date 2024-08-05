@@ -33,24 +33,26 @@ class _DailyStockState extends State<DailyStock> {
       bottomSheet: CW.textButton('저장', onPressed: (){
         ProductionService.to.postProduction(products);
       }),
-      child: SingleChildScrollView(
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      child: ListView(
+        children: [Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(padding: const EdgeInsets.only(left: 20),
-            child: Text(dateFormat(DateTime.now()), style: Theme.of(context).textTheme.titleMedium),
+            child: Text(dateFormat(DateTime.now().add(const Duration(days: 1))), style: Theme.of(context).textTheme.titleMedium),
           ),
           const OrderStockPanel(),
           CustomContainer(height:62.h, width: 100.w,
             child: Obx(()=>Column(crossAxisAlignment:CrossAxisAlignment.start, children: [
                   Padding(
                     padding: const EdgeInsets.all(10),
-                    child: Text('오늘 생산한 빵', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey)),
+                    child: Text('제품 생산량 입력', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey)),
                   ),
-              SingleChildScrollView(child: Column(children:
-              ItemService.to.itemList != [] ? ItemService.to.itemList.map((e) => StockField(name: e.itemName, count: (String value) => products.add(Product(item: e, total: int.parse(value))))).toList()
-                      : [const SizedBox()],))
+              Expanded(
+                child: SingleChildScrollView(child: Column(children:
+                ItemService.to.itemList != [] ? ItemService.to.itemList.map((e) => StockField(name: e.itemName, count: (String value) => products.add(Product(item: e, total: int.parse(value))))).toList()
+                        : [const SizedBox()],)),
+              )
             ]),
           ))
-            ],),
+            ],)],
       ),);
   }
 }

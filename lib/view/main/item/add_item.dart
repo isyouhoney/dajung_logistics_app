@@ -30,6 +30,7 @@ class _AddItemState extends State<AddItem> {
   @override
   void initState() {
     super.initState();
+    print('init');
     getCategoryNameList();
     itemNameController = TextEditingController();
     priceController = TextEditingController();
@@ -50,6 +51,7 @@ class _AddItemState extends State<AddItem> {
     for (var e in categoryList) {
       categoryNameList.add(e.categoryName);
     }
+    print(categoryNameList);
   }
 
   Future postItem() async{
@@ -74,7 +76,7 @@ class _AddItemState extends State<AddItem> {
           content: SingleChildScrollView(
             child: Column(children: [
               CustomTextField(hintText: '상품명', controller: itemNameController),
-              CustomDropdown(list: categoryNameList.value, selectedValue: ItemService.to.addItemCategory),
+              Obx(()=>CustomDropdown(list: categoryNameList.value, selectedValue: ItemService.to.addItemCategory)),
               const CustomImagePicker(),
               CustomTextField(hintText: '가격', controller: priceController),
               CustomTextField(hintText: '상세 설명', controller: descriptionController, maxLine: 5,counterText: true,),

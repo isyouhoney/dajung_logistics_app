@@ -38,14 +38,14 @@ class ProductionRepository extends GetxController {
   }
 
   Future<bool?> postProduction(List products) async {
-    final Uri url = Uri.parse('$baseUrl/item');
+    final Uri url = Uri.parse('$baseUrl/production');
     String? accessToken = await SecureStorage.get(Cached.ACCESS);
 
     if (accessToken == null) {
       logger.e('액세스 토큰이 없습니다.');
       return false;
     }
-    String productionDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    String productionDate = DateFormat('yyyy-MM-dd').format(DateTime.now().add(const Duration(days: 1)));
 
     final response = await http.post(
       url,

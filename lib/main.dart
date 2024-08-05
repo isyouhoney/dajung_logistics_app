@@ -30,7 +30,7 @@ void main() async {
   InitialBinding().dependencies();
 
   dynamic userData = await AuthService.to.getUserData();
-  String? islogin = await SecureStorage.get(Cached.SIGNIN);
+  String? islogin = await SecureStorage.get(Cached.ACCESS);
   String initialRoute = islogin==null ? '/login':'/';
   runApp(MyApp(initialRoute: initialRoute));
 }

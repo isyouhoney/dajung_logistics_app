@@ -20,7 +20,6 @@ class ProductionService extends GetxService {
   Future<void> postProduction(List products) async {
     var postProduction = await productionRepository.postProduction(products);
     if (postProduction != null){
-      print(postProduction);
     } else {
       print('일일 생산량을 입력 실패했습니다.');
     }
