@@ -11,6 +11,7 @@ import 'package:intl/intl.dart';
 
 class OrderRepository extends GetxController {
 
+  // SUB, DIRECT
   Future<List<OrderSheet>?> getOrderSheets() async {
     final Uri url = Uri.parse('$baseUrl/order');
     String? accessToken = await SecureStorage.get(Cached.ACCESS);
@@ -30,6 +31,7 @@ class OrderRepository extends GetxController {
 
     var responseBody = jsonDecode(response.body);
     var bodyStatusCode = responseBody['statusCode'];
+    print(responseBody);
 
     if (bodyStatusCode == 200) {
       dynamic data = responseBody['data'];
@@ -53,6 +55,7 @@ class OrderRepository extends GetxController {
     }
   }
 
+  // MAIN, DELIVER
   Future<List<OrderItem>?> getDayOrders(DayOfWeek dayOfWeek) async {
     String dayOfTheWeek = dayOfWeek.kor;
       final Uri url = Uri.parse('$baseUrl/order/sub');
@@ -90,6 +93,7 @@ class OrderRepository extends GetxController {
       }
     }
 
+  // MAIN
   Future<List?> getDayTotalOrders() async {
     String dayOfTheWeek = DateFormat('E', 'ko_KR').format(DateTime.now());
     final Uri url = Uri.parse('$baseUrl/order/sub-total?dayOfTheWeek=$dayOfTheWeek');
@@ -119,6 +123,7 @@ class OrderRepository extends GetxController {
     }
   }
 
+  // SUB, DIRECT
   Future<bool?> postOrder(DayOfWeek dayOfWeek, List<OrderItem> orderItems) async {
     final Uri url = Uri.parse('$baseUrl/order');
     String? accessToken = await SecureStorage.get(Cached.ACCESS);
@@ -152,9 +157,11 @@ class OrderRepository extends GetxController {
     }
   }
 
-  Future<List?> getOrderHistory(orderDate) async {
-    String dayOfTheWeek = DateFormat('yyyy-MM-dd').format(orderDate);
-    final Uri url = Uri.parse('$baseUrl/order/history?orderStartDate=$orderDate&orderEndDate=$orderDate');
+  // SUB, DIRECT
+  Future<List?> getOrderHistory(DateTime startDate,DateTime endDate) async {
+    String orderStartDate = DateFormat('yyyy-MM-dd').format(startDate);
+    String orderEndDate = DateFormat('yyyy-MM-dd').format(endDate);
+    final Uri url = Uri.parse('$baseUrl/order/history?orderStartDate=$orderStartDate&orderEndDate=$orderEndDate');
     String? accessToken = await SecureStorage.get(Cached.ACCESS);
 
     if (accessToken == null) {

@@ -15,6 +15,7 @@ class OrderHistory extends StatefulWidget {
 
 class _OrderHistoryState extends State<OrderHistory> {
   RxList orderList = [].obs;
+
   @override
   void initState() {
     super.initState();
@@ -22,17 +23,19 @@ class _OrderHistoryState extends State<OrderHistory> {
   }
 
   void getOrderHistory() async {
-    orderList.value = (await OrderService.to.fetchDayOrderHistory())!;
+    orderList.value = (await OrderService.to.fetchDayOrderHistory(OrderService.to.selectDay.value, OrderService.to.selectDay.value))!;
   }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultLayout(
-      title: '판매 내역',
+    return DefaultLayout(isPadded:false,
+      title: '주문 내역',
       child: Column(children: [
         const DateSelector(),
-        CustomContainer(child: Obx(()=>Column(children: orderList.value.map((item) => StockField(name: item['itemName'], quantity:item['orderAmount'])).toList()
-        )))
+        CustomContainer(child: Obx(() => orderList.isNotEmpty? SingleChildScrollView(child: Column(children:
+          orderList.value.map((item) => StockField(name: item['itemName'], quantity:item['orderAmount'])).toList()
+          ),
+        ):const Text('주문 내역이 없습니다.')))
       ],),
     );
   }

@@ -5,7 +5,7 @@ import 'package:bakery_app/view/main/item/item_management.dart';
 import 'package:bakery_app/view/main/stock/daily_stock.dart';
 import 'package:bakery_app/view/sub/additional/additional_request.dart';
 import 'package:bakery_app/view/sub/history/order_history.dart';
-import 'package:bakery_app/view/sub/history/sales_history.dart';
+import 'package:bakery_app/view/sub/history/sales/sales_history.dart';
 import 'package:bakery_app/view/sub/order/item_order.dart';
 import 'package:bakery_app/viewmodels/auth_service.dart';
 import 'package:bakery_app/widgets/custom_container.dart';
@@ -49,14 +49,14 @@ class HomeScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GestureDetector(
-                      onTap: () => Get.to(()=> user.role == Role.MAIN ? const ItemManagement() : ItemOrder()),
+                      onTap: () => Get.to(()=> user.role == Role.MAIN ? const ItemManagement() : const ItemOrder()),
                       child: CustomContainer(
                         width: 130,
                         height: 70,
                         child: Center(child: Text(user.role == Role.MAIN ? '상품 관리' : '상품 주문', style: Theme.of(context).textTheme.titleMedium)),
                       )),
                   GestureDetector(
-                      onTap: () => Get.to(() =>  user.role == Role.MAIN ? DailyStock() : AdditionalRequest()),
+                      onTap: () => Get.to(() =>  user.role == Role.MAIN ? const DailyStock() : const AdditionalRequest()),
                       child: CustomContainer(
                           width: 130,
                           height: 70,
@@ -68,14 +68,14 @@ class HomeScreen extends StatelessWidget {
             child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 GestureDetector(
-                    onTap: () => Get.to(() =>  user.role == Role.MAIN ? const DataStatistics() : SalesHistory()),
+                    onTap: () => Get.to(() =>  user.role == Role.MAIN ? const DataStatistics() : const OrderHistory()),
                     child: CustomContainer(
                       width: 130,
                       height: 70,
-                      child: Center(child: Text(user.role == Role.MAIN ? '주문 데이터' : '판매 내역', style: Theme.of(context).textTheme.titleMedium)),
+                      child: Center(child: Text(user.role == Role.MAIN ? '주문 데이터' : '주문 내역', style: Theme.of(context).textTheme.titleMedium)),
                     )),
                 GestureDetector(
-                    onTap: () => Get.to(() =>  user.role == Role.MAIN ? const DataStatistics() : const OrderHistory()),
+                    onTap: () => Get.to(() =>  user.role == Role.MAIN ? const DataStatistics() : const SalesHistory()),
                     child: CustomContainer(
                       width: 130,
                       height: 70,

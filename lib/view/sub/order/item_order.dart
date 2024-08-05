@@ -19,17 +19,19 @@ class _ItemOrderState extends State<ItemOrder> {
   @override
   void initState() {
     super.initState();
-    OrderService.to.dailyOrderList.value = [];
-    OrderService.to.fetchOrderSheets();
-    OrderService.to.fetchTodayOrderSheets(dayOfWeek);
+    getOrders();
   }
 
+  void getOrders() async {
+    OrderService.to.dailyOrderList.value = [];
+    await OrderService.to.fetchOrderSheets();
+    await OrderService.to.fetchTodayOrderSheets(dayOfWeek);
+  }
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
         title: '상품 주문서',
         bottomSheet: CW.textButton('저장하기', onPressed: (){
-          print(dayOfWeek.kor);
           OrderService.to.postOrders(dayOfWeek, OrderService.to.dailyOrderList.value);
         }),
         child: Column(children: [

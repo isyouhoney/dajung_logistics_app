@@ -10,6 +10,7 @@ class OrderService extends GetxService {
   List<OrderSheet> orderSheets = [];
   RxList<OrderItem> dailyOrderList = <OrderItem>[].obs;
   Rx<DateTime> selectDay = DateTime.now().obs;
+  RxList orderReports = [].obs;
 
   Future<bool?> postOrders(DayOfWeek dayOfWeek, List<OrderItem> orderItems) async {
     var fetchedOrders = await orderRepository.postOrder(dayOfWeek, orderItems);
@@ -25,7 +26,7 @@ class OrderService extends GetxService {
     if (fetchedOrderSheets != null){
       orderSheets = fetchedOrderSheets;
     } else {
-      print('주문서을 불러오는데 실패했습니다.');
+      print('주간 주문서을 불러오는데 실패했습니다.');
     }
   }
 
@@ -38,7 +39,7 @@ class OrderService extends GetxService {
         }
       }).toList();
     } else {
-      print('주문서을 불러오는데 실패했습니다.');
+      print('일일 주문서을 불러오는데 실패했습니다.');
     }
   }
 
@@ -60,10 +61,11 @@ class OrderService extends GetxService {
     }
   }
 
-  Future<List?> fetchDayOrderHistory() async {
-    var fetchedDayOrderHistory = await orderRepository.getOrderHistory(selectDay.value);
+  Future<List?> fetchDayOrderHistory(DateTime orderStartDate,DateTime orderEndDate) async {
+    var fetchedDayOrderHistory = await orderRepository.getOrderHistory(orderStartDate, orderEndDate);
     if (fetchedDayOrderHistory != null){
-      return fetchedDayOrderHistory;
+      orderReports.value = fetchedDayOrderHistory;
+      return orderReports;
     } else {
       print('일일 주문서를 불러오는데 실패했습니다.');
     }

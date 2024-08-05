@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 class CC {
   static Color mainColor = const Color(0xff01B5BE);
   static Color subColor = const Color(0xffB3E9EC);
+  static Color backgroundColor = const Color(0xcccae9ec);
   static Color mainColorOpacity = const Color(0xcc01B5BE);
   static Color mainColorShaded = const Color(0xff3A8689);
   static Color mainColorShadedLight = const Color(0xffCED6E9);
   static Color whiteColor = const Color(0xffE1E4E6);
   static Color focusBorderColor = const Color(0xffFFD313);
-  static Color errorColor = const Color(0xffff5d5d);
+  static Color errorColor = const Color(0xffff6d6d);
   static Color textColor = const Color(0xff363a3d);
   static Color hintColor = const Color(0xff878d91);
 }
