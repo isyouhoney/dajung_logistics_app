@@ -27,12 +27,14 @@ class _ItemManagementState extends State<ItemManagement> {
       title: '상품 관리',
       child: CustomContainer(
         width: 100.w,
-        child: Obx(()=>Column(children: [
-          ItemService.to.itemList != [] ?
-          Column(children:ItemService.to.itemList.map((e) => ItemField(item: e)).toList()):
-          const SizedBox(),
-          const AddItemButton()
-        ])),
+        child: Obx(()=>SingleChildScrollView(
+          child: Column(children: [
+            ItemService.to.itemList != [] ?
+            Column(children:ItemService.to.itemList.map((e) => ItemField(item: e)).toList()):
+            const SizedBox(),
+            const AddItemButton()
+          ]),
+        )),
       ),
     );
   }

@@ -14,13 +14,18 @@ class OrderStockPanel extends StatefulWidget {
 }
 
 class _OrderStockPanelState extends State<OrderStockPanel> {
-  final List data = [];
+  List data = [];
   RxBool isExpanded = false.obs;
 
   @override
   void initState() {
     super.initState();
-    OrderService.to.fetchDayTotalOrders();
+
+  }
+
+  void getData() async {
+    data = (await OrderService.to.fetchDayTotalOrders())!;
+    print(data);
   }
 
   @override
@@ -42,14 +47,12 @@ class _OrderStockPanelState extends State<OrderStockPanel> {
             },
             body: SizedBox(height: 30.h,
               child: SingleChildScrollView(
-                child: Column(children:
-                [
-                  StockField(name: '소금빵', quantity: 3,),
-                  StockField(name: '초코 소금빵', quantity: 3,),
-                  StockField(name: '대파 크림치즈 소금빵', quantity: 3,),
-                ]
-                // data.map((e)=>StockField(name: e.itemName, quantity: e.quantity)).toList()
-                ),
+                child: data.isNotEmpty ? Column(children:
+                data.map((e)=>StockField(name: e.itemName, quantity: e.quantity)).toList()
+                ): Center(child: Padding(
+                  padding: EdgeInsets.only(top: 11.h),
+                  child: const Text('오늘 주문이 없습니다.'),
+                )),
               ),
             ), value: isExpanded.value
                 )
