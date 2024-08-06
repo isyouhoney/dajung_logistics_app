@@ -8,10 +8,11 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class SmsCertification extends StatefulWidget {
-  SmsCertification({super.key, required this.name, required this.loginId, required this.phone});
-  late final ValueChanged<String> name;
-  late final ValueChanged<String> loginId;
-  late final ValueChanged<String> phone;
+  const SmsCertification({super.key, required this.name, this.loginId, required this.phone, this.noDuplicateCheck=false});
+  final ValueChanged<String> name;
+  final ValueChanged<String>? loginId;
+  final ValueChanged<String> phone;
+  final bool? noDuplicateCheck;
 
   @override
   State<SmsCertification> createState() => _SmsCertificationState();
@@ -62,13 +63,13 @@ class _SmsCertificationState extends State<SmsCertification> {
             },
             controller: nameController,
         ),
-        Row(
+    widget.loginId!=null?Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
     Form(
     key: emailFormKey,
     child:CustomTextField(
-              onChanged: (value)=>widget.loginId(value),
+              onChanged: (value)=>widget.loginId!(value),
               hintText: '이메일',
               validator: (val) {
                 if(!RegExp(
@@ -79,11 +80,10 @@ class _SmsCertificationState extends State<SmsCertification> {
                 return null;
               },
               controller: idController,
-              width: 100.w - 130,
+              width: widget.noDuplicateCheck!=true? 100.w - 130 : 100.w-20,
             )),
-            const SizedBox(width: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5),
+            widget.noDuplicateCheck!=true?Padding(
+              padding: const EdgeInsets.fromLTRB(10,5,0,5),
               child: Obx(()=>CW.textButton(!isDuplicate.value ? '사용 가능':'중복 체크', width: 100, height: 50,
                 color: !isDuplicate.value ? Colors.grey : CC.mainColor,
                 onPressed: () async {
@@ -94,10 +94,10 @@ class _SmsCertificationState extends State<SmsCertification> {
                   }
                 }
               )),
-            )
-          ],
-        ),
+            ):const SizedBox(),
         const SizedBox(height: 20),
+          ],
+        ):const SizedBox(),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -153,7 +153,7 @@ class _SmsCertificationState extends State<SmsCertification> {
               validator: (val) {
                 if(val!.length != 6){
                   return '올바른 인증번호 6자를 입력해주세요.';
-                } else if (val!.contains(RegExp(r'[^0-9]'))) return '올바른 인증번호를 입력해주세요.';
+                } else if (val.contains(RegExp(r'[^0-9]'))) return '올바른 인증번호를 입력해주세요.';
                 return null;
               },
               controller: codeController,

@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MenuDrawer extends StatelessWidget {
-  MenuDrawer({super.key});
+  const MenuDrawer({super.key});
 
   // final AuthController authController = Get.find<AuthController>();
 

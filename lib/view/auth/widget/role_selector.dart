@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RoleSelector extends StatefulWidget {
-  RoleSelector({super.key, required this.role});
+  const RoleSelector({super.key, required this.role});
 
-  late final ValueChanged<Role> role;
+  final ValueChanged<Role> role;
 
   @override
   State<RoleSelector> createState() => _RoleSelectorState();
@@ -25,7 +25,7 @@ class _RoleSelectorState extends State<RoleSelector> {
               child: Row(children: [
                 Obx(() => Radio(
                       value: value.view,
-                      groupValue: selectedRole.value?.view,
+                      groupValue: selectedRole.value.view,
                       onChanged: (v) async {
                         selectedRole.value = Role.fromView(v.toString())!;
                         widget.role(selectedRole.value);

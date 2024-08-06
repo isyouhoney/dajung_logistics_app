@@ -24,7 +24,7 @@ class MenuItem extends StatelessWidget {
                   SizedBox(width: 3.pt),
                   Text(
                     title,
-                    style: TextStyle(fontSize: 16, color: Colors.grey),
+                    style: const TextStyle(fontSize: 16, color: Colors.grey),
                   ),
                 ],
               ),
@@ -59,7 +59,7 @@ class MenuContent extends StatelessWidget {
                 children: [
                   Text(
                     text,
-                    style: TextStyle( fontSize: 17, fontWeight: FontWeight.w500),
+                    style: const TextStyle( fontSize: 17, fontWeight: FontWeight.w500),
                   ),
                   SvgPicture.asset(
                     'assets/icons/arrow_forward.svg',

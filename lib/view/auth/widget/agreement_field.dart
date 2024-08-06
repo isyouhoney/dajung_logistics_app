@@ -1,6 +1,4 @@
 import 'package:bakery_app/models/agreement.dart';
-import 'package:bakery_app/models/term.dart';
-import 'package:bakery_app/models/user.dart';
 import 'package:bakery_app/utils/enums.dart';
 import 'package:bakery_app/utils/themeData.dart';
 import 'package:bakery_app/viewmodels/auth_service.dart';

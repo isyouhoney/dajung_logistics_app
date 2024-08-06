@@ -28,7 +28,7 @@ class _OrderHistoryState extends State<OrderHistory> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultLayout(isPadded:false,
+    return DefaultLayout(
       title: '주문 내역',
       child: Column(children: [
         const DateSelector(),

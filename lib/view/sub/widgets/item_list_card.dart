@@ -24,7 +24,7 @@ class ItemListCard extends StatelessWidget {
             color: CC.subColor,
             borderRadius: BorderRadius.circular(10)),child: Column(crossAxisAlignment: CrossAxisAlignment.start,children:[
               Text('요청 내역', style: Theme.of(context).textTheme.labelMedium?.copyWith(color: CC.mainColorShaded)),
-              SizedBox(height: 3,),
+              const SizedBox(height: 3,),
               Text('대파크림치즈 소금빵 5EA', style: Theme.of(context).textTheme.labelMedium?.copyWith(height: 1.5)),
             ])),
       ),

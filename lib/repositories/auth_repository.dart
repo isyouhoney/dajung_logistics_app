@@ -212,7 +212,7 @@ class AuthRepository extends GetxController{
         return null;
       }
     } else {
-      logger.e('로그인 요청 실패: ${bodyStatusCode}, ${responseBody}');
+      logger.e('로그인 요청 실패: $responseBody');
       return responseBody['message'];
     }
   }
@@ -276,49 +276,58 @@ class AuthRepository extends GetxController{
     print('responseBody : $responseBody');
   }
 
-  // 탈퇴
-  Future<Map<String, dynamic>?> signout() async {
-    final Uri url = Uri.parse('$baseUrl/user/left');
-    String? accessToken = await SecureStorage.get(Cached.ACCESS);
+  // 아이디 찾기
+  Future<Map<String, dynamic>?> findId(String ownerName,String phone) async {
+    final Uri url = Uri.parse('$baseUrl/user/check?ownerName=$ownerName&phone=$phone');
 
-    if (accessToken == null) {
-      logger.e('액세스 토큰이 없습니다.');
-      return null;
-    }
-
-    int retryCount = 0;
-    const int maxRetry = 3;
-
-    while (retryCount < maxRetry) {
-      final response = await http.post(
+      final response = await http.get(
         url,
         headers: <String, String>{
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $accessToken',
         },
       );
 
       var responseBody = jsonDecode(response.body);
       var bodyStatusCode = responseBody['statusCode'];
+      print(responseBody);
 
       if (bodyStatusCode == 200) {
         Map<String, dynamic> data = responseBody['data'];
         await SecureStorage.clear();
         return data;
-      } else if (bodyStatusCode == 500) {
-        final refreshResult = await refreshToken();
-        if (!refreshResult) {
-          logger.e('리프레시 토큰 조회 실패 -> 재로그인 요망');
-          break;
-        }
-        accessToken = await SecureStorage.get(Cached.ACCESS);
       } else {
-        logger.e('탈퇴 요청 실패: ${response.statusCode}');
-        break;
+        logger.e('아이디 찾기 요청 실패: ${response.statusCode}');
       }
 
-      retryCount++;
-    }
+    return null;
+  }
+
+  // 비밀번호 변경
+  Future<Map<String, dynamic>?> changePassword(String loginId,String phone,String password) async {
+    final Uri url = Uri.parse('$baseUrl/user/change-pwd');
+
+      final response = await http.patch(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'loginId': loginId,
+          'phone': phone,
+          'password': password,
+        }),
+      );
+
+      var responseBody = jsonDecode(response.body);
+      var bodyStatusCode = responseBody['statusCode'];
+      print(responseBody);
+
+      if (bodyStatusCode == 200) {
+        Map<String, dynamic> data = responseBody['data'];
+        return data;
+      } else {
+        logger.e('비밀번호 변경 요청 실패: $responseBody');
+      }
 
     return null;
   }

@@ -56,7 +56,6 @@ class ItemRepository extends GetxController {
 
       var responseBody = jsonDecode(response.body);
       var bodyStatusCode = responseBody['statusCode'];
-      print(responseBody);
 
       if (bodyStatusCode == 200) {
         List<dynamic> data = responseBody['data'];

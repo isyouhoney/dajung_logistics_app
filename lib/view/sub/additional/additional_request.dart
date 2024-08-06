@@ -7,7 +7,6 @@ import 'package:bakery_app/widgets/custom_widget.dart';
 import 'package:bakery_app/widgets/default_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 class AdditionalRequest extends StatefulWidget {
   const AdditionalRequest({super.key});
@@ -27,8 +26,8 @@ class _AdditionalRequestState extends State<AdditionalRequest> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultLayout(title: '제품 요청',isPadded: false,
-      bottomSheet: CW.textButton('제품 요청하기', onPressed: () => showDialog(context: context, builder: (ctx) => RequestAdditionalItem()), color: CC.mainColorOpacity), child:
+    return DefaultLayout(title: '제품 요청',
+      bottomSheet: CW.textButton('제품 요청하기', onPressed: () => showDialog(context: context, builder: (ctx) => const RequestAdditionalItem()), color: CC.mainColorOpacity), child:
     Obx(()=>SingleChildScrollView(
       child: Padding(padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start,

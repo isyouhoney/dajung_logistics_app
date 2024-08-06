@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 class ItemService extends GetxService {
   final ItemRepository itemRepository = ItemRepository();
   static ItemService get to => Get.find();
-  final RxString addItemCategory = '카테고리'.obs;
-  final RxString addItemImage = ''.obs;
-  final RxString addItemName = '제품명'.obs;
+  RxString addItemCategory = '카테고리'.obs;
+  RxString addItemImage = ''.obs;
+  RxString addItemName = '제품명'.obs;
   RxList itemList = <Item>[].obs;
 
   Future<RxList?> fetchItems() async {

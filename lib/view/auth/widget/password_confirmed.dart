@@ -2,8 +2,8 @@ import 'package:bakery_app/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
 
 class PasswordConfirmed extends StatefulWidget {
-  PasswordConfirmed({super.key, required this.password});
-  late final ValueChanged<String> password;
+  const PasswordConfirmed({super.key, required this.password});
+  final ValueChanged<String> password;
 
   @override
   State<PasswordConfirmed> createState() => _PasswordConfirmedState();
@@ -44,7 +44,7 @@ class _PasswordConfirmedState extends State<PasswordConfirmed> {
                   return '8자 이상 입력해주세요.';
                 } else if(!RegExp(r'^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,15}$')
                 // r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?~^<>,.&+=])[A-Za-z\d$@$!%*#?~^<>,.&+=]{8,15}$'
-                    .hasMatch(val!)){
+                    .hasMatch(val)){
                   return '8자 이상 영문, 숫자, 특수문자 조합을 입력해주세요.';
                 }
                 return null;

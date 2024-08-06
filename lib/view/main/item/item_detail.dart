@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:bakery_app/models/item.dart';
 import 'package:bakery_app/widgets/custom_textfield.dart';
 import 'package:bakery_app/widgets/custom_widget.dart';
@@ -23,9 +21,9 @@ class ItemDetail extends StatelessWidget {
       content: SingleChildScrollView(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Center(child: Image.network(item.image, height: 30.h,)),
-          Text(item.itemName, style: TextStyle(height: 2),),
-          Text('카테고리', style: TextStyle(height: 2)),
-          Text('가격 : ${item.price}', style: TextStyle(height: 2)),
+          Text(item.itemName, style: const TextStyle(height: 2),),
+          const Text('카테고리', style: TextStyle(height: 2)),
+          Text('가격 : ${item.price}', style: const TextStyle(height: 2)),
           CustomTextField(hintText: item.description, maxLine: 5, readOnly: true,),
         ],),
       ),

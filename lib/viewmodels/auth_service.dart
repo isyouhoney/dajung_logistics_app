@@ -81,15 +81,24 @@ class AuthService extends GetxService {
     }
   }
 
-  // 탈퇴
-  Future<bool> signout() async {
-    final result = await authRepository.signout();
-    print('탈퇴 요청 -- $result');
+  // 아이디 찾기
+  Future<Map?> findId(String ownerName,String phone) async {
+    final result = await authRepository.findId(ownerName, phone);
     if (result != null) {
-      _user.value = null;
-      return true;
+      return result;
     } else {
-      return false;
+
+      return null;
+    }
+  }
+
+  // 비밀번호 변경
+  Future<Map?> changePassword(String loginId,String phone,String password) async {
+    final result = await authRepository.changePassword(loginId, phone, password);
+    if (result != null) {
+      return result;
+    } else {
+      return null;
     }
   }
 }

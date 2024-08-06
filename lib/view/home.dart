@@ -21,8 +21,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     User user = AuthService.to.user!;
-    return DefaultLayout(
-      isPadded: false,
+    return DefaultLayout( isPadded: false,
       title: Image.asset(
         'assets/images/titlelogo.png',
         width: 170,
@@ -46,45 +45,45 @@ class HomeScreen extends StatelessWidget {
           HomeSection(
               title: '빵 생산 관리',
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
                       onTap: () => Get.to(()=> user.role == Role.MAIN ? const ItemManagement() : const ItemOrder()),
                       child: CustomContainer(
-                        width: 130,
+                        width: 40.w,
                         height: 70,
                         child: Center(child: Text(user.role == Role.MAIN ? '상품 관리' : '상품 주문', style: Theme.of(context).textTheme.titleMedium)),
                       )),
                   GestureDetector(
                       onTap: () => Get.to(() =>  user.role == Role.MAIN ? const DailyStock() : const AdditionalRequest()),
                       child: CustomContainer(
-                          width: 130,
+                          width: 40.w,
                           height: 70,
                           child: Center(child: Text(user.role == Role.MAIN ? '일일 생산 등록' : '수시 요청', style: Theme.of(context).textTheme.titleMedium)))),
                 ],
               )),
           HomeSection(
             title: '데이터 확인',
-            child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            child: Row(mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
                     onTap: () => Get.to(() =>  user.role == Role.MAIN ? const DataStatistics() : const OrderHistory()),
                     child: CustomContainer(
-                      width: 130,
+                      width: 40.w,
                       height: 70,
                       child: Center(child: Text(user.role == Role.MAIN ? '주문 데이터' : '주문 내역', style: Theme.of(context).textTheme.titleMedium)),
                     )),
                 GestureDetector(
                     onTap: () => Get.to(() =>  user.role == Role.MAIN ? const DataStatistics() : const SalesHistory()),
                     child: CustomContainer(
-                      width: 130,
+                      width: 40.w,
                       height: 70,
                       child: Center(child: Text(user.role == Role.MAIN ? '생산 데이터' : '판매 내역', style: Theme.of(context).textTheme.titleMedium)),
                     )),
               ],
             ),
           ),
-          HomeSection(title: '공지사항', child: Center(child: Text('등록된 공지사항이 없습니다.', style:TextStyle(color: Colors.grey))), seeMore: () {}),
+          HomeSection(title: '공지사항', child: const Center(child: Text('등록된 공지사항이 없습니다.', style:TextStyle(color: Colors.grey))), seeMore: () {}),
         ],
       ),
     );

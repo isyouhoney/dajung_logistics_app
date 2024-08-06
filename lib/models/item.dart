@@ -16,7 +16,7 @@ class Item with _$Item {
     required String image,
     required String description,
     ItemCategory? category,
-    dynamic? status,
+    dynamic status,
     User? owner,
     List<Role>? targets,
 }) = _Item;

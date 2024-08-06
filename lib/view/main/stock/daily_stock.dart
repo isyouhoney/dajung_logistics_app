@@ -29,7 +29,7 @@ class _DailyStockState extends State<DailyStock> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultLayout(title: '일일 생산량 등록', isPadded: false,
+    return DefaultLayout(title: '일일 생산량 등록',
       bottomSheet: CW.textButton('저장', onPressed: (){
         ProductionService.to.postProduction(products);
       }),

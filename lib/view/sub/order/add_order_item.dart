@@ -1,6 +1,6 @@
 import 'package:bakery_app/models/order_item.dart';
-import 'package:bakery_app/viewmodels/order_service.dart';
 import 'package:bakery_app/viewmodels/item_service.dart';
+import 'package:bakery_app/viewmodels/order_service.dart';
 import 'package:bakery_app/widgets/custom_dropdown.dart';
 import 'package:bakery_app/widgets/custom_widget.dart';
 import 'package:flutter/material.dart';
@@ -43,8 +43,12 @@ class _AddOrderItemState extends State<AddOrderItem> {
 
   Future getItemNameList(String category) async {
     List<String> newList = ['제품명'];
+    List<String> orderItemNames = OrderService.to.dailyOrderList.map((orderItem) => orderItem.item.itemName).toList();
+
     for (var e in itemList) {
-      if(e.category.categoryName == category) newList.add(e.itemName);
+      if(e.category.categoryName == category  && !orderItemNames.contains(e.itemName)) {
+        newList.add(e.itemName);
+      }
     }
     itemNameList.value = newList;
   }
@@ -71,15 +75,13 @@ class _AddOrderItemState extends State<AddOrderItem> {
           ),
           actions: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceAround,children: [
-            CW.textButton('취소',onPressed: ()=>Navigator.of(context).pop(), width: 38.w, height: 40, color: Colors.grey),
+            CW.textButton('취소',onPressed: () => Navigator.of(context).pop(), width: 38.w, height: 40, color: Colors.grey),
             CW.textButton('확인', onPressed: () async {
               for (var e in itemList) {
                 if(e.itemName == ItemService.to.addItemName.value) {
-                  // widget.addItem(OrderItem(item: e, quantity: 0));
-                  OrderService.to.dailyOrderList.add(OrderItem(item: e, quantity: 0));
+                  OrderService.to.dailyOrderList.value = List.from(OrderService.to.dailyOrderList.value)..insert(OrderService.to.dailyOrderList.length,OrderItem(item: e, quantity: 0));
                 }
               }
-                  print(OrderService.to.dailyOrderList);
               Get.back();
               }, width: 38.w, height: 40)])
           ],

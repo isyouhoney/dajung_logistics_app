@@ -1,6 +1,3 @@
-import 'package:bakery_app/utils/themeData.dart';
-import 'package:bakery_app/view/main/item/item_detail.dart';
-import 'package:bakery_app/widgets/custom_widget.dart';
 import 'package:flutter/material.dart';
 
 class ItemFieldLayout extends StatelessWidget {

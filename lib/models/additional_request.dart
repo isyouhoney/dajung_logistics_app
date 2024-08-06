@@ -1,4 +1,3 @@
-import 'package:bakery_app/models/item.dart';
 import 'package:bakery_app/models/order_item.dart';
 import 'package:bakery_app/models/user.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

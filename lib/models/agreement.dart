@@ -1,5 +1,3 @@
-import 'package:bakery_app/models/term.dart';
-import 'package:bakery_app/models/user.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'agreement.freezed.dart';

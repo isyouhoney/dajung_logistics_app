@@ -3,7 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class SecureStorage with _Cache2Pref {
   static const FlutterSecureStorage _storage = FlutterSecureStorage();
 
-  static Future<dynamic?> get(Cached key) async {
+  static Future<dynamic> get(Cached key) async {
     return await _storage.read(key: _Cache2Pref.wrap(key));
   }
 

@@ -36,7 +36,8 @@ class _ItemOrderState extends State<ItemOrder> {
           OrderService.to.postOrders(dayOfWeek, OrderService.to.dailyOrderList.value);
         }),
         child: Column(children: [
-            DayOfWeekSelector(dayOfWeek: (value) => dayOfWeek = value, onChange: (value) => OrderService.to.fetchTodayOrderSheets(dayOfWeek)),
+            DayOfWeekSelector(dayOfWeek: (value) => dayOfWeek = value,
+                onChange: (value) => OrderService.to.fetchTodayOrderSheets(dayOfWeek)),
             const OrderForm()
         ],
         ),

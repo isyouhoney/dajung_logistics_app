@@ -1,3 +1,4 @@
+import 'package:bakery_app/utils/themeData.dart';
 import 'package:bakery_app/viewmodels/auth_service.dart';
 import 'package:bakery_app/widgets/custom_textfield.dart';
 import 'package:bakery_app/widgets/custom_widget.dart';
@@ -36,7 +37,13 @@ class Login extends StatelessWidget {
                         return null;
                       },
                       controller: passwordController),
-                  Obx(()=>CheckboxMenuButton(onChanged: (v) => rememberMe.value = v!, value: rememberMe.value, child: const Text('자동 로그인'))),
+                  Row(crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Obx(() => Checkbox(onChanged: (v) => rememberMe.value = v!, value: rememberMe.value,fillColor: MaterialStatePropertyAll<Color>(rememberMe.value?CC.mainColor:Colors.white,))),
+                      Text('자동 로그인', style: Theme.of(context).textTheme.bodyLarge,),
+                    ],
+                  ),
+                  const SizedBox(height: 10,),
                   CW.textButton('로그인',onPressed : ()=>AuthService.to.login(emailController.text, passwordController.text, rememberMe.value)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

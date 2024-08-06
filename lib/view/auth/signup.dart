@@ -47,7 +47,7 @@ class _SignupState extends State<Signup> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      RoleSelector(role: (value) => role.value = value!),//, terms: (List<dynamic> value) => terms = value),
+                      RoleSelector(role: (value) => role.value = value),
                       SmsCertification(
                           name: (value) => ownerName = value,
                           loginId: (value) => loginId = value,

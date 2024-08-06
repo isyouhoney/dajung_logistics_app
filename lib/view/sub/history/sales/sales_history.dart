@@ -36,7 +36,7 @@ class _SalesHistoryState extends State<SalesHistory> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultLayout(title: '판매 내역', isPadded:false, child: SingleChildScrollView(child: Column(children: [
+    return DefaultLayout(title: '판매 내역', child: SingleChildScrollView(child: Column(children: [
       CustomContainer(width:100.w, color: CC.backgroundColor, child: Padding(
         padding: const EdgeInsets.all(4),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

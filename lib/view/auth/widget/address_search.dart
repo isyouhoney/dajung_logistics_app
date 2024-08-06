@@ -5,11 +5,11 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class AddressSearch extends StatefulWidget {
-  AddressSearch({super.key, required this.storeName, required this.address, required this.x, required this.y});
-  late final ValueChanged<String> storeName;
-  late final ValueChanged<String> address;
-  late final ValueChanged<String> x;
-  late final ValueChanged<String> y;
+  const AddressSearch({super.key, required this.storeName, required this.address, required this.x, required this.y});
+  final ValueChanged<String> storeName;
+  final ValueChanged<String> address;
+  final ValueChanged<String> x;
+  final ValueChanged<String> y;
 
   @override
   State<AddressSearch> createState() => _AddressSearchState();
