@@ -156,6 +156,41 @@ class OrderRepository extends GetxController {
   }
 
   // SUB, DIRECT
+  Future<bool?> editOrder(DayOfWeek dayOfWeek, List<OrderItem> orderItems) async {
+    final Uri url = Uri.parse('$baseUrl/order/edit');
+    String? accessToken = await SecureStorage.get(Cached.ACCESS);
+
+    if (accessToken == null) {
+      logger.e('액세스 토큰이 없습니다.');
+      return false;
+    }
+
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $accessToken',
+      },
+      body: jsonEncode({
+          'orderSheets':[{
+        'id' : dayOfWeek.kor,
+        'dayOfTheWeek' : dayOfWeek.kor,
+        'orderItems' : orderItems
+      }]}),
+    );
+
+    var responseBody = jsonDecode(response.body);
+    var bodyStatusCode = responseBody['statusCode'];
+
+    if (bodyStatusCode == 200) {
+      return true;
+    } else {
+      logger.e('제품 등록 요청 실패: $responseBody');
+      return false;
+    }
+  }
+
+  // SUB, DIRECT
   Future<List?> getOrderHistory(DateTime startDate,DateTime endDate) async {
     String orderStartDate = DateFormat('yyyy-MM-dd').format(startDate);
     String orderEndDate = DateFormat('yyyy-MM-dd').format(endDate);

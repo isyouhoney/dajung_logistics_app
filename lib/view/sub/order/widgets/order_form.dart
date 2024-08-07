@@ -25,9 +25,11 @@ class _OrderFormState extends State<OrderForm> {
   Widget build(BuildContext context) {
     return CustomContainer(
         width: 100.w,
-        child: Column(children: [Obx(() => Column(children:
-          OrderService.to.dailyOrderList.value.map((e) => orderItemWidget(context, e)).toList())),
-          const AddItemButton(nextPage: AddOrderItem())],));
+        child: SingleChildScrollView(
+          child: Column(children: [Obx(() => Column(children:
+            OrderService.to.dailyOrderList.value.map((e) => orderItemWidget(context, e)).toList())),
+            const AddItemButton(nextPage: AddOrderItem())],),
+        ));
   }
 
   Widget orderItemWidget(BuildContext context, OrderItem orderItem) {
