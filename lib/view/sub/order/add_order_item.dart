@@ -80,6 +80,7 @@ class _AddOrderItemState extends State<AddOrderItem> {
               for (var e in itemList) {
                 if(e.itemName == ItemService.to.addItemName.value) {
                   OrderService.to.dailyOrderList.value = List.from(OrderService.to.dailyOrderList.value)..insert(OrderService.to.dailyOrderList.length,OrderItem(item: e, quantity: 0));
+                  if(OrderService.to.dailyOrderList.value != OrderService.to.initList) OrderService.to.isChanged.value = true;
                 }
               }
               Get.back();

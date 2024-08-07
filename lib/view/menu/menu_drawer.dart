@@ -1,7 +1,15 @@
+import 'package:bakery_app/models/user.dart';
+import 'package:bakery_app/utils/enums.dart';
 import 'package:bakery_app/view/auth/login.dart';
-import 'package:bakery_app/view/home.dart';
+import 'package:bakery_app/view/main/data/data_statistics.dart';
+import 'package:bakery_app/view/main/item/item_management.dart';
+import 'package:bakery_app/view/main/stock/daily_stock.dart';
 import 'package:bakery_app/view/menu/menu_items.dart';
 import 'package:bakery_app/view/menu/notice/notice_registration.dart';
+import 'package:bakery_app/view/sub/additional/additional_request.dart';
+import 'package:bakery_app/view/sub/history/order_history.dart';
+import 'package:bakery_app/view/sub/history/sales/sales_history.dart';
+import 'package:bakery_app/view/sub/order/item_order.dart';
 import 'package:bakery_app/viewmodels/auth_service.dart';
 import 'package:bakery_app/widgets/custom_widget.dart';
 import 'package:flutter/material.dart';
@@ -10,32 +18,27 @@ import 'package:get/get.dart';
 class MenuDrawer extends StatelessWidget {
   const MenuDrawer({super.key});
 
-  // final AuthController authController = Get.find<AuthController>();
-
   @override
   Widget build(BuildContext context) {
-    return
-      // Theme(
-      //   data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-      //   child:
-        Drawer(
+    User user = AuthService.to.user!;
+    return Drawer(
           child: Container(
             color: Colors.white,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                    const SizedBox(height: 60),
+                    const SizedBox(height: 80),
                     // Padding(
                     //     padding: const EdgeInsets.symmetric(
                     //         vertical: 32.0, horizontal: 30),
                     //     child: Obx(() => _nickName(authController.user))),
-                MenuItem(img: 'assets/icons/event_icon1.svg', title: '상품 관리', item: [
-                  MenuContent(text: '품목 관리',onPress: () => Get.to(() => const HomeScreen())),
-                  MenuContent(text: '당일 재고 입력', onPress: () => Get.to(const HomeScreen())),
+                MenuItem(img: 'assets/icons/event_icon1.svg', title: user.role == Role.MAIN ? '상품 관리' : '주문', item: [
+                  MenuContent(text: user.role == Role.MAIN ? '품목 관리' : '상품 주문',onPress: () => Get.to(() => user.role == Role.MAIN ? const ItemManagement() :  const ItemOrder())),
+                  MenuContent(text: user.role == Role.MAIN ? '당일 재고 입력' : '일일 요청', onPress: () => Get.to(user.role == Role.MAIN ? const DailyStock() : const AdditionalRequest())),
                 ]),
-                MenuItem(img: 'assets/icons/notice_alert.svg', title: '데이터 통계', item: [
-                  MenuContent(text: '주문 데이터 통계',onPress: () => Get.to(() => const HomeScreen())),
-                  MenuContent(text: '생산 데이터 통계',onPress: () => Get.to(() => const HomeScreen())),
+                MenuItem(img: 'assets/icons/notice_alert.svg', title: user.role == Role.MAIN ? '데이터 통계' : '내역 확인', item: [
+                  MenuContent(text: user.role == Role.MAIN ? '주문 데이터 통계' : '주문 내역',onPress: () => Get.to(() => user.role == Role.MAIN ? const DataStatistics() : const OrderHistory())),
+                  MenuContent(text: user.role == Role.MAIN ? '생산 데이터 통계' : '판매 내역',onPress: () => Get.to(() => user.role == Role.MAIN ? const DataStatistics() : const SalesHistory())),
                 ]),
                 MenuItem(img: 'assets/icons/support_client.svg', title: '고객지원', item: [
                   MenuContent(text: '공지사항',onPress: () => Get.to(() => const NoticeRegistration()))]),

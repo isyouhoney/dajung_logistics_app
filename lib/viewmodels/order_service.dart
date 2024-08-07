@@ -11,6 +11,8 @@ class OrderService extends GetxService {
   RxList<OrderItem> dailyOrderList = <OrderItem>[].obs;
   Rx<DateTime> selectDay = DateTime.now().obs;
   RxList orderReports = [].obs;
+  List initList = [];
+  RxBool isChanged = false.obs;
 
   Future<bool?> postOrders(DayOfWeek dayOfWeek, List<OrderItem> orderItems) async {
     var fetchedOrders = await orderRepository.postOrder(dayOfWeek, orderItems);
@@ -32,13 +34,13 @@ class OrderService extends GetxService {
     }
   }
 
-  Future<void> fetchTodayOrderSheets(DayOfWeek dayOfWeek) async {
+  Future<List?> fetchTodayOrderSheets(DayOfWeek dayOfWeek) async {
     dailyOrderList.value = [];
     if (orderSheets.isNotEmpty) {
       orderSheets.map((orderSheet){
         if(orderSheet.dayOfTheWeek == dayOfWeek){
           dailyOrderList.value = orderSheet.orderItems;
-          // print(dailyOrderList);
+          return dailyOrderList.value;
         }
       }).toList();
     } else {

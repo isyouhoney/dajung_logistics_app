@@ -45,6 +45,7 @@ class _OrderFormState extends State<OrderForm> {
               return oItem;
             }).toList();
             OrderService.to.dailyOrderList.value = updatedList;
+            if(orderItem.quantity != int.parse(quantity)) OrderService.to.isChanged.value = true;
           },
         ),
         subWidget: Padding(padding: const EdgeInsets.symmetric(vertical: 5),
