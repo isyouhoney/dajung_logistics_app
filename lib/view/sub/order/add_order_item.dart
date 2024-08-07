@@ -84,7 +84,6 @@ class _AddOrderItemState extends State<AddOrderItem> {
               }
               Get.back();
                   OrderService.to.isChanged.value = true;
-                  print(OrderService.to.isChanged.value);
               }, width: 38.w, height: 40)])
           ],
         );
