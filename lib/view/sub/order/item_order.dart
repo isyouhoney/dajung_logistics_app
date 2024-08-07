@@ -22,12 +22,14 @@ class _ItemOrderState extends State<ItemOrder> {
   void initState() {
     super.initState();
     getOrders();
+
   }
 
   Future getOrders() async {
+    OrderService.to.isChanged.value = false;
     OrderService.to.dailyOrderList.value = [];
     await OrderService.to.fetchOrderSheets();
-    OrderService.to.initList = await OrderService.to.fetchTodayOrderSheets(dayOfWeek) ?? [];
+    await OrderService.to.fetchTodayOrderSheets(dayOfWeek);
   }
 
   @override
@@ -38,6 +40,7 @@ class _ItemOrderState extends State<ItemOrder> {
           OrderService.to.isChanged.value ? OrderService.to.postOrders(dayOfWeek, OrderService.to.dailyOrderList.value).then((value){
             CW.dajungDialog(context, value != null ? '${dayOfWeek.kor}요일 주문서가 저장되었습니다.':'', '확인', () => Get.back(), false);
             OrderService.to.isChanged.value = false;
+            getOrders();
           }) : null;
         })),
         child: Column(children: [

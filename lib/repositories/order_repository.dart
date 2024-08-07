@@ -31,7 +31,7 @@ class OrderRepository extends GetxController {
 
     var responseBody = jsonDecode(response.body);
     var bodyStatusCode = responseBody['statusCode'];
-    print(responseBody);
+    // print(responseBody);
 
     if (bodyStatusCode == 200) {
       dynamic data = responseBody['data'];
@@ -157,7 +157,7 @@ class OrderRepository extends GetxController {
   }
 
   // SUB, DIRECT
-  Future<bool?> editOrder(DayOfWeek dayOfWeek, List<OrderItem> orderItems) async {
+  Future<bool?> editOrder(DayOfWeek dayOfWeek, List<OrderItem> orderItems, int orderSheetId) async {
     final Uri url = Uri.parse('$baseUrl/order/edit');
     String? accessToken = await SecureStorage.get(Cached.ACCESS);
 
@@ -174,7 +174,7 @@ class OrderRepository extends GetxController {
       },
       body: jsonEncode({
           'orderSheets':[{
-        'id' : dayOfWeek.kor,
+        'id' : orderSheetId,
         'dayOfTheWeek' : dayOfWeek.kor,
         'orderItems' : orderItems
       }]}),
@@ -182,6 +182,7 @@ class OrderRepository extends GetxController {
 
     var responseBody = jsonDecode(response.body);
     var bodyStatusCode = responseBody['statusCode'];
+    print(responseBody);
 
     if (bodyStatusCode == 200) {
       return true;

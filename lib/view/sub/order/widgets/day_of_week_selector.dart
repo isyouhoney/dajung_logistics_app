@@ -29,6 +29,8 @@ class _DayOfWeekSelectorState extends State<DayOfWeekSelector> {
         selector.value = value;
         widget.dayOfWeek(selector.value);
         if(widget.onChange!=null) widget.onChange!(value!);
+        OrderService.to.isChanged.value = false;
+        Get.back();
       }
 
       return CW.textButton(value.kor, width: 12.w, height: 12.w,
@@ -39,9 +41,7 @@ class _DayOfWeekSelectorState extends State<DayOfWeekSelector> {
             if(!OrderService.to.isChanged.value){
               onPressedDayOfWeek();
             } else {
-              CW.dajungDialog(context, '변경사항이 저장되지 않았습니다.\n다른 요일로 이동하시겠습니까?', '네', ()=>Get.back(), true);
-              onPressedDayOfWeek();
-              OrderService.to.isChanged.value = false;
+              CW.dajungDialog(context, '변경사항이 저장되지 않았습니다.\n다른 요일로 이동하시겠습니까?', '네', ()=>onPressedDayOfWeek(), true);
             }
           }
       );}).toList()

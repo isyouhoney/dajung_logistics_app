@@ -33,7 +33,7 @@ class ItemRepository extends GetxController {
       data.map((item) => itemList.add(Item.fromJson(item))).toList();
       return itemList;
     } else {
-      logger.e('제품 리스트 조회 요청 실패: ${response.statusCode}');
+      logger.e('제품 리스트 조회 요청 실패: $responseBody');
     }
   }
 
@@ -65,7 +65,7 @@ class ItemRepository extends GetxController {
         }).toList();
         return itemList;
       } else {
-        logger.e('카테고리 조회 요청 실패: ${response.statusCode}');
+        logger.e('카테고리 조회 요청 실패: $responseBody');
       }
     }
 
@@ -105,7 +105,7 @@ class ItemRepository extends GetxController {
     if (bodyStatusCode == 200) {
       return true;
     } else {
-      logger.e('제품 등록 요청 실패: ${response.statusCode}');
+      logger.e('제품 등록 요청 실패: $responseBody');
       return false;
     }
   }

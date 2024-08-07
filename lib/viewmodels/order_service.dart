@@ -13,10 +13,19 @@ class OrderService extends GetxService {
   RxList orderReports = [].obs;
   List initList = [];
   RxBool isChanged = false.obs;
+  int orderSheetId=-1;
 
   Future<bool?> postOrders(DayOfWeek dayOfWeek, List<OrderItem> orderItems) async {
-    var fetchedOrders = await orderRepository.postOrder(dayOfWeek, orderItems);
+    bool? fetchedOrders;
+    if(initList.isEmpty){
+      print('post');
+      fetchedOrders = await orderRepository.postOrder(dayOfWeek, orderItems);
+    } else {
+      print('orderSheetId : $orderSheetId');
+      fetchedOrders = await orderRepository.editOrder(dayOfWeek, orderItems, orderSheetId);
+    }
     if (fetchedOrders != null){
+
       return true;
     } else {
       print('주문서 저장에 실패했습니다.');
@@ -25,6 +34,7 @@ class OrderService extends GetxService {
 
   Future<void> fetchOrderSheets() async {
     orderSheets = [];
+    orderSheetId=-1;
     var fetchedOrderSheets = await orderRepository.getOrderSheets();
     if (fetchedOrderSheets != null){
       orderSheets = fetchedOrderSheets;
@@ -33,15 +43,16 @@ class OrderService extends GetxService {
     }
   }
 
-  Future<List?> fetchTodayOrderSheets(DayOfWeek dayOfWeek) async {
+  Future<void> fetchTodayOrderSheets(DayOfWeek dayOfWeek) async {
     dailyOrderList.value = [];
     if (orderSheets.isNotEmpty) {
-      orderSheets.map((orderSheet){
+      orderSheets.forEach((orderSheet){
         if(orderSheet.dayOfTheWeek == dayOfWeek){
+          orderSheetId = orderSheet.id!;
           dailyOrderList.value = orderSheet.orderItems;
-          return dailyOrderList.value;
+          initList = orderSheet.orderItems;
         }
-      }).toList();
+      });
     } else {
       print('일일 주문서을 불러오는데 실패했습니다.');
     }
