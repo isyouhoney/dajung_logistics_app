@@ -50,15 +50,15 @@ class AuthService extends GetxService {
     }
   }
   Future login(String loginId, String password, bool? rememberMe) async {
-    User? user = await authRepository.postLoginData(loginId, password);
-    if (user != null) {
+    dynamic user = await authRepository.postLoginData(loginId, password);
+    if (user.runtimeType == User) {
       _user.value = user;
       isLoggedIn.value = true;
       await SecureStorage.set(Cached.SIGNIN, 'true');
       Get.snackbar('${user.ownerName}님, 반갑습니다!','오늘도 좋은 하루 보내세요.');
       Get.offAllNamed('/');
     } else {
-      Get.snackbar('로그인 실패', '로그인 과정에서 문제가 발생했습니다. 다시 시도해주세요.');
+      return user;
     }
   }
 

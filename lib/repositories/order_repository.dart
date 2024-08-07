@@ -31,6 +31,7 @@ class OrderRepository extends GetxController {
 
     var responseBody = jsonDecode(response.body);
     var bodyStatusCode = responseBody['statusCode'];
+    print(responseBody);
 
     if (bodyStatusCode == 200) {
       dynamic data = responseBody['data'];
@@ -43,7 +44,7 @@ class OrderRepository extends GetxController {
           orderSheet['orderItems'].forEach((orderItem){
             orderItemList.add(OrderItem(item:Item.fromJson(orderItem['item']), quantity: orderItem['quantity']));
           });
-          orderSheets.add(OrderSheet(dayOfTheWeek: DayOfWeek.fromKor(dayOfTheWeek)!, orderItems: orderItemList));
+          orderSheets.add(OrderSheet(dayOfTheWeek: DayOfWeek.fromKor(dayOfTheWeek)!, orderItems: orderItemList, id: orderSheet['id']));
           orderItemList=[];
         });
       }

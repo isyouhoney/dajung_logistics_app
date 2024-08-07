@@ -10,11 +10,11 @@ part 'order_sheet.g.dart';
 class OrderSheet with _$OrderSheet {
   const OrderSheet._();
   factory OrderSheet({
+    int? id,
     required DayOfWeek dayOfTheWeek,
     bool? activated,
     User? orderer,
     required List<OrderItem> orderItems,
-    String? orders,
 }) = _OrderSheet;
 
   factory OrderSheet.fromJson(Map<String, dynamic> json) =>

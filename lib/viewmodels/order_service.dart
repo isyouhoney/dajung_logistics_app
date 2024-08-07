@@ -28,7 +28,6 @@ class OrderService extends GetxService {
     var fetchedOrderSheets = await orderRepository.getOrderSheets();
     if (fetchedOrderSheets != null){
       orderSheets = fetchedOrderSheets;
-      // print(orderSheets);
     } else {
       print('주간 주문서을 불러오는데 실패했습니다.');
     }

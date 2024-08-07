@@ -178,7 +178,7 @@ class AuthRepository extends GetxController{
   }
 
   // 로그인
-  Future<User?> postLoginData(String loginId, String password) async {
+  Future<dynamic> postLoginData(String loginId, String password) async {
     final Uri url = Uri.parse('$baseUrl/user/login');
     final fcmToken = await FirebaseMessaging.instance.getToken();
     final response = await http.post(
