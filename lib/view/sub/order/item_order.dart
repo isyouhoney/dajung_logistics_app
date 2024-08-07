@@ -42,7 +42,7 @@ class _ItemOrderState extends State<ItemOrder> {
         })),
         child: Column(children: [
             DayOfWeekSelector(dayOfWeek: (value) => dayOfWeek = value,
-                onChange: (value) => OrderService.to.fetchTodayOrderSheets(dayOfWeek)),
+                onChange: (value) => getOrders()),
             const OrderForm()
         ],
         ),
