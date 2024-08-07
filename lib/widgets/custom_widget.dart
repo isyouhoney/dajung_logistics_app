@@ -106,7 +106,7 @@ class CW {
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(16))),
           actionsPadding: const EdgeInsets.fromLTRB(15, 0, 15, 15),
-          title: Center(child: Text(title, style: Theme.of(ctx).textTheme.titleSmall), ),
+          title: Center(child: Text(title, style: Theme.of(ctx).textTheme.headlineMedium), ),
           // content: content.runtimeType == String?Text(content):content,
           actions: [
             Row(

@@ -49,15 +49,17 @@ class AuthService extends GetxService {
       Get.snackbar('회원가입 실패', '회원가입 과정에서 문제가 발생했습니다. 다시 시도해주세요.');
     }
   }
-  Future login(String loginId, String password, bool? rememberMe) async {
+  Future login(BuildContext context, String loginId, String password, bool? rememberMe) async {
     dynamic user = await authRepository.postLoginData(loginId, password);
-    if (user.runtimeType == User) {
+    print(user.runtimeType);
+    if (user.runtimeType != String) {
       _user.value = user;
       isLoggedIn.value = true;
       await SecureStorage.set(Cached.SIGNIN, 'true');
       Get.snackbar('${user.ownerName}님, 반갑습니다!','오늘도 좋은 하루 보내세요.');
       Get.offAllNamed('/');
     } else {
+      CW.dajungDialog(context,'다음 사유로 로그인에 실패하였습니다.\n: $user', '확인',() => Get.back(), false);
       return user;
     }
   }

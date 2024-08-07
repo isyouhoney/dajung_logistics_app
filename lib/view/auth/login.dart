@@ -44,9 +44,7 @@ class Login extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 10,),
-                  CW.textButton('로그인',onPressed : ()=>AuthService.to.login(emailController.text, passwordController.text, rememberMe.value).then((value){
-                    if(value.runtimeType == String) CW.dajungDialog(context,'다음과 같은 이유로 로그인에 실패하였습니다.\n: $value', '확인',() => Get.back(), false);
-                  })),
+                  CW.textButton('로그인',onPressed : ()=>AuthService.to.login(context,emailController.text, passwordController.text, rememberMe.value)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
