@@ -4,17 +4,16 @@ part 'notification.freezed.dart';
 part 'notification.g.dart';
 
 @freezed
-class notification with _$notification {
-  const notification._();
-  factory notification({
+class Notification with _$Notification {
+  const Notification._();
+  factory Notification({
     required String title,
     required String content,
     required String images,
-    required String topFixed,
-    required String targets,
-    required String writer,
-}) = _notification;
+    required bool topFixed,
+    required List targets,
+}) = _Notification;
 
-  factory notification.fromJson(Map<String, dynamic> json) =>
-      _$notificationFromJson(json);
+  factory Notification.fromJson(Map<String, dynamic> json) =>
+      _$NotificationFromJson(json);
 }

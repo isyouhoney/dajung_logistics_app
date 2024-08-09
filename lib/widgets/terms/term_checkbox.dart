@@ -2,6 +2,7 @@ import 'package:bakery_app/models/term.dart';
 import 'package:bakery_app/utils/themeData.dart';
 import 'package:bakery_app/widgets/terms/term_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -32,10 +33,12 @@ class _TermCheckBoxState extends State<TermCheckBox> {
             isScrollControlled: true,
             builder: (context) {
               return Container(
-                  height: 50.h,
-                  width: MediaQuery.of(context).size.width,
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(widget.term!.content)
+                    height: 50.h,
+                    width: MediaQuery.of(context).size.width,
+                    padding: const EdgeInsets.all(16.0),
+                    child: SingleChildScrollView(
+                        child: Markdown(data: widget.term!.content, shrinkWrap: true,physics: const NeverScrollableScrollPhysics())
+                ),
               );
             },
           );

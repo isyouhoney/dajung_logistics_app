@@ -110,3 +110,21 @@ enum DayOfWeek {
     return null;
   }
 }
+
+enum DeliveryStatus{
+  delivering('배송 전'),
+  complete('배송 완료'),
+  checked('배송 확인 완료');
+
+  final String kor;
+  const DeliveryStatus(this.kor);
+
+  static DeliveryStatus? fromKor(String kor) {
+    for (DeliveryStatus status in DeliveryStatus.values) {
+      if (status.kor == kor) {
+        return status;
+      }
+    }
+    return null;
+  }
+}

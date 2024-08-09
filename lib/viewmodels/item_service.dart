@@ -36,4 +36,13 @@ class ItemService extends GetxService {
       print('제품 추가를 실패했습니다.');
     }
   }
+
+  Future<bool?> editItem(int id) async {
+    var addItem = await itemRepository.editItem(id);
+    if (addItem != null){
+      return true;
+    } else {
+      print('제품 추가를 실패했습니다.');
+    }
+  }
 }

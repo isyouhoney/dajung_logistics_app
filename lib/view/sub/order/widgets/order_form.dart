@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bakery_app/models/order_item.dart';
 import 'package:bakery_app/utils/themeData.dart';
 import 'package:bakery_app/view/main/item/item_detail.dart';
@@ -23,13 +25,19 @@ class _OrderFormState extends State<OrderForm> {
 
   @override
   Widget build(BuildContext context) {
+  final padding = WidgetsBinding.instance.window.padding;
+  // final padding = MediaQuery.of(context).padding;
+  final isios = 100.h-(padding.top+padding.bottom+30);
+  final isandroid = 100.h-(AppBar().preferredSize.height+padding.top+30+12.w);
+    print(padding.top);
+    print(padding.bottom);
+    print(AppBar().preferredSize.height);
     return CustomContainer(
         width: 100.w,
-        height: 69.h,
-        child: Column(children: [Obx(() => SingleChildScrollView(
-    child: Column(children:
-              OrderService.to.dailyOrderList.value.map((e) => orderItemWidget(context, e)).toList()))),
-              const AddItemButton(nextPage: AddOrderItem())],
+        height: Platform.isAndroid ? isandroid : isios,
+        child: SingleChildScrollView(child: Column(children: [Obx(() => Column(children:
+              OrderService.to.dailyOrderList.value.map((e) => orderItemWidget(context, e)).toList())),
+              const AddItemButton(nextPage: AddOrderItem())],)
           ),
         );
   }
@@ -49,15 +57,25 @@ class _OrderFormState extends State<OrderForm> {
               return oItem;
             }).toList();
             OrderService.to.dailyOrderList.value = updatedList;
-            for (int i=0; i < OrderService.to.dailyOrderList.length ;i++) {
-              if (OrderService.to.dailyOrderList.value[i].item.itemName == OrderService.to.initList[i].item.itemName){
-                if(OrderService.to.dailyOrderList.value[i].quantity == OrderService.to.initList[i].quantity){
-                  OrderService.to.isChanged.value = false;
-                } else {
-                  OrderService.to.isChanged.value = true;
+
+            if (OrderService.to.initList.length != OrderService.to.dailyOrderList.length) {
+              OrderService.to.isChanged.value = true;
+            } else {
+              bool isChanged = false;
+
+              for (int i = 0; i < OrderService.to.initList.length; i++) {
+                if (OrderService.to.dailyOrderList[i].item.itemName == OrderService.to.initList[i].item.itemName) {
+                  if (OrderService.to.dailyOrderList[i].quantity != OrderService.to.initList[i].quantity) {
+                    isChanged = true;
+                    break;
+                  }
                 }
               }
+
+              OrderService.to.isChanged.value = isChanged;
             }
+
+
           },
         ),
         subWidget: Padding(padding: const EdgeInsets.symmetric(vertical: 5),

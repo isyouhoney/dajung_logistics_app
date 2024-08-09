@@ -7,6 +7,7 @@ import 'package:bakery_app/view/main/stock/daily_stock.dart';
 import 'package:bakery_app/view/menu/menu_items.dart';
 import 'package:bakery_app/view/menu/notice/notice_registration.dart';
 import 'package:bakery_app/view/sub/additional/additional_request.dart';
+import 'package:bakery_app/view/sub/deliverHistory/delivery_history.dart';
 import 'package:bakery_app/view/sub/history/order_history.dart';
 import 'package:bakery_app/view/sub/history/sales/sales_history.dart';
 import 'package:bakery_app/view/sub/order/item_order.dart';
@@ -34,11 +35,12 @@ class MenuDrawer extends StatelessWidget {
                     //     child: Obx(() => _nickName(authController.user))),
                 MenuItem(img: 'assets/icons/event_icon1.svg', title: user.role == Role.MAIN ? '상품 관리' : '주문', item: [
                   MenuContent(text: user.role == Role.MAIN ? '품목 관리' : '상품 주문',onPress: () => Get.to(() => user.role == Role.MAIN ? const ItemManagement() :  const ItemOrder())),
-                  MenuContent(text: user.role == Role.MAIN ? '당일 재고 입력' : '일일 요청', onPress: () => Get.to(user.role == Role.MAIN ? const DailyStock() : const AdditionalRequest())),
+                  MenuContent(text: user.role == Role.MAIN ? '당일 재고 입력' : '추가 요청', onPress: () => Get.to(user.role == Role.MAIN ? const DailyStock() : const AdditionalRequest())),
                 ]),
                 MenuItem(img: 'assets/icons/notice_alert.svg', title: user.role == Role.MAIN ? '데이터 통계' : '내역 확인', item: [
                   MenuContent(text: user.role == Role.MAIN ? '주문 데이터 통계' : '주문 내역',onPress: () => Get.to(() => user.role == Role.MAIN ? const DataStatistics() : const OrderHistory())),
                   MenuContent(text: user.role == Role.MAIN ? '생산 데이터 통계' : '판매 내역',onPress: () => Get.to(() => user.role == Role.MAIN ? const DataStatistics() : const SalesHistory())),
+                  user.role == Role.SUB ? MenuContent(text: '배송 내역',onPress: () => Get.to(() => const DeliveryHistory())): const SizedBox(),
                 ]),
                 MenuItem(img: 'assets/icons/support_client.svg', title: '고객지원', item: [
                   MenuContent(text: '공지사항',onPress: () => Get.to(() => const NoticeRegistration()))]),

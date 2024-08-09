@@ -6,22 +6,20 @@ part of 'notification.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$notificationImpl _$$notificationImplFromJson(Map<String, dynamic> json) =>
-    _$notificationImpl(
+_$NotificationImpl _$$NotificationImplFromJson(Map<String, dynamic> json) =>
+    _$NotificationImpl(
       title: json['title'] as String,
       content: json['content'] as String,
       images: json['images'] as String,
-      topFixed: json['topFixed'] as String,
-      targets: json['targets'] as String,
-      writer: json['writer'] as String,
+      topFixed: json['topFixed'] as bool,
+      targets: json['targets'] as List<dynamic>,
     );
 
-Map<String, dynamic> _$$notificationImplToJson(_$notificationImpl instance) =>
+Map<String, dynamic> _$$NotificationImplToJson(_$NotificationImpl instance) =>
     <String, dynamic>{
       'title': instance.title,
       'content': instance.content,
       'images': instance.images,
       'topFixed': instance.topFixed,
       'targets': instance.targets,
-      'writer': instance.writer,
     };

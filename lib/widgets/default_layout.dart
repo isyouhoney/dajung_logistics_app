@@ -19,9 +19,11 @@ class _DefaultLayoutState extends State<DefaultLayout> {
     return Scaffold(
         appBar: AppBar(title: widget.title.runtimeType == String?Text(widget.title):widget.title,),
     drawer: const MenuDrawer(),
-    body: Padding(
-    padding: EdgeInsets.symmetric(horizontal: widget.isPadded?10:0),
-    child: widget.child),
+    body: SafeArea(
+      child: Padding(
+      padding: EdgeInsets.symmetric(horizontal: widget.isPadded?10:0),
+      child: widget.child),
+    ),
         bottomNavigationBar: BottomAppBar(
             elevation: 0,
             child: Padding(

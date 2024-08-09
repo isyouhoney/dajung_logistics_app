@@ -31,45 +31,48 @@ class _AddressSearchState extends State<AddressSearch> {
   }
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(children: [
-                const Icon(Icons.location_on),
-                const SizedBox(width: 10),
-                GestureDetector(
-                  child: CustomTextField(
-                    onChanged: (value){
-                      SearchPlaceService.to.searchPlace(value.trim());
-                    },
-                    hintText: '주소 또는 상호명 검색',
-                    validator: (val) {
-                      return null;
-                    },
-                    controller: addressController,
-                    width: 100.w-55),
-                )
-          ],
-        ),
-        Obx(()=>ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: SearchPlaceService.to.searchResults.length,
-          itemBuilder: (context, index) {
-            var result = SearchPlaceService.to.searchResults[index];
-            return ListTile(
-              title: Text(result['place_name']),
-              subtitle: Text(result['address_name']),
-              onTap: () {
-                addressController.text = result['place_name'];
-                widget.storeName(result['place_name']);
-                widget.address(result['address_name']);
-                widget.x(result['x']);
-                widget.y(result['y']);
-              },
-            );
-          },
-        ))
-      ],
+    return SizedBox(
+      height: 75.h,
+      child: Column(
+        children: [
+          Row(children: [
+                  const Icon(Icons.location_on),
+                  const SizedBox(width: 10),
+                  GestureDetector(
+                    child: CustomTextField(
+                      onChanged: (value){
+                        SearchPlaceService.to.searchPlace(value.trim());
+                      },
+                      hintText: '주소 또는 상호명 검색',
+                      validator: (val) {
+                        return null;
+                      },
+                      controller: addressController,
+                      width: 100.w-55),
+                  )
+            ],
+          ),
+          Obx(()=>ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: SearchPlaceService.to.searchResults.length,
+            itemBuilder: (context, index) {
+              var result = SearchPlaceService.to.searchResults[index];
+              return ListTile(
+                title: Text(result['place_name']),
+                subtitle: Text(result['address_name']),
+                onTap: () {
+                  addressController.text = result['place_name'];
+                  widget.storeName(result['place_name']);
+                  widget.address(result['address_name']);
+                  widget.x(result['x']);
+                  widget.y(result['y']);
+                },
+              );
+            },
+          ))
+        ],
+      ),
     );
   }
 }
