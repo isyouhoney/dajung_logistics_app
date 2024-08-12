@@ -122,27 +122,48 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                             child: Center(child: Text(user.role == Role.MAIN ? '일일 생산 등록' : '수시 요청', style: Theme.of(context).textTheme.titleMedium)))),
                   ],
                 )),
-            HomeSection(
+            user.role == Role.SUB ? HomeSection(
               title: '데이터 확인',
               child: Row(mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                      onTap: () => Get.to(() =>  user.role == Role.MAIN ? const DataStatistics() : const OrderHistory()),
+                      onTap: () => Get.to(() => const OrderHistory()),
                       child: CustomContainer(
                         width: 40.w,
                         height: 70,
-                        child: Center(child: Text(user.role == Role.MAIN ? '주문 데이터' : '주문 내역', style: Theme.of(context).textTheme.titleMedium)),
+                        child: Center(child: Text('주문 내역', style: Theme.of(context).textTheme.titleMedium)),
                       )),
                   GestureDetector(
-                      onTap: () => Get.to(() =>  user.role == Role.MAIN ? const DataStatistics() : const SalesHistory()),
+                      onTap: () => Get.to(() => const SalesHistory()),
                       child: CustomContainer(
                         width: 40.w,
                         height: 70,
-                        child: Center(child: Text(user.role == Role.MAIN ? '생산 데이터' : '판매 내역', style: Theme.of(context).textTheme.titleMedium)),
+                        child: Center(child: Text('판매 내역', style: Theme.of(context).textTheme.titleMedium)),
                       )),
                 ],
               ),
-            ),
+            ):const SizedBox(),
+            // HomeSection(
+            //   title: '데이터 확인',
+            //   child: Row(mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       GestureDetector(
+            //           onTap: () => Get.to(() =>  user.role == Role.MAIN ? const DataStatistics() : const OrderHistory()),
+            //           child: CustomContainer(
+            //             width: 40.w,
+            //             height: 70,
+            //             child: Center(child: Text(user.role == Role.MAIN ? '주문 데이터' : '주문 내역', style: Theme.of(context).textTheme.titleMedium)),
+            //           )),
+            //       GestureDetector(
+            //           onTap: () => Get.to(() =>  user.role == Role.MAIN ? const DataStatistics() : const SalesHistory()),
+            //           child: CustomContainer(
+            //             width: 40.w,
+            //             height: 70,
+            //             child: Center(child: Text(user.role == Role.MAIN ? '생산 데이터' : '판매 내역', style: Theme.of(context).textTheme.titleMedium)),
+            //           )),
+            //     ],
+            //   ),
+            // ),
             Obx(() => HomeSection(title: '공지사항', child: NoticeService.to.noticeList.isNotEmpty
                 ? Column(children: NoticeService.to.noticeList.map((notice) => NoticeItem(notice: notice)).toList())
                 : const Center(child: Text('등록된 공지사항이 없습니다.', style:TextStyle(color: Colors.grey))), seeMore: () => Get.to(() => const NoticeScreen())),

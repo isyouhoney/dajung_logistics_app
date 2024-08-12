@@ -1,10 +1,11 @@
+import 'dart:io';
+
 import 'package:bakery_app/models/notice.dart';
 import 'package:bakery_app/repositories/s3_repository.dart';
 import 'package:bakery_app/utils/themeData.dart';
 import 'package:bakery_app/viewmodels/notice_service.dart';
 import 'package:bakery_app/widgets/custom_textfield.dart';
 import 'package:bakery_app/widgets/custom_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -22,10 +23,8 @@ class _NoticeRegistrationState extends State<NoticeRegistration> {
   RxBool sub = false.obs;
   late TextEditingController titleController;
   late TextEditingController contentController;
-  RxList<XFile>? image = <XFile>[].obs;
-
-  XFile? _image;
-  final ImagePicker picker = ImagePicker();
+  List<XFile>? imageList = [];
+  RxList<String>? imagePathList = <String>[].obs;
 
   @override
   void initState() {
@@ -41,10 +40,18 @@ class _NoticeRegistrationState extends State<NoticeRegistration> {
     contentController.dispose();
   }
 
-  Future postItem() async{
-    await S3Repository.to.getPresignedUrl();
-    await NoticeService.to.postNotices(Notice(title: titleController.text, content: contentController.text, topFixed: false));
+  Future<bool?> postNotice() async {
+    if (imageList != null) {
+      await Future.wait(imageList!.map((image) async => await S3Repository.to.getPresignedUrl(image)).toList());
+    }
+    print(S3Repository.to.objectUrl);
+    bool? status = await NoticeService.to.postNotices(
+      Notice(title: titleController.text, content: contentController.text, topFixed: false, images: S3Repository.to.objectUrl,),
+    );
+
+    return status;
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +60,7 @@ class _NoticeRegistrationState extends State<NoticeRegistration> {
         title: const Text('공지사항 작성'),
         leading: IconButton(icon: const Icon(Icons.arrow_back_ios_new), onPressed: () => CW.customDialog(context, '주의','이탈 시 작성중인 내용이 저장되지 않습니다.\n뒤로 이동하시겠습니까?',() {Get.back(); Get.back();},false)),
         actions: [
-          TextButton(onPressed: () => NoticeService.to.postNotices(Notice(title: titleController.text, content: contentController.text, topFixed: false)).then((value){
+          TextButton(onPressed: () => postNotice().then((value){
             value == true ? CW.customDialog(context, '작성 완료','공지사항이 등록되었습니다.',() {Get.back(); Get.back(); NoticeService.to.fetchNotices(0, 10);},false)
                 :CW.customDialog(context, '공지사항 등록 실패','다시 한번 시도해주세요.',() => Get.back(),false);
     }), child: const Text('등록'))
@@ -85,10 +92,6 @@ Widget typeCheckBox(RxBool val, String type){
   return Row(children: [
     Checkbox(
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      // visualDensity: const VisualDensity(
-      //   horizontal: VisualDensity.minimumDensity,
-      //   vertical: VisualDensity.minimumDensity,
-      // ),
       value: val.value, onChanged: (value){val.value = value!;}, activeColor: CC.mainColor, side: const BorderSide(width: 0.5),),
     Text(type),
     const SizedBox(width: 10,)
@@ -96,9 +99,9 @@ Widget typeCheckBox(RxBool val, String type){
 }
 
 Widget imageTile(){
-    return GridView.builder(
+    return Obx(()=>GridView.builder(
       shrinkWrap: true,
-      itemCount: 5,
+      itemCount: imagePathList!.length < 5 ?imagePathList!.length +1 : imagePathList!.length,
       gridDelegate:const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3, //1 개의 행에 보여줄 item 개수
         childAspectRatio: 1 / 1, //item 의 가로 1, 세로 1 의 비율
@@ -114,9 +117,15 @@ Widget imageTile(){
               color: Colors.grey.shade400,
             ),
           ),
-          child: Center(child: IconButton(onPressed: () => S3Repository.to.getImage(ImageSource.gallery), icon: const Icon(Icons.add, color: Colors.grey,),),),
+          child: index < imagePathList!.length ? Image.file(File(imagePathList!.value[index])) :
+          Center(child: IconButton(onPressed: () async => await S3Repository.to.getImage(ImageSource.gallery).then((image) {
+            imageList?.add(image);
+            imagePathList?.add(image.path);
+            print(imageList);
+          }),
+              icon: const Icon(Icons.add, color: Colors.grey))),
         );
       },
-    );
+    ));
 }
 }

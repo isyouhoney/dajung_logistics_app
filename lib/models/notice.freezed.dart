@@ -22,8 +22,9 @@ Notice _$NoticeFromJson(Map<String, dynamic> json) {
 mixin _$Notice {
   String get title => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
+  int? get id => throw _privateConstructorUsedError;
   String? get updatedAt => throw _privateConstructorUsedError;
-  String? get images => throw _privateConstructorUsedError;
+  List<String>? get images => throw _privateConstructorUsedError;
   bool get topFixed => throw _privateConstructorUsedError;
   List<dynamic>? get targets => throw _privateConstructorUsedError;
   User? get writer => throw _privateConstructorUsedError;
@@ -41,8 +42,9 @@ abstract class $NoticeCopyWith<$Res> {
   $Res call(
       {String title,
       String content,
+      int? id,
       String? updatedAt,
-      String? images,
+      List<String>? images,
       bool topFixed,
       List<dynamic>? targets,
       User? writer});
@@ -65,6 +67,7 @@ class _$NoticeCopyWithImpl<$Res, $Val extends Notice>
   $Res call({
     Object? title = null,
     Object? content = null,
+    Object? id = freezed,
     Object? updatedAt = freezed,
     Object? images = freezed,
     Object? topFixed = null,
@@ -80,6 +83,10 @@ class _$NoticeCopyWithImpl<$Res, $Val extends Notice>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
@@ -87,7 +94,7 @@ class _$NoticeCopyWithImpl<$Res, $Val extends Notice>
       images: freezed == images
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as List<String>?,
       topFixed: null == topFixed
           ? _value.topFixed
           : topFixed // ignore: cast_nullable_to_non_nullable
@@ -126,8 +133,9 @@ abstract class _$$NoticeImplCopyWith<$Res> implements $NoticeCopyWith<$Res> {
   $Res call(
       {String title,
       String content,
+      int? id,
       String? updatedAt,
-      String? images,
+      List<String>? images,
       bool topFixed,
       List<dynamic>? targets,
       User? writer});
@@ -149,6 +157,7 @@ class __$$NoticeImplCopyWithImpl<$Res>
   $Res call({
     Object? title = null,
     Object? content = null,
+    Object? id = freezed,
     Object? updatedAt = freezed,
     Object? images = freezed,
     Object? topFixed = null,
@@ -164,14 +173,18 @@ class __$$NoticeImplCopyWithImpl<$Res>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as String?,
       images: freezed == images
-          ? _value.images
+          ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as List<String>?,
       topFixed: null == topFixed
           ? _value.topFixed
           : topFixed // ignore: cast_nullable_to_non_nullable
@@ -194,12 +207,14 @@ class _$NoticeImpl extends _Notice {
   _$NoticeImpl(
       {required this.title,
       required this.content,
+      this.id,
       this.updatedAt,
-      this.images,
+      final List<String>? images,
       required this.topFixed,
       final List<dynamic>? targets,
       this.writer})
-      : _targets = targets,
+      : _images = images,
+        _targets = targets,
         super._();
 
   factory _$NoticeImpl.fromJson(Map<String, dynamic> json) =>
@@ -210,9 +225,19 @@ class _$NoticeImpl extends _Notice {
   @override
   final String content;
   @override
-  final String? updatedAt;
+  final int? id;
   @override
-  final String? images;
+  final String? updatedAt;
+  final List<String>? _images;
+  @override
+  List<String>? get images {
+    final value = _images;
+    if (value == null) return null;
+    if (_images is EqualUnmodifiableListView) return _images;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final bool topFixed;
   final List<dynamic>? _targets;
@@ -230,7 +255,7 @@ class _$NoticeImpl extends _Notice {
 
   @override
   String toString() {
-    return 'Notice(title: $title, content: $content, updatedAt: $updatedAt, images: $images, topFixed: $topFixed, targets: $targets, writer: $writer)';
+    return 'Notice(title: $title, content: $content, id: $id, updatedAt: $updatedAt, images: $images, topFixed: $topFixed, targets: $targets, writer: $writer)';
   }
 
   @override
@@ -240,9 +265,10 @@ class _$NoticeImpl extends _Notice {
             other is _$NoticeImpl &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.content, content) || other.content == content) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
-            (identical(other.images, images) || other.images == images) &&
+            const DeepCollectionEquality().equals(other._images, _images) &&
             (identical(other.topFixed, topFixed) ||
                 other.topFixed == topFixed) &&
             const DeepCollectionEquality().equals(other._targets, _targets) &&
@@ -251,8 +277,16 @@ class _$NoticeImpl extends _Notice {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, title, content, updatedAt,
-      images, topFixed, const DeepCollectionEquality().hash(_targets), writer);
+  int get hashCode => Object.hash(
+      runtimeType,
+      title,
+      content,
+      id,
+      updatedAt,
+      const DeepCollectionEquality().hash(_images),
+      topFixed,
+      const DeepCollectionEquality().hash(_targets),
+      writer);
 
   @JsonKey(ignore: true)
   @override
@@ -272,8 +306,9 @@ abstract class _Notice extends Notice {
   factory _Notice(
       {required final String title,
       required final String content,
+      final int? id,
       final String? updatedAt,
-      final String? images,
+      final List<String>? images,
       required final bool topFixed,
       final List<dynamic>? targets,
       final User? writer}) = _$NoticeImpl;
@@ -286,9 +321,11 @@ abstract class _Notice extends Notice {
   @override
   String get content;
   @override
+  int? get id;
+  @override
   String? get updatedAt;
   @override
-  String? get images;
+  List<String>? get images;
   @override
   bool get topFixed;
   @override

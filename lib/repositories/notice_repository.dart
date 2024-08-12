@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'package:bakery_app/models/item.dart';
-import 'package:bakery_app/models/item_category.dart';
 import 'package:bakery_app/models/notice.dart';
 import 'package:bakery_app/utils/configs.dart';
 import 'package:bakery_app/utils/secure_storage.dart';
@@ -56,7 +54,7 @@ class NoticeRepository extends GetxController {
       body: jsonEncode({
         'title': notice.title,
         'content': notice.content,
-        'image': notice.images,
+        'images': notice.images,
         'topFixed': notice.topFixed,
         'targets': [
           {"target": "마스터"},
@@ -69,6 +67,7 @@ class NoticeRepository extends GetxController {
 
     var responseBody = jsonDecode(response.body);
     var bodyStatusCode = responseBody['statusCode'];
+    print(responseBody);
 
     if (bodyStatusCode == 200) {
       // Map data = responseBody['data'];
@@ -97,7 +96,7 @@ class NoticeRepository extends GetxController {
       body: jsonEncode({
         'title': notice.title,
         'content': notice.content,
-        'image': notice.images,
+        'images': notice.images,
         'topFixed': notice.topFixed,
         'targets': [
           {"target": "마스터"},

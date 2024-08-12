@@ -38,11 +38,16 @@ class MenuDrawer extends StatelessWidget {
                   MenuContent(text: user.role == Role.MAIN ? '품목 관리' : '상품 주문',onPress: () => Get.to(() => user.role == Role.MAIN ? const ItemManagement() :  const ItemOrder())),
                   MenuContent(text: user.role == Role.MAIN ? '당일 재고 입력' : '추가 요청', onPress: () => Get.to(user.role == Role.MAIN ? const DailyStock() : const AdditionalRequest())),
                 ]),
-                MenuItem(img: 'assets/icons/notice_alert.svg', title: user.role == Role.MAIN ? '데이터 통계' : '내역 확인', item: [
-                  MenuContent(text: user.role == Role.MAIN ? '주문 데이터 통계' : '주문 내역',onPress: () => Get.to(() => user.role == Role.MAIN ? const DataStatistics() : const OrderHistory())),
-                  MenuContent(text: user.role == Role.MAIN ? '생산 데이터 통계' : '판매 내역',onPress: () => Get.to(() => user.role == Role.MAIN ? const DataStatistics() : const SalesHistory())),
-                  user.role == Role.SUB ? MenuContent(text: '배송 내역',onPress: () => Get.to(() => const DeliveryHistory())): const SizedBox(),
-                ]),
+                user.role == Role.SUB ? MenuItem(img: 'assets/icons/notice_alert.svg', title: user.role == Role.MAIN ? '데이터 통계' : '내역 확인', item: [
+                  MenuContent(text:'주문 내역',onPress: () => Get.to(() => const OrderHistory())),
+                  MenuContent(text:'판매 내역',onPress: () => Get.to(() => const SalesHistory())),
+                  MenuContent(text: '배송 내역',onPress: () => Get.to(() => const DeliveryHistory()))
+                ]): const SizedBox(),
+                // MenuItem(img: 'assets/icons/notice_alert.svg', title: user.role == Role.MAIN ? '데이터 통계' : '내역 확인', item: [
+                //   MenuContent(text: user.role == Role.MAIN ? '주문 데이터 통계' : '주문 내역',onPress: () => Get.to(() => user.role == Role.MAIN ? const DataStatistics() : const OrderHistory())),
+                //   MenuContent(text: user.role == Role.MAIN ? '생산 데이터 통계' : '판매 내역',onPress: () => Get.to(() => user.role == Role.MAIN ? const DataStatistics() : const SalesHistory())),
+                //   user.role == Role.SUB ? MenuContent(text: '배송 내역',onPress: () => Get.to(() => const DeliveryHistory())): const SizedBox(),
+                // ]),
                 MenuItem(img: 'assets/icons/support_client.svg', title: '고객지원', item: [
                   MenuContent(text: '공지사항',onPress: () => Get.to(() => const NoticeScreen()))]),
                 // MenuItem(img: 'assets/icons/setting_icon.svg', title: '설정', item: [

@@ -17,7 +17,6 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     ItemService.to.addItemImage.value = '';
   }
@@ -39,12 +38,15 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Obx(()=>SizedBox(width: 65.w,
-                  child: Text(ItemService.to.addItemImage.value == ''?'상품 이미지 등록':ItemService.to.addItemImage.value,overflow: TextOverflow.fade,softWrap: false,
+                Obx(() => SizedBox(width: 65.w,
+                  child: Text(ItemService.to.addItemImage.value == ''?'상품 이미지 등록' : ItemService.to.addItemImage.value, overflow: TextOverflow.fade,softWrap: false,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.grey)),
                 )),
                 GestureDetector(
-                  onTap: () => S3Repository.to.getImage(ImageSource.gallery),
+                  onTap: () async => await S3Repository.to.getImage(ImageSource.gallery).then((value) {
+                    ItemService.to.image = value;
+                    ItemService.to.addItemImage.value = value.path;
+                  }),
                   child: const Icon(Icons.image, color: Colors.grey,),
                 )
               ],

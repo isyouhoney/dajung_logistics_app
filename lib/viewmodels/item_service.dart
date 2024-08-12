@@ -1,11 +1,13 @@
 import 'package:bakery_app/models/item.dart';
 import 'package:bakery_app/repositories/item_repository.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ItemService extends GetxService {
   final ItemRepository itemRepository = ItemRepository();
   static ItemService get to => Get.find();
   RxString addItemCategory = '카테고리'.obs;
+  XFile? image;
   RxString addItemImage = ''.obs;
   RxString addItemName = '제품명'.obs;
   RxList itemList = <Item>[].obs;

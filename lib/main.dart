@@ -195,7 +195,7 @@ class InitialBinding extends Bindings {
     Get.lazyPut(()=>SearchPlaceRepository());
     Get.lazyPut(()=>ItemRepository());
     Get.lazyPut(()=>ItemService());
-    Get.lazyPut(()=>S3Repository());
+    Get.put(S3Repository());
     Get.lazyPut(()=>OrderRepository());
     Get.lazyPut(()=>OrderService());
     Get.lazyPut(()=>ProductionRepository());

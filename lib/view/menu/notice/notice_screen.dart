@@ -1,4 +1,5 @@
 import 'package:bakery_app/models/user.dart';
+import 'package:bakery_app/repositories/s3_repository.dart';
 import 'package:bakery_app/utils/enums.dart';
 import 'package:bakery_app/view/menu/notice/notice_item.dart';
 import 'package:bakery_app/view/menu/notice/notice_registration.dart';
@@ -8,7 +9,6 @@ import 'package:bakery_app/widgets/custom_container.dart';
 import 'package:bakery_app/widgets/default_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 class NoticeScreen extends StatefulWidget {
   const NoticeScreen({super.key});
@@ -26,7 +26,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
   void initState() {
     super.initState();
     NoticeService.to.fetchNotices(skip, take);
-
+    S3Repository();
     // _scrollController = ScrollController();
     // _scrollController.addListener(_onScroll);
     // _fetchMoreData();

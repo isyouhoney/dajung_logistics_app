@@ -9,8 +9,10 @@ part of 'notice.dart';
 _$NoticeImpl _$$NoticeImplFromJson(Map<String, dynamic> json) => _$NoticeImpl(
       title: json['title'] as String,
       content: json['content'] as String,
+      id: (json['id'] as num?)?.toInt(),
       updatedAt: json['updatedAt'] as String?,
-      images: json['images'] as String?,
+      images:
+          (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
       topFixed: json['topFixed'] as bool,
       targets: json['targets'] as List<dynamic>?,
       writer: json['writer'] == null
@@ -22,6 +24,7 @@ Map<String, dynamic> _$$NoticeImplToJson(_$NoticeImpl instance) =>
     <String, dynamic>{
       'title': instance.title,
       'content': instance.content,
+      'id': instance.id,
       'updatedAt': instance.updatedAt,
       'images': instance.images,
       'topFixed': instance.topFixed,

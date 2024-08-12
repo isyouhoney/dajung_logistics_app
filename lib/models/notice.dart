@@ -10,8 +10,9 @@ class Notice with _$Notice {
   factory Notice({
     required String title,
     required String content,
+    int? id,
     String? updatedAt,
-    String? images,
+    List<String>? images,
     required bool topFixed,
     List? targets,
     User? writer,

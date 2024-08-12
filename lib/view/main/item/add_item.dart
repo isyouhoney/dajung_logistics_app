@@ -9,6 +9,7 @@ import 'package:bakery_app/widgets/custom_widget.dart';
 import 'package:bakery_app/widgets/image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class AddItem extends StatefulWidget {
@@ -55,10 +56,10 @@ class _AddItemState extends State<AddItem> {
   Future postItem() async{
     ItemCategory category = ItemCategory(id: 0, categoryName: ItemService.to.addItemCategory!.value);
     categoryList.forEach((e){if(e.categoryName==ItemService.to.addItemCategory?.value) category = e;});
-    await S3Repository.to.getPresignedUrl();
+    await S3Repository.to.getPresignedUrl(ItemService.to.image!);
     await ItemService.to.addItem(
         Item(itemName: itemNameController.text, price: int.parse(priceController.text),
-            image: S3Repository.to.objectUrl, description: descriptionController.text, category: category));
+            image: S3Repository.to.objectUrl[0], description: descriptionController.text, category: category));
   }
 
   @override
