@@ -9,7 +9,7 @@ part of 'order_sheet.dart';
 _$OrderSheetImpl _$$OrderSheetImplFromJson(Map<String, dynamic> json) =>
     _$OrderSheetImpl(
       id: (json['id'] as num?)?.toInt(),
-      dayOfTheWeek: $enumDecode(_$DayOfWeekEnumMap, json['dayOfTheWeek']),
+      dayOfTheWeek: json['dayOfTheWeek'],
       activated: json['activated'] as bool?,
       orderer: json['orderer'] == null
           ? null
@@ -22,18 +22,8 @@ _$OrderSheetImpl _$$OrderSheetImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$OrderSheetImplToJson(_$OrderSheetImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'dayOfTheWeek': _$DayOfWeekEnumMap[instance.dayOfTheWeek]!,
+      'dayOfTheWeek': instance.dayOfTheWeek,
       'activated': instance.activated,
       'orderer': instance.orderer,
       'orderItems': instance.orderItems,
     };
-
-const _$DayOfWeekEnumMap = {
-  DayOfWeek.mon: 'mon',
-  DayOfWeek.tue: 'tue',
-  DayOfWeek.wed: 'wed',
-  DayOfWeek.tur: 'tur',
-  DayOfWeek.fri: 'fri',
-  DayOfWeek.sat: 'sat',
-  DayOfWeek.sun: 'sun',
-};

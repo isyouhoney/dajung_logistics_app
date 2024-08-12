@@ -6,8 +6,9 @@ import 'package:bakery_app/view/main/item/item_management.dart';
 import 'package:bakery_app/view/main/stock/daily_stock.dart';
 import 'package:bakery_app/view/menu/menu_items.dart';
 import 'package:bakery_app/view/menu/notice/notice_registration.dart';
+import 'package:bakery_app/view/menu/notice/notice_screen.dart';
 import 'package:bakery_app/view/sub/additional/additional_request.dart';
-import 'package:bakery_app/view/sub/deliverHistory/delivery_history.dart';
+import 'package:bakery_app/view/sub/history/delivery/delivery_history.dart';
 import 'package:bakery_app/view/sub/history/order_history.dart';
 import 'package:bakery_app/view/sub/history/sales/sales_history.dart';
 import 'package:bakery_app/view/sub/order/item_order.dart';
@@ -43,7 +44,7 @@ class MenuDrawer extends StatelessWidget {
                   user.role == Role.SUB ? MenuContent(text: '배송 내역',onPress: () => Get.to(() => const DeliveryHistory())): const SizedBox(),
                 ]),
                 MenuItem(img: 'assets/icons/support_client.svg', title: '고객지원', item: [
-                  MenuContent(text: '공지사항',onPress: () => Get.to(() => const NoticeRegistration()))]),
+                  MenuContent(text: '공지사항',onPress: () => Get.to(() => const NoticeScreen()))]),
                 // MenuItem(img: 'assets/icons/setting_icon.svg', title: '설정', item: [
                 //   // MenuContent(text: '알림설정', onPress: () => Get.to(const HomeScreen())),
                 //   MenuContent(text: '로그아웃',onPress: () {

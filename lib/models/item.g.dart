@@ -15,7 +15,6 @@ _$ItemImpl _$$ItemImplFromJson(Map<String, dynamic> json) => _$ItemImpl(
       category: json['category'] == null
           ? null
           : ItemCategory.fromJson(json['category'] as Map<String, dynamic>),
-      status: json['status'],
       owner: json['owner'] == null
           ? null
           : User.fromJson(json['owner'] as Map<String, dynamic>),
@@ -32,7 +31,6 @@ Map<String, dynamic> _$$ItemImplToJson(_$ItemImpl instance) =>
       'image': instance.image,
       'description': instance.description,
       'category': instance.category,
-      'status': instance.status,
       'owner': instance.owner,
       'targets': instance.targets?.map((e) => _$RoleEnumMap[e]!).toList(),
     };

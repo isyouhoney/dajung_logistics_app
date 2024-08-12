@@ -1,6 +1,10 @@
+import 'package:bakery_app/models/notice.dart';
+import 'package:bakery_app/repositories/s3_repository.dart';
 import 'package:bakery_app/utils/themeData.dart';
+import 'package:bakery_app/viewmodels/notice_service.dart';
 import 'package:bakery_app/widgets/custom_textfield.dart';
 import 'package:bakery_app/widgets/custom_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,17 +20,30 @@ class _NoticeRegistrationState extends State<NoticeRegistration> {
   RxBool all = false.obs;
   RxBool main = false.obs;
   RxBool sub = false.obs;
+  late TextEditingController titleController;
+  late TextEditingController contentController;
+  RxList<XFile>? image = <XFile>[].obs;
 
   XFile? _image;
   final ImagePicker picker = ImagePicker();
 
-  Future getImage(ImageSource imageSource) async {
-    final XFile? pickedFile = await picker.pickImage(source: imageSource);
-    if (pickedFile != null) {
-      setState(() {
-        _image = XFile(pickedFile.path);
-      });
-    }
+  @override
+  void initState() {
+    super.initState();
+    titleController = TextEditingController();
+    contentController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    titleController.dispose();
+    contentController.dispose();
+  }
+
+  Future postItem() async{
+    await S3Repository.to.getPresignedUrl();
+    await NoticeService.to.postNotices(Notice(title: titleController.text, content: contentController.text, topFixed: false));
   }
 
   @override
@@ -36,25 +53,30 @@ class _NoticeRegistrationState extends State<NoticeRegistration> {
         title: const Text('공지사항 작성'),
         leading: IconButton(icon: const Icon(Icons.arrow_back_ios_new), onPressed: () => CW.customDialog(context, '주의','이탈 시 작성중인 내용이 저장되지 않습니다.\n뒤로 이동하시겠습니까?',() {Get.back(); Get.back();},false)),
         actions: [
-          TextButton(onPressed: () => CW.customDialog(context, '작성 완료','공지사항이 등록되었습니다.',() {Get.back(); Get.back();},false), child: const Text('등록'))
+          TextButton(onPressed: () => NoticeService.to.postNotices(Notice(title: titleController.text, content: contentController.text, topFixed: false)).then((value){
+            value == true ? CW.customDialog(context, '작성 완료','공지사항이 등록되었습니다.',() {Get.back(); Get.back(); NoticeService.to.fetchNotices(0, 10);},false)
+                :CW.customDialog(context, '공지사항 등록 실패','다시 한번 시도해주세요.',() => Get.back(),false);
+    }), child: const Text('등록'))
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(children: [
-          CustomTextField(hintText: '제목을 입력해주세요.'),
-          Obx(()=>
-              Row(
-                children: [
-                  typeCheckBox(all,'전체'),
-                  typeCheckBox(main,'직영점'),
-                  typeCheckBox(all,'개인 카페'),
-                ],
-              ),
-          ),
-          CustomTextField(hintText: '내용을 입력해주세요.', maxLine: 10, counterText: true, maxLength: 500,),
-          imageTile()
-        ],),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(children: [
+            CustomTextField(hintText: '제목을 입력해주세요.', controller: titleController),
+            Obx(()=>
+                Row(
+                  children: [
+                    typeCheckBox(all,'전체'),
+                    typeCheckBox(main,'직영점'),
+                    typeCheckBox(all,'개인 카페'),
+                  ],
+                ),
+            ),
+            CustomTextField(hintText: '내용을 입력해주세요.', maxLine: 10, counterText: true, maxLength: 500, controller: contentController),
+            imageTile()
+          ],),
+        ),
       ),
     );
   }
@@ -92,7 +114,7 @@ Widget imageTile(){
               color: Colors.grey.shade400,
             ),
           ),
-          child: Center(child: IconButton(onPressed: () => getImage(ImageSource.gallery), icon: const Icon(Icons.add, color: Colors.grey,),),),
+          child: Center(child: IconButton(onPressed: () => S3Repository.to.getImage(ImageSource.gallery), icon: const Icon(Icons.add, color: Colors.grey,),),),
         );
       },
     );

@@ -11,12 +11,15 @@ class OrderSheet with _$OrderSheet {
   const OrderSheet._();
   factory OrderSheet({
     int? id,
-    required DayOfWeek dayOfTheWeek,
+    required dynamic dayOfTheWeek,
     bool? activated,
     User? orderer,
     required List<OrderItem> orderItems,
 }) = _OrderSheet;
 
   factory OrderSheet.fromJson(Map<String, dynamic> json) =>
-      _$OrderSheetFromJson(json);
+      _$OrderSheetFromJson({
+        ...json,
+        'dayOfTheWeek': DayOfWeek.fromKor(json['dayOfTheWeek']),
+      });
 }

@@ -30,7 +30,6 @@ class _AddItemState extends State<AddItem> {
   @override
   void initState() {
     super.initState();
-    print('init');
     getCategoryNameList();
     itemNameController = TextEditingController();
     priceController = TextEditingController();
@@ -51,7 +50,6 @@ class _AddItemState extends State<AddItem> {
     for (var e in categoryList) {
       categoryNameList.add(e.categoryName);
     }
-    print(categoryNameList);
   }
 
   Future postItem() async{

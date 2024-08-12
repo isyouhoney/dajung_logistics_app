@@ -36,20 +36,18 @@ class RequestRepository extends GetxController {
 
     if (bodyStatusCode == 200) {
       dynamic data = responseBody['data'];
-      print(data);
       List<AdditionalRequest> additionalRequests = [];
 
       if(data.isNotEmpty) {
         data.map((orderSheet) {
-          OrderItem orderItem = OrderItem(item:Item.fromJson(data), quantity: data['quantity']);
-          String requestDate = data['requestDate'];
-          String status = data['status'];
-          User accept = User.fromJson(data['accept']);
-
-          additionalRequests.add(AdditionalRequest(orderItem: orderItem, requestDate: requestDate, status: status, accept: accept));
+          OrderItem orderItem = OrderItem(item:Item.fromJson(orderSheet), quantity: orderSheet['quantity']);
+          String requestDate = orderSheet['requestDate'];
+          String status = orderSheet['status'];
+          // User accept = User.fromJson(orderSheet['accept']);
+          additionalRequests.add(AdditionalRequest(orderItem: orderItem, requestDate: requestDate, status: status));
         }).toList();
-
       }
+
       return additionalRequests;
     } else {
       logger.e('주문서 조회 요청 실패: $responseBody');

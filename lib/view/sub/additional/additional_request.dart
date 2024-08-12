@@ -29,26 +29,27 @@ class _AdditionalRequestState extends State<AdditionalRequest> {
     return DefaultLayout(title: '제품 요청',
       bottomSheet: CW.textButton('제품 요청하기', onPressed: () => showDialog(context: context, builder: (ctx) => const RequestAdditionalItem()), color: CC.mainColorOpacity), child:
     Obx(()=>SingleChildScrollView(
-      child: Padding(padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('진행중인 요청', style: Theme.of(context).textTheme.titleMedium),
-            RequestService.to.requestList.isEmpty? const Center(child: Padding(
-              padding: EdgeInsets.all(30),
-              child: Text('현재 진행중인 요청이 없습니다.'),
-            )):
-            Column(children: RequestService.to.requestList.map((value) => ItemListCard(dateTime: value.requestDate, itemList: value.item)).toList()),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text('진행중인 요청', style: Theme.of(context).textTheme.titleMedium),
+            ),
+            RequestService.to.requestList.isEmpty? const Center(child: Padding(padding: EdgeInsets.all(30),
+              child: Text('현재 진행중인 요청이 없습니다.'),)):
+            Obx(() => Column(children: RequestService.to.requestList.value.map((value) => ItemListCard(request: value)).toList())),
             const SizedBox(height: 10,),
-            Text('나의 요청', style: Theme.of(context).textTheme.titleMedium),
-            RequestService.to.myRequestHistory.isEmpty? const Center(child: Padding(
-              padding: EdgeInsets.all(30),
-              child: Text('나의 요청 기록이 없습니다.'),
-            )):
-            Column(children: RequestService.to.myRequestHistory.map((value) => ItemListCard(dateTime: value.requestDate, itemList: value.item)).toList()),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text('나의 요청', style: Theme.of(context).textTheme.titleMedium),
+            ),
+            RequestService.to.myRequestHistory.isEmpty? const Center(child: Padding(padding: EdgeInsets.all(30),
+              child: Text('나의 요청 기록이 없습니다.'),)):
+            Obx(() => Column(children: RequestService.to.myRequestHistory.value.map((value) => ItemListCard(request: value)).toList())),
           ],
         ),
       ),
-    )),
+    ),
     );
   }
 }

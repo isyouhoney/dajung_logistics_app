@@ -26,7 +26,6 @@ mixin _$Item {
   String get image => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   ItemCategory? get category => throw _privateConstructorUsedError;
-  dynamic get status => throw _privateConstructorUsedError;
   User? get owner => throw _privateConstructorUsedError;
   List<Role>? get targets => throw _privateConstructorUsedError;
 
@@ -47,7 +46,6 @@ abstract class $ItemCopyWith<$Res> {
       String image,
       String description,
       ItemCategory? category,
-      dynamic status,
       User? owner,
       List<Role>? targets});
 
@@ -74,7 +72,6 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
     Object? image = null,
     Object? description = null,
     Object? category = freezed,
-    Object? status = freezed,
     Object? owner = freezed,
     Object? targets = freezed,
   }) {
@@ -103,10 +100,6 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as ItemCategory?,
-      status: freezed == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as dynamic,
       owner: freezed == owner
           ? _value.owner
           : owner // ignore: cast_nullable_to_non_nullable
@@ -157,7 +150,6 @@ abstract class _$$ItemImplCopyWith<$Res> implements $ItemCopyWith<$Res> {
       String image,
       String description,
       ItemCategory? category,
-      dynamic status,
       User? owner,
       List<Role>? targets});
 
@@ -183,7 +175,6 @@ class __$$ItemImplCopyWithImpl<$Res>
     Object? image = null,
     Object? description = null,
     Object? category = freezed,
-    Object? status = freezed,
     Object? owner = freezed,
     Object? targets = freezed,
   }) {
@@ -212,10 +203,6 @@ class __$$ItemImplCopyWithImpl<$Res>
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
               as ItemCategory?,
-      status: freezed == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as dynamic,
       owner: freezed == owner
           ? _value.owner
           : owner // ignore: cast_nullable_to_non_nullable
@@ -238,7 +225,6 @@ class _$ItemImpl extends _Item {
       required this.image,
       required this.description,
       this.category,
-      this.status,
       this.owner,
       final List<Role>? targets})
       : _targets = targets,
@@ -260,8 +246,6 @@ class _$ItemImpl extends _Item {
   @override
   final ItemCategory? category;
   @override
-  final dynamic status;
-  @override
   final User? owner;
   final List<Role>? _targets;
   @override
@@ -275,7 +259,7 @@ class _$ItemImpl extends _Item {
 
   @override
   String toString() {
-    return 'Item(id: $id, itemName: $itemName, price: $price, image: $image, description: $description, category: $category, status: $status, owner: $owner, targets: $targets)';
+    return 'Item(id: $id, itemName: $itemName, price: $price, image: $image, description: $description, category: $category, owner: $owner, targets: $targets)';
   }
 
   @override
@@ -292,7 +276,6 @@ class _$ItemImpl extends _Item {
                 other.description == description) &&
             (identical(other.category, category) ||
                 other.category == category) &&
-            const DeepCollectionEquality().equals(other.status, status) &&
             (identical(other.owner, owner) || other.owner == owner) &&
             const DeepCollectionEquality().equals(other._targets, _targets));
   }
@@ -307,7 +290,6 @@ class _$ItemImpl extends _Item {
       image,
       description,
       category,
-      const DeepCollectionEquality().hash(status),
       owner,
       const DeepCollectionEquality().hash(_targets));
 
@@ -333,7 +315,6 @@ abstract class _Item extends Item {
       required final String image,
       required final String description,
       final ItemCategory? category,
-      final dynamic status,
       final User? owner,
       final List<Role>? targets}) = _$ItemImpl;
   _Item._() : super._();
@@ -352,8 +333,6 @@ abstract class _Item extends Item {
   String get description;
   @override
   ItemCategory? get category;
-  @override
-  dynamic get status;
   @override
   User? get owner;
   @override

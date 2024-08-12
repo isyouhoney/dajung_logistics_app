@@ -1,5 +1,6 @@
 import 'package:bakery_app/models/item.dart';
 import 'package:bakery_app/models/order_item.dart';
+import 'package:bakery_app/utils/enums.dart';
 import 'package:bakery_app/viewmodels/item_service.dart';
 import 'package:bakery_app/viewmodels/request_service.dart';
 import 'package:bakery_app/widgets/custom_dropdown.dart';
@@ -64,14 +65,14 @@ class _RequestAdditionalItemState extends State<RequestAdditionalItem> {
           actions: [
             Row(mainAxisAlignment: MainAxisAlignment.spaceAround,children: [
             CW.textButton('취소',onPressed: ()=>Navigator.of(context).pop(), width: 35.w,height: 40, color: Colors.grey),
-            CW.textButton('요청', onPressed: () {
-              print('ItemService.to.addItemName : ${ItemService.to.addItemName}');
+            CW.textButton('요청', onPressed: () async {
               itemList.forEach((value){
                 if(value.itemName == ItemService.to.addItemName.value) {selectedItem.value = value;}});
-              print('selectedItem.value : ${selectedItem.value}');
               if (selectedItem.value != null) {
-                RequestService.to.postRequest(OrderItem(item: selectedItem.value!, quantity: double.parse(quantity.value)));
+                await RequestService.to.postRequest(OrderItem(item: selectedItem.value!, quantity: double.parse(quantity.value)));
                 Get.back();
+                await RequestService.to.fetchRequests(RequestedBy.byMe);
+                print(RequestService.to.myRequestHistory);
               } else {
                 Get.snackbar('오류', '제품을 선택해주세요');
               }

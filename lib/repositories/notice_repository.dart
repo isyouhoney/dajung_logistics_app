@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'package:bakery_app/models/item.dart';
 import 'package:bakery_app/models/item_category.dart';
-import 'package:bakery_app/models/notification.dart';
+import 'package:bakery_app/models/notice.dart';
 import 'package:bakery_app/utils/configs.dart';
 import 'package:bakery_app/utils/secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-class NotificationRepository extends GetxController {
+class NoticeRepository extends GetxController {
   Future<List?> fetchNotices(int skip, int take) async {
     final Uri url = Uri.parse('$baseUrl/notification?skip=$skip&take=$take');
     String? accessToken = await SecureStorage.get(Cached.ACCESS);
@@ -30,15 +30,15 @@ class NotificationRepository extends GetxController {
 
     if (bodyStatusCode == 200) {
       List<dynamic> data = responseBody['data'];
-      List<Notification> itemList = [];
-      data.map((item) => itemList.add(Notification.fromJson(item))).toList();
+      List<Notice> itemList = [];
+      data.map((item) => itemList.add(Notice.fromJson(item))).toList();
       return itemList;
     } else {
-      logger.e('제품 리스트 조회 요청 실패: $responseBody');
+      logger.e('공지 조회 요청 실패: $responseBody');
     }
   }
 
-  Future<List?> postNotice() async {
+  Future<bool?> postNotice(Notice notice) async {
     final Uri url = Uri.parse('$baseUrl/notification');
     String? accessToken = await SecureStorage.get(Cached.ACCESS);
 
@@ -53,25 +53,33 @@ class NotificationRepository extends GetxController {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $accessToken',
       },
+      body: jsonEncode({
+        'title': notice.title,
+        'content': notice.content,
+        'image': notice.images,
+        'topFixed': notice.topFixed,
+        'targets': [
+          {"target": "마스터"},
+          {"target": "메인"},
+          {"target": "직영"},
+          {"target": "가맹"},
+        ],
+      }),
     );
 
     var responseBody = jsonDecode(response.body);
     var bodyStatusCode = responseBody['statusCode'];
 
     if (bodyStatusCode == 200) {
-      List<dynamic> data = responseBody['data'];
-      List<ItemCategory> itemList = [];
-      data.map((item) {
-        itemList.add(
-            ItemCategory(id: item['id'], categoryName: item['categoryName']));
-      }).toList();
-      return itemList;
+      // Map data = responseBody['data'];
+
+      return true;
     } else {
-      logger.e('카테고리 조회 요청 실패: $responseBody');
+      logger.e('공지 등록 요청 실패: $responseBody');
     }
   }
 
-  Future<bool?> editNotice(Item item) async {
+  Future<bool?> editNotice(Notice notice) async {
     final Uri url = Uri.parse('$baseUrl/notification');
     String? accessToken = await SecureStorage.get(Cached.ACCESS);
 
@@ -87,11 +95,10 @@ class NotificationRepository extends GetxController {
         'Authorization': 'Bearer $accessToken',
       },
       body: jsonEncode({
-        'itemName': item.itemName,
-        'price': item.price,
-        'image': item.image,
-        'description': item.description,
-        'category': item.category,
+        'title': notice.title,
+        'content': notice.content,
+        'image': notice.images,
+        'topFixed': notice.topFixed,
         'targets': [
           {"target": "마스터"},
           {"target": "메인"},
@@ -107,7 +114,7 @@ class NotificationRepository extends GetxController {
     if (bodyStatusCode == 200) {
       return true;
     } else {
-      logger.e('제품 등록 요청 실패: $responseBody');
+      logger.e('공지 수정 요청 실패: $responseBody');
     }
   }
 
@@ -134,7 +141,7 @@ class NotificationRepository extends GetxController {
     if (bodyStatusCode == 200) {
       return true;
     } else {
-      logger.e('제품 등록 요청 실패: $responseBody');
+      logger.e('공지 삭제 요청 실패: $responseBody');
     }
   }
 }

@@ -22,8 +22,15 @@ class _OrderHistoryState extends State<OrderHistory> {
     getOrderHistory();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    OrderService.to.selectDay.value = DateTime.now();
+  }
+
   void getOrderHistory() async {
-    orderList.value = (await OrderService.to.fetchDayOrderHistory(OrderService.to.selectDay.value, OrderService.to.selectDay.value))!;
+    orderList.value = (await OrderService.to.fetchDayOrderHistory(OrderService.to.selectDay.value, OrderService.to.selectDay.value.add(const Duration(days: 1))))!;
+    print(orderList[0]['data']);
   }
 
   @override
@@ -31,11 +38,11 @@ class _OrderHistoryState extends State<OrderHistory> {
     return DefaultLayout(
       title: '주문 내역',
       child: Column(children: [
-        const DateSelector(),
-        CustomContainer(child: Obx(() => orderList.isNotEmpty? SingleChildScrollView(child: Column(children:
-          orderList.value.map((item) => StockField(name: item['itemName'], quantity:item['orderAmount'])).toList()
+        DateSelector(dateChanged: (value) => getOrderHistory()),
+        CustomContainer(child: Obx(() => orderList[0]['data'].isEmpty ?const Text('주문 내역이 없습니다.') : SingleChildScrollView(child: Column(children:
+          orderList[0]['data'].map<Widget>((item) => StockField(name: item['itemName'], quantity:item['orderAmount'])).toList()
           ),
-        ):const Text('주문 내역이 없습니다.')))
+        )))
       ],),
     );
   }

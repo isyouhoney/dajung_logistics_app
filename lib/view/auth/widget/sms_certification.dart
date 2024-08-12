@@ -114,13 +114,13 @@ class _SmsCertificationState extends State<SmsCertification> {
             const SizedBox(width: 10),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 5),
-              child: Obx(()=>CW.textButton(isSent.value?'재발송':'인증번호 발송', width: 100, height: 50, color: isCertified.value? Colors.grey: CC.mainColor,
+              child: Obx(()=>CW.textButton(isSent.value?'재발송':'인증번호발송', width: 100, height: 50, color: isCertified.value? Colors.grey: CC.mainColor,
                   onPressed: () async {
                 String phoneNumber = '+82${phoneNumberController.text.substring(1)}';
                 FirebaseAuth auth = FirebaseAuth.instance;
                 await auth.verifyPhoneNumber(
                     phoneNumber: phoneNumber,
-                    timeout: const Duration(minutes: 5),
+                    timeout: const Duration(minutes: 2),
                     verificationCompleted: (credential) async {
                       // Andriod 코드확인 자동 처리
                       await auth.signInWithCredential(credential).then((_) {
@@ -153,7 +153,11 @@ class _SmsCertificationState extends State<SmsCertification> {
               validator: (val) {
                 if(val!.length != 6){
                   return '올바른 인증번호 6자를 입력해주세요.';
-                } else if (val.contains(RegExp(r'[^0-9]'))) return '올바른 인증번호를 입력해주세요.';
+                } else if (val.contains(RegExp(r'[^0-9]'))) {
+                  return '올바른 인증번호를 입력해주세요.';
+                } else if (isCertified.value = false) {
+                  return '휴대폰 인증을 완료해주세요.';
+                }
                 return null;
               },
               controller: codeController,
@@ -162,7 +166,7 @@ class _SmsCertificationState extends State<SmsCertification> {
             const SizedBox(width: 10),
     Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
-      child: CW.textButton(isCertified.value?'인증완료':'인증번호 확인', width: 100, height: 50, color: !isSent.value? Colors.grey: isCertified.value ?Colors.grey:CC.mainColor,
+      child: CW.textButton(isCertified.value?'인증완료':'인증번호확인', width: 100, height: 50, color: !isSent.value? Colors.grey: isCertified.value ?Colors.grey:CC.mainColor,
                   onPressed: () async {
                 FirebaseAuth auth = FirebaseAuth.instance;
                 PhoneAuthCredential credential = PhoneAuthProvider.credential(

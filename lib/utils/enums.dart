@@ -79,6 +79,15 @@ enum RequestStatus {
 
   final String kor;
   const RequestStatus(this.kor);
+
+  static Role? fromKor(String kor) {
+    for (Role role in Role.values) {
+      if (role.kor == kor) {
+        return role;
+      }
+    }
+    return null;
+  }
 }
 
 enum RequestedBy {
@@ -112,9 +121,10 @@ enum DayOfWeek {
 }
 
 enum DeliveryStatus{
-  delivering('배송 전'),
-  complete('배송 완료'),
-  checked('배송 확인 완료');
+  all('전체'),
+  delivering('주문완료'),
+  complete('배송완료'),
+  checked('배송확인');
 
   final String kor;
   const DeliveryStatus(this.kor);

@@ -15,6 +15,10 @@ class OrderService extends GetxService {
   RxBool isChanged = false.obs;
   int orderSheetId=-1;
 
+  RxDouble totalAmount = 0.0.obs;
+  RxDouble settlementAmount = 0.0.obs;
+  RxDouble dayAverageAmount = 0.0.obs;
+
   Future<bool?> postOrders(DayOfWeek dayOfWeek, List<OrderItem> orderItems) async {
     bool? fetchedOrders;
     if(initList.isEmpty){
@@ -84,5 +88,28 @@ class OrderService extends GetxService {
     } else {
       print('일일 주문서를 불러오는데 실패했습니다.');
     }
+  }
+
+  void getOrderHistory(DateTime selectedDay) async {
+    DateTime firstDayOfMonth = DateTime(selectedDay.year, selectedDay.month, 1);
+    DateTime firstDayOfNextMonth = (selectedDay.month < 12)
+        ? DateTime(selectedDay.year, selectedDay.month + 1, 1)
+        : DateTime(selectedDay.year + 1, 1, 1);
+    DateTime lastDayOfMonth = firstDayOfNextMonth.subtract(const Duration(days: 1));
+
+    await OrderService.to.fetchDayOrderHistory(firstDayOfMonth, firstDayOfNextMonth);
+    getMonthTotal(lastDayOfMonth.day);
+  }
+
+  void getMonthTotal(int numberOfDay){
+
+    orderReports.forEach((orderSheet){
+      orderSheet['data'].forEach((item){
+        totalAmount.value += item['salePrice'];
+      });
+    });
+
+    settlementAmount.value = totalAmount * 0.3;
+    dayAverageAmount.value = totalAmount / numberOfDay;
   }
 }

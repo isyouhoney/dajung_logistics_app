@@ -23,7 +23,7 @@ class RequestService extends GetxService {
   Future<void> fetchRequests(RequestedBy requestedBy) async {
     var fetchedRequests = await requestRepository.getRequest(requestedBy);
     if (fetchedRequests != null){
-      requestList.value = fetchedRequests;
+      requestedBy == RequestedBy.byOthers ? requestList.value = fetchedRequests : myRequestHistory.value = fetchedRequests;
     } else {
       print('추가요청 목록을 불러오는데 실패했습니다.');
     }

@@ -132,7 +132,7 @@ class AuthRepository extends GetxController{
         // 토큰 갱신 성공 후, 새로운 accessToken으로 다시 시도
         accessToken = await SecureStorage.get(Cached.ACCESS);
       } else {
-        logger.e('유저 조회 요청 실패: ${response.statusCode}');
+        logger.e('유저 조회 요청 실패: $responseBody');
         break;
       }
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class CC {
   static Color mainColor = const Color(0xff01B5BE);
   static Color subColor = const Color(0xffB3E9EC);
+  static Color secondaryColor = const Color(0xffCCF0F2);
   static Color backgroundColor = const Color(0xcccae9ec);
   static Color mainColorOpacity = const Color(0xcc01B5BE);
   static Color mainColorShaded = const Color(0xff3A8689);

@@ -20,17 +20,28 @@ class _SalesCalendarState extends State<SalesCalendar> {
   RxMap dayTotals = {}.obs;
   RxMap dayOrderItems = {}.obs;
 
-  List getOrderData(DateTime day){
+  List getOrderData(DateTime day) {
+    WidgetsBinding.instance!.addPostFrameCallback((_){
     if(OrderService.to.orderReports.isNotEmpty){
-      OrderService.to.orderReports.value.map((order){
         num dayTotal = 0;
-        order['data'].forEach((item){
-          dayTotal += item['saleAmount'];
+        dayOrderItems.clear();
+        dayTotals.clear();
+
+      OrderService.to.orderReports.forEach((orderSheet){
+        dayTotal = 0;
+        orderSheet['data'].forEach((item){
+          dayTotal += item['salePrice'];
         });
-        dayOrderItems[DateTime.parse(order['date'])] = order['data'];
-        dayTotals[DateTime.parse(order['date'])] = dayTotal;
+        // order['data'].forEach((item){
+        //   dayTotal += item['saleAmount'];
+        // });
+        dayOrderItems[DateTime.parse(orderSheet['date'])] = orderSheet['data'];
+        dayTotals[DateTime.parse(orderSheet['date'])] = dayTotal;
+        print(dayOrderItems);
+        print(dayTotals);
+
       });
-    }
+    }});
     return dayTotals[day] ?? [];
   }
 
@@ -69,6 +80,7 @@ class _SalesCalendarState extends State<SalesCalendar> {
                 },
                 onPageChanged: (focusedDay) {
                   widget.selectDay.value = focusedDay;
+                  OrderService.to.getOrderHistory(widget.selectDay.value);
                   // print('focusDay: ${widget.focusDay}');
                 },
                 eventLoader: getOrderData,
@@ -80,11 +92,12 @@ class _SalesCalendarState extends State<SalesCalendar> {
                     return null;
                 })
                   ),
+              const SizedBox(height: 10,),
               Text('${DateFormat('MM월 dd일 ').format(widget.selectDay.value)} 판매내역', style: Theme.of(context).textTheme.titleMedium,),
             ],
           ),
           ),
-          Obx(()=> dayOrderItems.isNotEmpty ? Column(children: [
+          Obx(()=> dayOrderItems[widget.selectDay.value] != null ? Column(children: [
             const Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
             Text('상품명'),
             Text('주문'),
@@ -92,7 +105,7 @@ class _SalesCalendarState extends State<SalesCalendar> {
             Text('판매'),
             Text('판매금액'),
             ],),
-            dayOrderItems[widget.selectDay.value].value.map((dayOrder){
+            dayOrderItems[widget.selectDay.value].map((dayOrder){
             Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
               Text(dayOrder['itemName']),
               Text('${dayOrder['orderAmount'].toString()}개'),
