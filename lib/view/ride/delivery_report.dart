@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:bakery_app/models/item.dart';
 import 'package:bakery_app/models/order_item.dart';
 import 'package:bakery_app/models/order_sheet.dart';
@@ -43,6 +45,7 @@ class _DeliveryReportState extends State<DeliveryReport> {
   void initState() {
     super.initState();
     getTotal();
+    S3Repository.to.objectUrl.clear();
   }
   
   void getTotal(){
@@ -52,6 +55,7 @@ class _DeliveryReportState extends State<DeliveryReport> {
   }
 
   Future<bool?> postNotice() async {
+    print('imageList : $imageList');
     if (imageList != null) {
       await Future.wait(imageList!.map((image) async => postImagePathList = (await S3Repository.to.getPresignedUrl(image))!).toList());
     }
@@ -63,7 +67,7 @@ class _DeliveryReportState extends State<DeliveryReport> {
       int quantity = map['quantity'];
       recallOrderItems.add(OrderItem(item: item, quantity: quantity));
     });
-    complete.value = (await DeliveryService.to.postDelivery(widget.orderSheet.orderer!,postImagePathList!,recallOrderItems.isNotEmpty ? Recall(images: postReturnImagePathList??[], recallItems: recallOrderItems) : null
+    complete.value = (await DeliveryService.to.postDelivery(widget.orderSheet.orderer!,postImagePathList!,recallOrderItems.isNotEmpty ? Recall(images: postReturnImagePathList??[], recallItems: recallOrderItems) : Recall(images: [], recallItems: [])
     ))!;
 
     return complete.value;
@@ -78,7 +82,7 @@ class _DeliveryReportState extends State<DeliveryReport> {
         widget.orderSheet.orderItems.map((e) => StockField(name: e.item.itemName, quantity: e.quantity)).toList()))),
           CustomContainer(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             titleField('배송 사진 등록', const Icon(Icons.camera_alt_outlined)),
-            ImageTile(imageList: imageList!, imagePathList: imagePathList!)
+            ImageTile(imageList: imageList!, imagePathList: imagePathList!, imageSource: ImageSource.camera,)
           ],)),
           CustomContainer(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             titleField('회수 물량', const Icon(Icons.remove_circle_outline)),
@@ -87,7 +91,7 @@ class _DeliveryReportState extends State<DeliveryReport> {
               recallItems[e.item] = {'quantity': int.parse(value)};
             })).toList()),
             titleField('회수 사진 등록', const Icon(Icons.camera_alt_outlined)),
-            ImageTile(imageList: returnImageList!, imagePathList: returnImagePathList!)
+            ImageTile(imageList: returnImageList!, imagePathList: returnImagePathList!, imageSource: ImageSource.camera)
           ]))])
     ));
   }

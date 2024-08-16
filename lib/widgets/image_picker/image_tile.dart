@@ -7,9 +7,10 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImageTile extends StatefulWidget {
-  const ImageTile({super.key, required this.imageList, required this.imagePathList});
+  const ImageTile({super.key, required this.imageList, required this.imagePathList, this.imageSource});
   final List<XFile> imageList;
   final RxList<String> imagePathList;
+  final ImageSource? imageSource;
 
   @override
   State<ImageTile> createState() => _ImageTileState();
@@ -37,7 +38,7 @@ class _ImageTileState extends State<ImageTile> {
               ),
             ),
             child: index < widget.imagePathList!.length ? Image.file(File(widget.imagePathList!.value[index])) :
-            Center(child: IconButton(onPressed: () async => await S3Repository.to.getImage(ImageSource.gallery).then((image) {
+            Center(child: IconButton(onPressed: () async => await S3Repository.to.getImage(widget.imageSource ?? ImageSource.gallery).then((image) {
               widget.imageList?.add(image);
               widget.imagePathList?.add(image.path);
             }),

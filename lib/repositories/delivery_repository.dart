@@ -65,10 +65,9 @@ class DeliveryRepository extends GetxController {
 
     if (bodyStatusCode == 200) {
       Map data = responseBody['data'];
-      print(data['status']);
       Order orderData = data['yesterdayOrder']['recall'] == null ?
-      Order(orderSheet: OrderSheet.fromJson(data['todayOrder']['orderSheet']), orderDate: data['todayOrder']['orderDate'], status: data['status']):
-      Order(orderSheet: OrderSheet.fromJson(data['todayOrder']['orderSheet']), orderDate: data['todayOrder']['orderDate'], status: data['status'], recall: Recall.fromJson(data['yesterdayOrder']['recall']));
+      Order(orderSheet: OrderSheet.fromJson(data['todayOrder']['orderSheet']), orderDate: data['todayOrder']['orderDate'], status: data['todayOrder']['status']):
+      Order(orderSheet: OrderSheet.fromJson(data['todayOrder']['orderSheet']), orderDate: data['todayOrder']['orderDate'], status: data['todayOrder']['status'], recall: Recall.fromJson(data['yesterdayOrder']['recall']));
       return orderData;
     } else {
       logger.e('주문 내역 조회 요청 실패: $responseBody');
@@ -76,8 +75,8 @@ class DeliveryRepository extends GetxController {
   }
 
   // SUB, DIRECT
-  Future<bool> checkDelivery(DateTime today,DateTime yesterday) async {
-    final Uri url = Uri.parse('$baseUrl/order/delivery?today=$today&yesterday=$yesterday');
+  Future<bool> checkDelivery(String today,String yesterday) async {
+    final Uri url = Uri.parse('$baseUrl/order/delivery');
     String? accessToken = await SecureStorage.get(Cached.ACCESS);
 
     if (accessToken == null) {
@@ -91,10 +90,15 @@ class DeliveryRepository extends GetxController {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $accessToken',
       },
+      body: jsonEncode({
+        'today' : today,
+        'yesterday' : yesterday,
+      }),
     );
 
     var responseBody = jsonDecode(response.body);
     var bodyStatusCode = responseBody['statusCode'];
+    print(responseBody);
 
     if (bodyStatusCode == 200) {
       return true;
@@ -105,7 +109,7 @@ class DeliveryRepository extends GetxController {
   }
 
   // Delivery
-  Future<bool> postDelivery(User store,List<String> images, {Recall? recall}) async {
+  Future<bool> postDelivery(User store, List<String> images, Recall recall) async {
     final Uri url = Uri.parse('$baseUrl/order/delivery');
     String? accessToken = await SecureStorage.get(Cached.ACCESS);
 
@@ -115,7 +119,6 @@ class DeliveryRepository extends GetxController {
     }
 
     store = store.copyWith(role: store.role.kor);
-    print(store.role);
 
     final response = await http.post(
       url,
@@ -125,11 +128,14 @@ class DeliveryRepository extends GetxController {
       },
       body: jsonEncode({
         'store' : store.toJson(),
-        'deliveryImage' : images,
-        'recall' : recall?.toJson(),
+        'deliveryImages' : images,
+        'recall' : recall.toJson(),
       }),
     );
 
+    print(store.toJson());
+    print(images);
+    print(recall.toJson());
     var responseBody = jsonDecode(response.body);
     var bodyStatusCode = responseBody['statusCode'];
     print(responseBody);

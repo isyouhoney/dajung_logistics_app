@@ -1,6 +1,6 @@
 import 'package:bakery_app/utils/enums.dart';
 import 'package:bakery_app/utils/themeData.dart';
-import 'package:bakery_app/view/sub/history/delivery/delivery_check.dart';
+import 'package:bakery_app/view/sub/history/delivery/store_delivery_check.dart';
 import 'package:bakery_app/viewmodels/delivery_service.dart';
 import 'package:bakery_app/widgets/custom_container.dart';
 import 'package:bakery_app/widgets/custom_dropdown.dart';
@@ -19,10 +19,10 @@ class DeliveryHistory extends StatefulWidget {
 
 class _DeliveryHistoryState extends State<DeliveryHistory> {
   List listAll = [];
-  RxList orderList = [].obs;
+
   RxString selectedStatus = DeliveryStatus.all.kor.obs;
   int skip = 0;
-  int take = 10;
+  int take = 20;
 
   @override
   void initState() {
@@ -32,7 +32,6 @@ class _DeliveryHistoryState extends State<DeliveryHistory> {
 
   void getOrderHistory() async {
     listAll = (await DeliveryService.to.fetchDeliveryHistory(skip, take))!;
-    orderList.value = listAll;
   }
 
   @override
@@ -46,10 +45,10 @@ class _DeliveryHistoryState extends State<DeliveryHistory> {
             listAll.forEach((e){
               e['status'] == value ? newList.add(e) : null;
             });
-            orderList.value = newList;
+            DeliveryService.to.deliveryList.value = newList;
           }),
       ),
-      Obx(()=>orderList!=[] ? Column(children: orderList.map((order) => deliveryCard(order)).toList()) :
+      Obx(()=>DeliveryService.to.deliveryList!=[] ? Column(children: DeliveryService.to.deliveryList.map((order) => deliveryCard(order)).toList()) :
       const CustomContainer(child: Text('내역이 없습니다.')))
       ,
     ],),));

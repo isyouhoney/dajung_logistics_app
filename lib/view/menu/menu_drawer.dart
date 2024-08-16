@@ -8,7 +8,7 @@ import 'package:bakery_app/view/menu/menu_items.dart';
 import 'package:bakery_app/view/menu/notice/notice_registration.dart';
 import 'package:bakery_app/view/menu/notice/notice_screen.dart';
 import 'package:bakery_app/view/sub/additional/additional_request.dart';
-import 'package:bakery_app/view/sub/history/delivery/delivery_history.dart';
+import 'package:bakery_app/view/sub/history/delivery/store_delivery_history.dart';
 import 'package:bakery_app/view/sub/history/order_history.dart';
 import 'package:bakery_app/view/sub/history/sales/sales_history.dart';
 import 'package:bakery_app/view/sub/order/item_order.dart';

@@ -9,6 +9,7 @@ class DeliveryService extends GetxService {
   final DeliveryRepository deliveryRepository = DeliveryRepository();
   static DeliveryService get to => Get.find();
   RxList deliveryList = [].obs;
+  // RxList orderList = [].obs;
 
   Future<List?> fetchDeliveryHistory(int skip, int take) async {
     var fetchedDeliveryHistory = await deliveryRepository.getDeliveryHistory(skip, take);
@@ -23,7 +24,6 @@ class DeliveryService extends GetxService {
   Future<Order?> fetchDeliveryDetail(DateTime today,DateTime yesterday) async {
     var fetchedDeliveryDetail = await deliveryRepository.getDeliveryDetail(today, yesterday);
     if (fetchedDeliveryDetail != null){
-      print(fetchedDeliveryDetail.status);
       return fetchedDeliveryDetail;
     } else {
       print('일일 주문서를 불러오는데 실패했습니다.');
@@ -31,7 +31,9 @@ class DeliveryService extends GetxService {
   }
 
   Future<bool> checkDelivery(DateTime today) async {
-    var checkedDelivery = await deliveryRepository.checkDelivery(today, today.subtract(const Duration(days: 1)));
+    String todayString = today.toString();
+    String yesterdayString = today.subtract(const Duration(days: 1)).toString();
+    var checkedDelivery = await deliveryRepository.checkDelivery(todayString, yesterdayString);
     if (checkedDelivery != null){
       return checkedDelivery;
     } else {
@@ -40,8 +42,8 @@ class DeliveryService extends GetxService {
     }
   }
 
-  Future<bool?> postDelivery(User store,List<String> images, Recall? recall) async {
-    var postedDelivery = await deliveryRepository.postDelivery(store, images, recall : recall);
+  Future<bool?> postDelivery(User store, List<String> images, Recall recall) async {
+    var postedDelivery = await deliveryRepository.postDelivery(store, images, recall);
     if (postedDelivery != null){
       return postedDelivery;
     } else {

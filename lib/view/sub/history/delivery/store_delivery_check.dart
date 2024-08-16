@@ -34,13 +34,18 @@ class _DeliveryCheckState extends State<DeliveryCheck> {
     DateTime today = DateTime.parse(orderDate);
     DateTime yesterday = DateTime.parse(orderDate).subtract(const Duration(days: 1));
     Order? fetchedOrder = await DeliveryService.to.fetchDeliveryDetail(today, yesterday);
-    print('fetchedOrder?.status : ${fetchedOrder?.status}');
-
     if (mounted) {
-      setState(() {
-        order = fetchedOrder;
-      });
+      setState(() {order = fetchedOrder;});
     }
+  }
+
+  Future<bool?> checkDelivery()async {
+    if(order?.status == '배송완료' && isChecked.value == false) {
+      print('order!.orderDate : ${order!.orderDate}');
+      bool value = await DeliveryService.to.checkDelivery(DateTime.parse(order!.orderDate));
+      await DeliveryService.to.fetchDeliveryHistory(0, 20);
+      return value;
+    } return false;
   }
   
   @override
@@ -48,7 +53,7 @@ class _DeliveryCheckState extends State<DeliveryCheck> {
     return DefaultLayout(title: '배송 확인',
         bottomSheet: Obx(() => CW.textButton(order?.status != '배송완료' ? '배송 준비중': isChecked.value ? '배송 완료' : '배송 확인',
             color: isChecked.value || order?.status != '배송완료'? Colors.grey : CC.mainColor,
-            onPressed: () => order?.status != '배송완료' && isChecked.value == false ? DeliveryService.to.checkDelivery(DateTime.parse(widget.orderDate)).then((value) => isChecked.value = value): null)),
+            onPressed: () => checkDelivery().then((value) => isChecked.value = value!))),
         child: order == null ? const Center(child: CircularProgressIndicator()) :
           SingleChildScrollView(
             child: Column(children: [Padding(padding: const EdgeInsets.only(left: 20),
