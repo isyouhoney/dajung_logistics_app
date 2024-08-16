@@ -28,7 +28,7 @@ class _StockFieldState extends State<StockField> {
         Text(widget.name, style: Theme.of(context).textTheme.titleMedium),
         const Spacer(),
         widget.count!=null?
-        CustomDropdown(width: 80, height: 40, selectedValue: number, list: numbers.value, onChange: (value)=>widget.count!(value),):
+        CustomDropdown(width: 80, height: 40, selectedValue: number, list: numbers.value, onChange: (value) => widget.count!(value),):
         QuantityField(content: '${widget.quantity} EA')
       ],),
     );

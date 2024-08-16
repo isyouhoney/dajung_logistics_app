@@ -20,9 +20,8 @@ Recall _$RecallFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Recall {
-  String get image => throw _privateConstructorUsedError;
-  bool get storeOwnerCheck => throw _privateConstructorUsedError;
-  Recall get recallItems => throw _privateConstructorUsedError;
+  List<String> get images => throw _privateConstructorUsedError;
+  List<OrderItem> get recallItems => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,9 +33,7 @@ abstract class $RecallCopyWith<$Res> {
   factory $RecallCopyWith(Recall value, $Res Function(Recall) then) =
       _$RecallCopyWithImpl<$Res, Recall>;
   @useResult
-  $Res call({String image, bool storeOwnerCheck, Recall recallItems});
-
-  $RecallCopyWith<$Res> get recallItems;
+  $Res call({List<String> images, List<OrderItem> recallItems});
 }
 
 /// @nodoc
@@ -52,32 +49,19 @@ class _$RecallCopyWithImpl<$Res, $Val extends Recall>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? image = null,
-    Object? storeOwnerCheck = null,
+    Object? images = null,
     Object? recallItems = null,
   }) {
     return _then(_value.copyWith(
-      image: null == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
-              as String,
-      storeOwnerCheck: null == storeOwnerCheck
-          ? _value.storeOwnerCheck
-          : storeOwnerCheck // ignore: cast_nullable_to_non_nullable
-              as bool,
+      images: null == images
+          ? _value.images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       recallItems: null == recallItems
           ? _value.recallItems
           : recallItems // ignore: cast_nullable_to_non_nullable
-              as Recall,
+              as List<OrderItem>,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $RecallCopyWith<$Res> get recallItems {
-    return $RecallCopyWith<$Res>(_value.recallItems, (value) {
-      return _then(_value.copyWith(recallItems: value) as $Val);
-    });
   }
 }
 
@@ -88,10 +72,7 @@ abstract class _$$RecallImplCopyWith<$Res> implements $RecallCopyWith<$Res> {
       __$$RecallImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String image, bool storeOwnerCheck, Recall recallItems});
-
-  @override
-  $RecallCopyWith<$Res> get recallItems;
+  $Res call({List<String> images, List<OrderItem> recallItems});
 }
 
 /// @nodoc
@@ -105,23 +86,18 @@ class __$$RecallImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? image = null,
-    Object? storeOwnerCheck = null,
+    Object? images = null,
     Object? recallItems = null,
   }) {
     return _then(_$RecallImpl(
-      image: null == image
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
-              as String,
-      storeOwnerCheck: null == storeOwnerCheck
-          ? _value.storeOwnerCheck
-          : storeOwnerCheck // ignore: cast_nullable_to_non_nullable
-              as bool,
+      images: null == images
+          ? _value._images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       recallItems: null == recallItems
-          ? _value.recallItems
+          ? _value._recallItems
           : recallItems // ignore: cast_nullable_to_non_nullable
-              as Recall,
+              as List<OrderItem>,
     ));
   }
 }
@@ -130,24 +106,34 @@ class __$$RecallImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$RecallImpl extends _Recall {
   _$RecallImpl(
-      {required this.image,
-      required this.storeOwnerCheck,
-      required this.recallItems})
-      : super._();
+      {required final List<String> images,
+      required final List<OrderItem> recallItems})
+      : _images = images,
+        _recallItems = recallItems,
+        super._();
 
   factory _$RecallImpl.fromJson(Map<String, dynamic> json) =>
       _$$RecallImplFromJson(json);
 
+  final List<String> _images;
   @override
-  final String image;
+  List<String> get images {
+    if (_images is EqualUnmodifiableListView) return _images;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_images);
+  }
+
+  final List<OrderItem> _recallItems;
   @override
-  final bool storeOwnerCheck;
-  @override
-  final Recall recallItems;
+  List<OrderItem> get recallItems {
+    if (_recallItems is EqualUnmodifiableListView) return _recallItems;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_recallItems);
+  }
 
   @override
   String toString() {
-    return 'Recall(image: $image, storeOwnerCheck: $storeOwnerCheck, recallItems: $recallItems)';
+    return 'Recall(images: $images, recallItems: $recallItems)';
   }
 
   @override
@@ -155,17 +141,17 @@ class _$RecallImpl extends _Recall {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RecallImpl &&
-            (identical(other.image, image) || other.image == image) &&
-            (identical(other.storeOwnerCheck, storeOwnerCheck) ||
-                other.storeOwnerCheck == storeOwnerCheck) &&
-            (identical(other.recallItems, recallItems) ||
-                other.recallItems == recallItems));
+            const DeepCollectionEquality().equals(other._images, _images) &&
+            const DeepCollectionEquality()
+                .equals(other._recallItems, _recallItems));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, image, storeOwnerCheck, recallItems);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_images),
+      const DeepCollectionEquality().hash(_recallItems));
 
   @JsonKey(ignore: true)
   @override
@@ -183,19 +169,16 @@ class _$RecallImpl extends _Recall {
 
 abstract class _Recall extends Recall {
   factory _Recall(
-      {required final String image,
-      required final bool storeOwnerCheck,
-      required final Recall recallItems}) = _$RecallImpl;
+      {required final List<String> images,
+      required final List<OrderItem> recallItems}) = _$RecallImpl;
   _Recall._() : super._();
 
   factory _Recall.fromJson(Map<String, dynamic> json) = _$RecallImpl.fromJson;
 
   @override
-  String get image;
+  List<String> get images;
   @override
-  bool get storeOwnerCheck;
-  @override
-  Recall get recallItems;
+  List<OrderItem> get recallItems;
   @override
   @JsonKey(ignore: true)
   _$$RecallImplCopyWith<_$RecallImpl> get copyWith =>

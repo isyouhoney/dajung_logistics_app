@@ -16,9 +16,18 @@ import 'package:bakery_app/viewmodels/auth_service.dart';
 import 'package:bakery_app/widgets/custom_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MenuDrawer extends StatelessWidget {
   const MenuDrawer({super.key});
+
+  Future launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+      return true;
+    } else {
+      throw 'Could not launch $url';
+    }}
 
   @override
   Widget build(BuildContext context) {
@@ -63,28 +72,29 @@ class MenuDrawer extends StatelessWidget {
                 //   //     },true);
                 //   })], dividerShow: false,),
                 GestureDetector(
-                  onTap: () {
-                    CW.dajungDialog(
-                        context,
-                        '로그아웃 하시겠습니까?',
-                        '네',
-                            () async {
+                  onTap: () {CW.dajungDialog(context, '로그아웃 하시겠습니까?', '네', () async {
                           await AuthService.to.logout().then((value) =>
                           {if (value)Get.offAll(() => const Login())
                             else Get.snackbar("로그아웃에 실패했습니다", '다시 한번 시도해주세요.')
-                          });
-                        },
-                        true
-                    );
-                  },
+                          });}, true);},
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 20),
-                    child: Text(
-                      '로그아웃',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey),
+                    child: Text('로그아웃', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey),
                     ),
                   ),
-                )
+                ),
+                GestureDetector(
+                  onTap: () {CW.dajungDialog(context, '탈퇴 하시겠습니까?', '네', () async {
+                    launchURL('https://forms.gle/MzyNedZzuYdFN8VK8').then((value) =>
+                          {if (value)Get.offAll(() => const Login())
+                            else Get.snackbar("회원탈퇴에 실패했습니다", '다시 한번 시도해주세요.')
+                          });}, true);},
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 20),
+                    child: Text('탈퇴', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

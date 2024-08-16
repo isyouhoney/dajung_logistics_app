@@ -1,6 +1,6 @@
 import 'package:bakery_app/models/additional_request.dart';
-import 'package:bakery_app/models/order_item.dart';
 import 'package:bakery_app/models/order_sheet.dart';
+import 'package:bakery_app/models/recall.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'order.freezed.dart';
@@ -12,10 +12,10 @@ class Order with _$Order {
   factory Order({
     required OrderSheet orderSheet,
     required String orderDate,
-    List<String>? image,
+    List<String>? images,
     required dynamic status,
     AdditionalRequest? additionalRequests,
-    List<OrderItem>? recall,
+    Recall? recall,
 }) = _Order;
 
   factory Order.fromJson(Map<String, dynamic> json) =>

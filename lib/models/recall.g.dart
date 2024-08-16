@@ -7,14 +7,15 @@ part of 'recall.dart';
 // **************************************************************************
 
 _$RecallImpl _$$RecallImplFromJson(Map<String, dynamic> json) => _$RecallImpl(
-      image: json['image'] as String,
-      storeOwnerCheck: json['storeOwnerCheck'] as bool,
-      recallItems: Recall.fromJson(json['recallItems'] as Map<String, dynamic>),
+      images:
+          (json['images'] as List<dynamic>).map((e) => e as String).toList(),
+      recallItems: (json['recallItems'] as List<dynamic>)
+          .map((e) => OrderItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$RecallImplToJson(_$RecallImpl instance) =>
     <String, dynamic>{
-      'image': instance.image,
-      'storeOwnerCheck': instance.storeOwnerCheck,
+      'images': instance.images,
       'recallItems': instance.recallItems,
     };

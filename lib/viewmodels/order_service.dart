@@ -62,14 +62,6 @@ class OrderService extends GetxService {
     }
   }
 
-  Future<List<OrderItem>?> fetchDayOrders(DayOfWeek dayOfWeek) async {
-    var fetchedDayOrders = await orderRepository.getDayOrders(dayOfWeek);
-    if (fetchedDayOrders != null){
-      return fetchedDayOrders;
-    } else {
-      print('요일별 주문서을 불러오는데 실패했습니다.');
-    }
-  }
 
   Future<List?> fetchDayTotalOrders() async {
     var fetchedDayTotalOrders = await orderRepository.getDayTotalOrders();
@@ -98,11 +90,11 @@ class OrderService extends GetxService {
     DateTime lastDayOfMonth = firstDayOfNextMonth.subtract(const Duration(days: 1));
 
     await OrderService.to.fetchDayOrderHistory(firstDayOfMonth, firstDayOfNextMonth);
+    totalAmount.value = 0.0;
     getMonthTotal(lastDayOfMonth.day);
   }
 
   void getMonthTotal(int numberOfDay){
-
     orderReports.forEach((orderSheet){
       orderSheet['data'].forEach((item){
         totalAmount.value += item['salePrice'];

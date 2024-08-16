@@ -1,14 +1,17 @@
 import 'package:bakery_app/utils/configs.dart';
+import 'package:bakery_app/utils/enums.dart';
 import 'package:bakery_app/view/auth/find_auth.dart';
 import 'package:bakery_app/view/auth/login.dart';
 import 'package:bakery_app/view/auth/signup.dart';
 import 'package:bakery_app/view/home.dart';
+import 'package:bakery_app/view/ride/delivery_list.dart';
 import 'package:bakery_app/viewmodels/auth_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 List<GetPage> getPages = [
   GetPage(name: '/', page: () => const HomeScreen()), //middlewares: [AuthMiddleware()]),
+  GetPage(name: '/delivery', page: () => const DeliveryList()), //middlewares: [AuthMiddleware()]),
   GetPage(name: '/login', page: () => const Login()),
   GetPage(name: '/signup', page: () => const Signup()),
   GetPage(name: '/findAuth', page: () => const FindAuthPage()),

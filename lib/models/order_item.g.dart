@@ -9,7 +9,7 @@ part of 'order_item.dart';
 _$OrderItemImpl _$$OrderItemImplFromJson(Map<String, dynamic> json) =>
     _$OrderItemImpl(
       item: Item.fromJson(json['item'] as Map<String, dynamic>),
-      quantity: json['quantity'] as num,
+      quantity: (json['quantity'] as num).toInt(),
       orderSheet: json['orderSheet'] == null
           ? null
           : OrderSheet.fromJson(json['orderSheet'] as Map<String, dynamic>),

@@ -21,7 +21,7 @@ OrderItem _$OrderItemFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$OrderItem {
   Item get item => throw _privateConstructorUsedError;
-  num get quantity => throw _privateConstructorUsedError;
+  int get quantity => throw _privateConstructorUsedError;
   OrderSheet? get orderSheet => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -35,7 +35,7 @@ abstract class $OrderItemCopyWith<$Res> {
   factory $OrderItemCopyWith(OrderItem value, $Res Function(OrderItem) then) =
       _$OrderItemCopyWithImpl<$Res, OrderItem>;
   @useResult
-  $Res call({Item item, num quantity, OrderSheet? orderSheet});
+  $Res call({Item item, int quantity, OrderSheet? orderSheet});
 
   $ItemCopyWith<$Res> get item;
   $OrderSheetCopyWith<$Res>? get orderSheet;
@@ -66,7 +66,7 @@ class _$OrderItemCopyWithImpl<$Res, $Val extends OrderItem>
       quantity: null == quantity
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
-              as num,
+              as int,
       orderSheet: freezed == orderSheet
           ? _value.orderSheet
           : orderSheet // ignore: cast_nullable_to_non_nullable
@@ -103,7 +103,7 @@ abstract class _$$OrderItemImplCopyWith<$Res>
       __$$OrderItemImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Item item, num quantity, OrderSheet? orderSheet});
+  $Res call({Item item, int quantity, OrderSheet? orderSheet});
 
   @override
   $ItemCopyWith<$Res> get item;
@@ -134,7 +134,7 @@ class __$$OrderItemImplCopyWithImpl<$Res>
       quantity: null == quantity
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
-              as num,
+              as int,
       orderSheet: freezed == orderSheet
           ? _value.orderSheet
           : orderSheet // ignore: cast_nullable_to_non_nullable
@@ -155,7 +155,7 @@ class _$OrderItemImpl extends _OrderItem {
   @override
   final Item item;
   @override
-  final num quantity;
+  final int quantity;
   @override
   final OrderSheet? orderSheet;
 
@@ -197,7 +197,7 @@ class _$OrderItemImpl extends _OrderItem {
 abstract class _OrderItem extends OrderItem {
   factory _OrderItem(
       {required final Item item,
-      required final num quantity,
+      required final int quantity,
       final OrderSheet? orderSheet}) = _$OrderItemImpl;
   _OrderItem._() : super._();
 
@@ -207,7 +207,7 @@ abstract class _OrderItem extends OrderItem {
   @override
   Item get item;
   @override
-  num get quantity;
+  int get quantity;
   @override
   OrderSheet? get orderSheet;
   @override

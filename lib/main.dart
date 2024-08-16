@@ -10,6 +10,7 @@ import 'package:bakery_app/repositories/production_repository.dart';
 import 'package:bakery_app/repositories/request_repository.dart';
 import 'package:bakery_app/repositories/s3_repository.dart';
 import 'package:bakery_app/repositories/search_place_repository.dart';
+import 'package:bakery_app/utils/enums.dart';
 import 'package:bakery_app/utils/router.dart';
 import 'package:bakery_app/utils/secure_storage.dart';
 import 'package:bakery_app/utils/themeData.dart';
@@ -182,7 +183,7 @@ void main() async {
 
   dynamic userData = await AuthService.to.getUserData();
   String? islogin = await SecureStorage.get(Cached.ACCESS);
-  String initialRoute = islogin==null ? '/login':'/';
+  String initialRoute = islogin == null ? '/login' : userData.role == Role.DELIVERY ? '/delivery': '/';
   runApp(MyApp(initialRoute: initialRoute));
 }
 

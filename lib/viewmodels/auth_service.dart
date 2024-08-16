@@ -3,6 +3,7 @@ import 'package:bakery_app/models/user.dart';
 import 'package:bakery_app/repositories/auth_repository.dart';
 import 'package:bakery_app/utils/enums.dart';
 import 'package:bakery_app/utils/secure_storage.dart';
+import 'package:bakery_app/view/ride/delivery_list.dart';
 import 'package:bakery_app/widgets/custom_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -57,7 +58,8 @@ class AuthService extends GetxService {
       isLoggedIn.value = true;
       await SecureStorage.set(Cached.SIGNIN, 'true');
       Get.snackbar('${user.ownerName}님, 반갑습니다!','오늘도 좋은 하루 보내세요.');
-      Get.offAllNamed('/');
+      print(user!.role);
+      user!.role == Role.DELIVERY? Get.to(() => const DeliveryList()): Get.offAllNamed('/');
     } else {
       CW.dajungDialog(context,'다음 사유로 로그인에 실패하였습니다.\n: $user', '확인',() => Get.back(), false);
       return user;

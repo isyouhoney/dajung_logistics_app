@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+      <string>https</string>
+      <string>sms</string>
+      <string>tel</string>
+    </array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
@@ -38,13 +44,13 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
-    <string>이 앱은 사진을 사용합니다.</string>
+    <string>상품 이미지 등록, 상품 배송 보고를 위해 카메라 권한을 허락해 주세요.</string>
     <key>NSCameraUsageDescription</key>
-    <string>이 앱은 카메라를 사용합니다.</string>
+    <string>상품 이미지 등록, 상품 배송 보고를 위해 카메라 권한을 허락해 주세요.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>We need to take a picture!</string>
+	<string>Please allow the camera authority to register the product image and report the product delivery.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need to take a picture!</string>
+	<string>Please allow the camera authority to register the product image and report the product delivery.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>

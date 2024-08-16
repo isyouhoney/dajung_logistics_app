@@ -3,8 +3,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logger/logger.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-final String baseUrl = dotenv.get("DAJUNG_TEST_URL");
-// final String baseUrl = dotenv.get("DAJUNG_BASE_URL");
+// final String baseUrl = dotenv.get("DAJUNG_TEST_URL");
+final String baseUrl = dotenv.get("DAJUNG_BASE_URL");
 
 class Config {
   factory Config() {

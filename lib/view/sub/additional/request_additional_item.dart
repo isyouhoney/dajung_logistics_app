@@ -69,7 +69,7 @@ class _RequestAdditionalItemState extends State<RequestAdditionalItem> {
               itemList.forEach((value){
                 if(value.itemName == ItemService.to.addItemName.value) {selectedItem.value = value;}});
               if (selectedItem.value != null) {
-                await RequestService.to.postRequest(OrderItem(item: selectedItem.value!, quantity: double.parse(quantity.value)));
+                await RequestService.to.postRequest(OrderItem(item: selectedItem.value!, quantity: int.parse(quantity.value)));
                 Get.back();
                 await RequestService.to.fetchRequests(RequestedBy.byMe);
                 print(RequestService.to.myRequestHistory);

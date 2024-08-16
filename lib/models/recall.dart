@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'order_item.dart';
+
 part 'recall.freezed.dart';
 part 'recall.g.dart';
 
@@ -7,9 +9,8 @@ part 'recall.g.dart';
 class Recall with _$Recall {
   const Recall._();
   factory Recall({
-    required String image,
-    required bool storeOwnerCheck,
-    required Recall recallItems,
+    required List<String> images,
+    required List<OrderItem> recallItems,
 }) = _Recall;
 
   factory Recall.fromJson(Map<String, dynamic> json) =>

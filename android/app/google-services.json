@@ -7,28 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:641319945837:android:73b56f69189e4a603c6164",
+        "mobilesdk_app_id": "1:641319945837:android:53532842abd5e9943c6164",
         "android_client_info": {
-          "package_name": "com.allev.bakery_app"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyC9ymlUAehkA7Rb3cfV98_31sfA8zQ5PsA"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:641319945837:android:2f7975efe713c10c3c6164",
-        "android_client_info": {
-          "package_name": "com.example.bakery_app"
+          "package_name": "com.allev.dajung_bakery"
         }
       },
       "oauth_client": [],

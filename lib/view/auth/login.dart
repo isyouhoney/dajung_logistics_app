@@ -14,11 +14,13 @@ class Login extends StatelessWidget {
     TextEditingController passwordController = TextEditingController();
     RxBool rememberMe = false.obs;
 
-    return GestureDetector(
-        onTap: () {
-            FocusScope.of(context).unfocus();
-          },
-          child: Scaffold(
+    return
+      // GestureDetector(
+      //   onTap: () {
+      //       FocusScope.of(context).unfocus();
+      //     },
+      //     child:
+          Scaffold(
             body: Padding(
               padding: const EdgeInsets.all(15),
               child: Column(
@@ -44,7 +46,7 @@ class Login extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 10,),
-                  CW.textButton('로그인',onPressed : ()=>AuthService.to.login(context,emailController.text, passwordController.text, rememberMe.value)),
+                  CW.textButton('로그인',onPressed : ()=> AuthService.to.login(context,emailController.text, passwordController.text, rememberMe.value)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -55,7 +57,7 @@ class Login extends StatelessWidget {
                 ],
               ),
             ),
-          )
+          // )
         );
   }
 }

@@ -44,8 +44,7 @@ class _ItemOrderState extends State<ItemOrder> {
           }) : null;
         })),
         child: Column(children: [
-            DayOfWeekSelector(dayOfWeek: (value) => dayOfWeek = value,
-                onChange: (value) => getOrders()),
+            DayOfWeekSelector(dayOfWeek: (value) => dayOfWeek = value, onChange: (value) => getOrders()),
             const OrderForm()
         ],
         ),

@@ -155,9 +155,10 @@ class _SmsCertificationState extends State<SmsCertification> {
                   return '올바른 인증번호 6자를 입력해주세요.';
                 } else if (val.contains(RegExp(r'[^0-9]'))) {
                   return '올바른 인증번호를 입력해주세요.';
-                } else if (isCertified.value = false) {
-                  return '휴대폰 인증을 완료해주세요.';
                 }
+                // else if (isCertified.value = false) {
+                //   return '휴대폰 인증을 완료해주세요.';
+                // }
                 return null;
               },
               controller: codeController,

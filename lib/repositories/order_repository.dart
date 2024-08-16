@@ -53,45 +53,6 @@ class OrderRepository extends GetxController {
       logger.e('주문서 조회 요청 실패: $responseBody');
     }
   }
-
-  // MAIN, DELIVER
-  Future<List<OrderItem>?> getDayOrders(DayOfWeek dayOfWeek) async {
-    String dayOfTheWeek = dayOfWeek.kor;
-      final Uri url = Uri.parse('$baseUrl/order/sub');
-      String? accessToken = await SecureStorage.get(Cached.ACCESS);
-
-      if (accessToken == null) {
-        logger.e('액세스 토큰이 없습니다.');
-        return null;
-      }
-
-      final response = await http.get(
-        url,
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $accessToken',
-        },
-      );
-
-      var responseBody = jsonDecode(response.body);
-      var bodyStatusCode = responseBody['statusCode'];
-
-      if (bodyStatusCode == 200) {
-        dynamic data = responseBody['data'];
-        List<OrderItem> orderItemList = [];
-        if(data.isNotEmpty) {
-          data[0]['orderItems'].map((orderItem) {
-            Item i = Item.fromJson(orderItem);
-            OrderItem o = OrderItem(item: i, quantity: orderItem['quantity']);
-            orderItemList.add(o);
-          }).toList();
-        }
-        return orderItemList;
-      } else {
-        logger.e('요일별 주문서 조회 요청 실패: $responseBody');
-      }
-    }
-
   // MAIN
   Future<List?> getDayTotalOrders() async {
     String dayOfTheWeek = DateFormat('E', 'ko_KR').format(DateTime.now());

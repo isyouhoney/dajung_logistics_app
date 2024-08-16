@@ -1,4 +1,5 @@
 import 'package:bakery_app/utils/enums.dart';
+import 'package:bakery_app/utils/themeData.dart';
 import 'package:bakery_app/view/sub/history/delivery/delivery_check.dart';
 import 'package:bakery_app/viewmodels/delivery_service.dart';
 import 'package:bakery_app/widgets/custom_container.dart';
@@ -8,8 +9,6 @@ import 'package:bakery_app/widgets/default_layout.dart';
 import 'package:bakery_app/widgets/quantity_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
 class DeliveryHistory extends StatefulWidget {
   const DeliveryHistory({super.key});
@@ -50,7 +49,7 @@ class _DeliveryHistoryState extends State<DeliveryHistory> {
             orderList.value = newList;
           }),
       ),
-      Obx(()=>orderList!=[] ? Column(children: orderList.map((order)=>deliveryCard(order)).toList()) :
+      Obx(()=>orderList!=[] ? Column(children: orderList.map((order) => deliveryCard(order)).toList()) :
       const CustomContainer(child: Text('내역이 없습니다.')))
       ,
     ],),));
@@ -63,18 +62,21 @@ class _DeliveryHistoryState extends State<DeliveryHistory> {
           Column(children: [
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [
               Text(order['date'], style: Theme.of(context).textTheme.titleMedium,),
-              QuantityField(content: '배송 미완료', width: 100, radius: 25, padding: 0,fontSize: 15,)]),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
-              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,crossAxisAlignment: CrossAxisAlignment.center, children: [
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text('총 주문 갯수 : ${order['totalOrderAmount']}', style: Theme.of(context).textTheme.bodyLarge),
-                  const SizedBox(height: 5,),
-                  Text('총 회수 갯수 : ${order['totalRecallAmount']}', style: Theme.of(context).textTheme.bodyLarge),
-                    ],),
-                CW.textButton('상세 보기', width: 100, height: 40, radius: 25, onPressed: () => Get.to(() => DeliveryCheck(orderDate: order['date'], totalOrderAmount: order['totalOrderAmount'], totalRecallAmount: order['totalRecallAmount'])))
-              ],),
-            )
+              QuantityField(content: order['status'], width: 100, radius: 25, padding: 0,fontSize: 15,
+                color: order['status'] == '배송확인' ? Colors.grey : order['status'] == '배송완료' ? CC.redColor : CC.mainColor,
+              )]),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,crossAxisAlignment: CrossAxisAlignment.center, children: [
+                  Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Text('총 주문 갯수 : ${order['totalOrderAmount']} 개', style: Theme.of(context).textTheme.bodyLarge),
+                    const SizedBox(height: 5,),
+                    Text('총 회수 갯수 : ${order['totalRecallAmount']} 개', style: Theme.of(context).textTheme.bodyLarge),
+                      ],),
+                  CW.textButton('상세 보기', width: 100, height: 40, radius: 25, color: CC.mainColorShaded,
+                      onPressed: () => Get.to(() => DeliveryCheck(orderDate: order['date'], totalOrderAmount: order['totalOrderAmount'], totalRecallAmount: order['totalRecallAmount'])))
+                ],),
+              )
       ]),
     ));
   }

@@ -11,6 +11,7 @@ class CC {
   static Color whiteColor = const Color(0xffE1E4E6);
   static Color focusBorderColor = const Color(0xffFFD313);
   static Color errorColor = const Color(0xffff6d6d);
+  static Color redColor = const Color(0xffF5A1A1);
   static Color textColor = const Color(0xff363a3d);
   static Color hintColor = const Color(0xff878d91);
 }

@@ -10,7 +10,7 @@ class OrderItem with _$OrderItem {
   const OrderItem._();
   factory OrderItem({
     required Item item,
-    required num quantity,
+    required int quantity,
     OrderSheet? orderSheet,
 }) = _OrderItem;
 
