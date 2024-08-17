@@ -20,6 +20,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$User {
+  int? get id => throw _privateConstructorUsedError;
   dynamic get role => throw _privateConstructorUsedError;
   String get loginId => throw _privateConstructorUsedError;
   String? get password => throw _privateConstructorUsedError;
@@ -52,7 +53,8 @@ abstract class $UserCopyWith<$Res> {
       _$UserCopyWithImpl<$Res, User>;
   @useResult
   $Res call(
-      {dynamic role,
+      {int? id,
+      dynamic role,
       String loginId,
       String? password,
       String? storeName,
@@ -90,6 +92,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? role = freezed,
     Object? loginId = null,
     Object? password = freezed,
@@ -112,6 +115,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? loginInfos = freezed,
   }) {
     return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       role: freezed == role
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
@@ -228,7 +235,8 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {dynamic role,
+      {int? id,
+      dynamic role,
       String loginId,
       String? password,
       String? storeName,
@@ -265,6 +273,7 @@ class __$$UserImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? role = freezed,
     Object? loginId = null,
     Object? password = freezed,
@@ -287,6 +296,10 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? loginInfos = freezed,
   }) {
     return _then(_$UserImpl(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       role: freezed == role
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
@@ -375,7 +388,8 @@ class __$$UserImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserImpl extends _User {
   _$UserImpl(
-      {required this.role,
+      {this.id,
+      required this.role,
       required this.loginId,
       this.password,
       this.storeName,
@@ -408,6 +422,8 @@ class _$UserImpl extends _User {
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
 
+  @override
+  final int? id;
   @override
   final dynamic role;
   @override
@@ -514,7 +530,7 @@ class _$UserImpl extends _User {
 
   @override
   String toString() {
-    return 'User(role: $role, loginId: $loginId, password: $password, storeName: $storeName, ownerName: $ownerName, phone: $phone, status: $status, address: $address, x: $x, y: $y, subStores: $subStores, deliveryMen: $deliveryMen, mainStore: $mainStore, employmentStore: $employmentStore, itemCategories: $itemCategories, items: $items, productions: $productions, orderSheets: $orderSheets, agreements: $agreements, loginInfos: $loginInfos)';
+    return 'User(id: $id, role: $role, loginId: $loginId, password: $password, storeName: $storeName, ownerName: $ownerName, phone: $phone, status: $status, address: $address, x: $x, y: $y, subStores: $subStores, deliveryMen: $deliveryMen, mainStore: $mainStore, employmentStore: $employmentStore, itemCategories: $itemCategories, items: $items, productions: $productions, orderSheets: $orderSheets, agreements: $agreements, loginInfos: $loginInfos)';
   }
 
   @override
@@ -522,6 +538,7 @@ class _$UserImpl extends _User {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UserImpl &&
+            (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality().equals(other.role, role) &&
             (identical(other.loginId, loginId) || other.loginId == loginId) &&
             (identical(other.password, password) ||
@@ -560,6 +577,7 @@ class _$UserImpl extends _User {
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
+        id,
         const DeepCollectionEquality().hash(role),
         loginId,
         password,
@@ -598,7 +616,8 @@ class _$UserImpl extends _User {
 
 abstract class _User extends User {
   factory _User(
-      {required final dynamic role,
+      {final int? id,
+      required final dynamic role,
       required final String loginId,
       final String? password,
       final String? storeName,
@@ -622,6 +641,8 @@ abstract class _User extends User {
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
+  @override
+  int? get id;
   @override
   dynamic get role;
   @override

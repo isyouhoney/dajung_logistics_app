@@ -54,6 +54,7 @@ class S3Repository extends GetxController {
 
   Future<List<String>?> uploadImageToS3(String presignedUrl, XFile? _image, String contentType, String filename) async {
     try {
+      objectUrl.clear();
       final bytes = await _image!.readAsBytes();
 
       // S3 버킷에 이미지 업로드 요청

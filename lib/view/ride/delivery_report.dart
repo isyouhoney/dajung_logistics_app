@@ -45,7 +45,6 @@ class _DeliveryReportState extends State<DeliveryReport> {
   void initState() {
     super.initState();
     getTotal();
-    S3Repository.to.objectUrl.clear();
   }
   
   void getTotal(){

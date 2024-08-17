@@ -14,6 +14,7 @@ part 'user.g.dart';
 class User with _$User {
   const User._();
   factory User({
+    int? id,
     required dynamic role,
     required String loginId,
     String? password,
