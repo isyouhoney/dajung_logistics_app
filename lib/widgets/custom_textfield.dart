@@ -39,7 +39,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
           onSaved: widget.onSaved,
           validator: (value){
             if (value?.isEmpty ?? true) return '${widget.hintText}을/를 입력해주세요.';
-            return widget.validator!(value);
+            if (widget.validator != null) {
+              return widget.validator!(value);
+            }
+            return null;
           },
           readOnly: widget.readOnly,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: widget.textColor),

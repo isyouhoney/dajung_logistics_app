@@ -9,7 +9,6 @@ import 'package:bakery_app/widgets/custom_widget.dart';
 import 'package:bakery_app/widgets/image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class AddItem extends StatefulWidget {
@@ -54,8 +53,8 @@ class _AddItemState extends State<AddItem> {
   }
 
   Future postItem() async{
-    ItemCategory category = ItemCategory(id: 0, categoryName: ItemService.to.addItemCategory!.value);
-    categoryList.forEach((e){if(e.categoryName==ItemService.to.addItemCategory?.value) category = e;});
+    ItemCategory category = ItemCategory(id: 0, categoryName: ItemService.to.addItemCategory.value);
+    categoryList.forEach((e){if(e.categoryName==ItemService.to.addItemCategory.value) category = e;});
     await S3Repository.to.getPresignedUrl(ItemService.to.image!);
     await ItemService.to.addItem(
         Item(itemName: itemNameController.text, price: int.parse(priceController.text),
@@ -64,6 +63,8 @@ class _AddItemState extends State<AddItem> {
 
   @override
   Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
+
         return AlertDialog(
           insetPadding: const EdgeInsets.symmetric(horizontal: 20),
           titlePadding: const EdgeInsets.only(top: 20),
@@ -73,11 +74,17 @@ class _AddItemState extends State<AddItem> {
           actionsPadding: const EdgeInsets.fromLTRB(18, 0, 18, 18),
           title: const Center(child: Text('상품 추가', style: TextStyle(fontSize: 18),)),
           content: SingleChildScrollView(
-            child: Column(children: [
+            child: Form(key: formKey,
+              child: Column(children: [
               CustomTextField(hintText: '상품명', controller: itemNameController),
               Obx(()=>CustomDropdown(list: categoryNameList.value, selectedValue: ItemService.to.addItemCategory)),
               const CustomImagePicker(),
-              CustomTextField(hintText: '가격', controller: priceController),
+              CustomTextField(hintText: '가격', controller: priceController,
+                validator: (val){
+                  if (val!.contains(RegExp(r'[^0-9]'))) return '올바른 제품 가격 입력하세요.';
+                  return null;
+                },
+              ),
               CustomTextField(hintText: '상세 설명', controller: descriptionController, maxLine: 5,counterText: true,),
               Obx(()=>Row(
                 children: [
@@ -85,16 +92,24 @@ class _AddItemState extends State<AddItem> {
                   Text('가맹점 메뉴', style: Theme.of(context).textTheme.titleSmall)
                 ],
               ),)
-            ],),
+            ],)),
           ),
           actions: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceAround,children: [
             CW.textButton('취소',onPressed: ()=>Navigator.of(context).pop(), width: 35.w, height: 40, color: Colors.grey),
             CW.textButton('확인', onPressed: () async {
-              await postItem();
-              Get.back();
-              ItemService.to.fetchItems();
-              }, width: 35.w, height: 40)])
+              if(formKey.currentState!.validate()){
+                if(ItemService.to.addItemCategory.value == '카테고리'){
+                  CW.dajungDialog(context, '카테고리를 선택해주세요.', '확인', () => Get.back(), false);
+                } else if (ItemService.to.image == null) {
+                  CW.dajungDialog(context, '이미지파일을 추가해주세요.', '확인', () => Get.back(), false);
+                } else {
+                await postItem();
+                Get.back();
+                ItemService.to.fetchItems();}
+                }
+              }
+              , width: 35.w, height: 40)])
           ],
         );
   }

@@ -1,10 +1,9 @@
-import 'dart:ffi';
-
 import 'package:bakery_app/models/item.dart';
 import 'package:bakery_app/models/order_item.dart';
 import 'package:bakery_app/models/order_sheet.dart';
 import 'package:bakery_app/models/recall.dart';
 import 'package:bakery_app/repositories/s3_repository.dart';
+import 'package:bakery_app/utils/enums.dart';
 import 'package:bakery_app/utils/themeData.dart';
 import 'package:bakery_app/view/main/stock/stock_field.dart';
 import 'package:bakery_app/viewmodels/delivery_service.dart';
@@ -18,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class DeliveryReport extends StatefulWidget {
   const DeliveryReport({super.key, required this.orderSheet});
@@ -29,6 +29,8 @@ class DeliveryReport extends StatefulWidget {
 
 class _DeliveryReportState extends State<DeliveryReport> {
   int total = 0;
+
+  OrderSheet recallOrderSheet = OrderSheet(dayOfTheWeek: DayOfWeek.fromKor(DateFormat('E', 'ko_KR').format(DateTime.now())), orderItems: []);
 
   List<XFile>? imageList = [];
   RxList<String>? imagePathList = <String>[].obs;
@@ -45,12 +47,22 @@ class _DeliveryReportState extends State<DeliveryReport> {
   void initState() {
     super.initState();
     getTotal();
+    getRecalls();
   }
   
   void getTotal(){
     for (var value in widget.orderSheet.orderItems) {
       total += value.quantity;
     }
+  }
+
+  Future getRecalls() async {
+    await DeliveryService.to.fetchDayOrders(DayOfWeek.fromKor(DateFormat('E', 'ko_KR').format(DateTime.now()))!);
+    recallOrderSheet = DeliveryService.to.deliveryList.firstWhere(
+          (order) => order.id == widget.orderSheet.id,
+      orElse: () => null,
+    );
+
   }
 
   Future<bool?> postNotice() async {
@@ -85,11 +97,21 @@ class _DeliveryReportState extends State<DeliveryReport> {
           ],)),
           CustomContainer(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             titleField('회수 물량', const Icon(Icons.remove_circle_outline)),
-            Column(children:widget.orderSheet.orderItems.map((e) => StockField(name: e.item.itemName,
-                count: (String value) {
-              recallItems[e.item] = {'quantity': int.parse(value)};
-            })).toList()),
-            titleField('회수 사진 등록', const Icon(Icons.camera_alt_outlined)),
+              Obx(() => Column(
+                children: DeliveryService.to.deliveryList
+                    .where((e) => e.id == widget.orderSheet.id)
+                    .expand<Widget>((e) => e.orderItems.isNotEmpty
+                    ? e.orderItems.map<Widget>((orderItem) => StockField(
+                  name: orderItem.item.itemName,
+                  count: (String value) {
+                    recallItems[orderItem.item] = {'quantity': int.parse(value)};
+                  },
+                )).toList()
+                    : [const Text('회수할 상품이 없습니다.')])
+                    .toList(),
+              )),
+
+              titleField('회수 사진 등록', const Icon(Icons.camera_alt_outlined)),
             ImageTile(imageList: returnImageList!, imagePathList: returnImagePathList!, imageSource: ImageSource.camera)
           ]))])
     ));

@@ -169,6 +169,7 @@ class DeliveryRepository extends GetxController {
 
     var responseBody = jsonDecode(response.body);
     var bodyStatusCode = responseBody['statusCode'];
+    print(responseBody);
 
     if (bodyStatusCode == 200) {
       dynamic data = responseBody['data'];
