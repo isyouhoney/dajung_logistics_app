@@ -65,9 +65,11 @@ class DeliveryRepository extends GetxController {
 
     if (bodyStatusCode == 200) {
       Map data = responseBody['data'];
-      Order orderData = data['yesterdayOrder']['recall'] == null ?
-      Order(orderSheet: OrderSheet.fromJson(data['todayOrder']['orderSheet']), orderDate: data['todayOrder']['orderDate'], status: data['todayOrder']['status']):
-      Order(orderSheet: OrderSheet.fromJson(data['todayOrder']['orderSheet']), orderDate: data['todayOrder']['orderDate'], status: data['todayOrder']['status'], recall: Recall.fromJson(data['yesterdayOrder']['recall']));
+      print(data);
+      Order orderData = data['yesterdayOrder'] != null ? data['yesterdayOrder']['recall'] != null ?
+        Order(orderSheet: OrderSheet.fromJson(data['todayOrder']['orderSheet']), orderDate: data['todayOrder']['orderDate'], status: data['todayOrder']['status'], recall: Recall.fromJson(data['yesterdayOrder']['recall'])):
+        Order(orderSheet: OrderSheet.fromJson(data['todayOrder']['orderSheet']), orderDate: data['todayOrder']['orderDate'], status: data['todayOrder']['status']):
+        Order(orderSheet: OrderSheet.fromJson(data['todayOrder']['orderSheet']), orderDate: data['todayOrder']['orderDate'], status: data['todayOrder']['status']);
       return orderData;
     } else {
       logger.e('주문 내역 조회 요청 실패: $responseBody');

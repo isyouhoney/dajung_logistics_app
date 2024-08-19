@@ -48,7 +48,7 @@ class _DeliveryHistoryState extends State<DeliveryHistory> {
             DeliveryService.to.deliveryList.value = newList;
           }),
       ),
-      Obx(()=>DeliveryService.to.deliveryList!=[] ? Column(children: DeliveryService.to.deliveryList.map((order) => deliveryCard(order)).toList()) :
+      Obx(() => DeliveryService.to.deliveryList!=[] ? Column(children: DeliveryService.to.deliveryList.map((order) => deliveryCard(order)).toList()) :
       const CustomContainer(child: Text('내역이 없습니다.')))
       ,
     ],),));
