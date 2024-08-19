@@ -18,6 +18,7 @@ class Item with _$Item {
     ItemCategory? category,
     User? owner,
     List<Role>? targets,
+    dynamic status,
 }) = _Item;
 
   factory Item.fromJson(Map<String, dynamic> json) =>

@@ -87,7 +87,7 @@ class _DeliveryReportState extends State<DeliveryReport> {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(title: '배송 및 회수 확인',
-      bottomSheet: Obx(()=>CW.textButton(complete.value ? '배송이 완료되었습니다.' : '배송 완료 보고', onPressed: () => postNotice(), color: complete.value ? Colors.grey : CC.mainColor)), child: SingleChildScrollView(child: Column(children: [
+      bottomSheet: Obx(() => CW.textButton(complete.value ? '배송이 완료되었습니다.' : '배송 완료 보고', onPressed: () => !complete.value ? postNotice() : null, color: complete.value ? Colors.grey : CC.mainColor)), child: SingleChildScrollView(child: Column(children: [
         FoldPanel(initExpand: true, titleWidget: StorenameField(name: widget.orderSheet.orderer!.storeName!, child: Text('총 $total 개', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey))),
             bodyWidget: SingleChildScrollView(child: Column(children:
         widget.orderSheet.orderItems.map((e) => StockField(name: e.item.itemName, quantity: e.quantity)).toList()))),
@@ -103,7 +103,7 @@ class _DeliveryReportState extends State<DeliveryReport> {
                     .expand<Widget>((e) => e.orderItems.isNotEmpty
                     ? e.orderItems.map<Widget>((orderItem) => StockField(
                   name: orderItem.item.itemName,
-                  count: (String value) {
+                  isCounted: (String value) {
                     recallItems[orderItem.item] = {'quantity': int.parse(value)};
                   },
                 )).toList()

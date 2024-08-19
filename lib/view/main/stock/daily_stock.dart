@@ -31,22 +31,22 @@ class _DailyStockState extends State<DailyStock> {
 
   Future getProduction() async {
     await ItemService.to.fetchItems();
-    await ProductionService.to.fetchProduction(DateTime.now(), DateTime.now().add(const Duration(days: 1)));
+    await ProductionService.to.fetchTodayProduction();
     List<Item> itemsToRemove = [];
 
-    for (var product in ProductionService.to.productionList[0]['data']) {
+    if(ProductionService.to.productionList.isNotEmpty){
+    for (var product in ProductionService.to.productionList) {
       for (var item in ItemService.to.itemList) {
         if (product['itemName'] == item.itemName) {
-          products[item] = {'total': product['productionAmount']};
+          products[item] = {'total': product['total']};
           itemsToRemove.add(item);
         }
       }
-      print(ProductionService.to.productionList[0]['date']);
     }
 
     for (var item in itemsToRemove) {
       ItemService.to.itemList.remove(item);
-    }
+    }}
   }
 
   Future<bool?> postProduction() async {
@@ -58,14 +58,14 @@ class _DailyStockState extends State<DailyStock> {
       productList.add(Product(item: item, total: total));
     });
 
-    isPosted = await ProductionService.to.postProduction(productList, ProductionService.to.productionList[0]['date']);
+    isPosted = ProductionService.to.id == -1 ? await ProductionService.to.postProduction(productList) : await ProductionService.to.editProduction(productList);
     return isPosted;
   }
 
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(title: '일일 생산량 등록',
-      bottomSheet: CW.textButton('저장', onPressed: () => postProduction().then((value) => CW.dajungDialog(context, '오늘의 제품 생산량이 저장되었습니다.', '확인', () {Get.back(); Get.back();}, false))),
+      bottomSheet: CW.textButton('저장', onPressed: () => postProduction().then((value) => CW.dajungDialog(context, value! ? '오늘의 제품 생산량이 저장되었습니다.' : '오늘의 제품 생산량 저장이 실패습니다.\n다시 한번 시도해주세요.', '확인', () {Get.back(); value! ? Get.back() : null;}, false))),
       child: ListView(
         children: [Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(padding: const EdgeInsets.only(left: 20),
@@ -80,14 +80,25 @@ class _DailyStockState extends State<DailyStock> {
                   ),
               Expanded(
                 child: SingleChildScrollView(child: Column(children: [
-                Obx(() => Column(children: products.isNotEmpty ? products.entries.map<Widget>((e) =>
-                    StockField(name: e.key.itemName, quantity: e.value['total'], count: (String value) => e.value['total'] = int.parse(value))).toList()
-                            : [const SizedBox()])),
-                Obx(() => Column(children: ItemService.to.itemList.isNotEmpty ? ItemService.to.itemList.map<Widget>((e) =>
-                    StockField(name: e.itemName, count: (String value) => products[e] = {'total': int.parse(value)})).toList() // products.add(Product(item: e, total: int.parse(value)))
-                            : [const SizedBox()],)),
-                  ],
-                )),
+                  Obx(() => Column(
+                    children: products.isNotEmpty ? products.entries.map<Widget>((e) => StockField(
+                      name: e.key.itemName,
+                      quantity: e.value['total'],
+                      initValue: e.value['total'],
+                      isCounted: (String value) => e.value['total'] = int.parse(value),
+                    )).toList() : [const SizedBox()],
+                  )),
+                  Obx(() => Column(
+                    children: ItemService.to.itemList.isNotEmpty ? ItemService.to.itemList.map<Widget>((e) => StockField(
+                      name: e.itemName,
+                      isCounted: (String value) {
+                          products[e] = {'total': int.parse(value)};
+                          ItemService.to.itemList.remove(e);
+                      },
+                    )).toList() : [const SizedBox()],
+                  )),
+                ]),
+                ),
               )
             ]),
           )

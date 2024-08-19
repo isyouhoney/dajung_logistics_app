@@ -21,6 +21,7 @@ _$ItemImpl _$$ItemImplFromJson(Map<String, dynamic> json) => _$ItemImpl(
       targets: (json['targets'] as List<dynamic>?)
           ?.map((e) => $enumDecode(_$RoleEnumMap, e))
           .toList(),
+      status: json['status'],
     );
 
 Map<String, dynamic> _$$ItemImplToJson(_$ItemImpl instance) =>
@@ -33,6 +34,7 @@ Map<String, dynamic> _$$ItemImplToJson(_$ItemImpl instance) =>
       'category': instance.category,
       'owner': instance.owner,
       'targets': instance.targets?.map((e) => _$RoleEnumMap[e]!).toList(),
+      'status': instance.status,
     };
 
 const _$RoleEnumMap = {

@@ -13,9 +13,12 @@ class ItemService extends GetxService {
   RxList itemList = <Item>[].obs;
 
   Future<RxList?> fetchItems() async {
+    itemList.clear();
     var fetchedItems = await itemRepository.getItems();
     if (fetchedItems != null){
-      itemList.value = fetchedItems;
+      fetchedItems.forEach((item){
+        if(item.status == '판매중') itemList.add(item);
+      });
       return itemList;
     } else {
       print('제품목록을 불러오는데 실패했습니다.');

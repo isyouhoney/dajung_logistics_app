@@ -28,6 +28,7 @@ mixin _$Item {
   ItemCategory? get category => throw _privateConstructorUsedError;
   User? get owner => throw _privateConstructorUsedError;
   List<Role>? get targets => throw _privateConstructorUsedError;
+  dynamic get status => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,7 +48,8 @@ abstract class $ItemCopyWith<$Res> {
       String description,
       ItemCategory? category,
       User? owner,
-      List<Role>? targets});
+      List<Role>? targets,
+      dynamic status});
 
   $ItemCategoryCopyWith<$Res>? get category;
   $UserCopyWith<$Res>? get owner;
@@ -74,6 +76,7 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
     Object? category = freezed,
     Object? owner = freezed,
     Object? targets = freezed,
+    Object? status = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -108,6 +111,10 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
           ? _value.targets
           : targets // ignore: cast_nullable_to_non_nullable
               as List<Role>?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as dynamic,
     ) as $Val);
   }
 
@@ -151,7 +158,8 @@ abstract class _$$ItemImplCopyWith<$Res> implements $ItemCopyWith<$Res> {
       String description,
       ItemCategory? category,
       User? owner,
-      List<Role>? targets});
+      List<Role>? targets,
+      dynamic status});
 
   @override
   $ItemCategoryCopyWith<$Res>? get category;
@@ -177,6 +185,7 @@ class __$$ItemImplCopyWithImpl<$Res>
     Object? category = freezed,
     Object? owner = freezed,
     Object? targets = freezed,
+    Object? status = freezed,
   }) {
     return _then(_$ItemImpl(
       id: freezed == id
@@ -211,6 +220,10 @@ class __$$ItemImplCopyWithImpl<$Res>
           ? _value._targets
           : targets // ignore: cast_nullable_to_non_nullable
               as List<Role>?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as dynamic,
     ));
   }
 }
@@ -226,7 +239,8 @@ class _$ItemImpl extends _Item {
       required this.description,
       this.category,
       this.owner,
-      final List<Role>? targets})
+      final List<Role>? targets,
+      this.status})
       : _targets = targets,
         super._();
 
@@ -258,8 +272,11 @@ class _$ItemImpl extends _Item {
   }
 
   @override
+  final dynamic status;
+
+  @override
   String toString() {
-    return 'Item(id: $id, itemName: $itemName, price: $price, image: $image, description: $description, category: $category, owner: $owner, targets: $targets)';
+    return 'Item(id: $id, itemName: $itemName, price: $price, image: $image, description: $description, category: $category, owner: $owner, targets: $targets, status: $status)';
   }
 
   @override
@@ -277,7 +294,8 @@ class _$ItemImpl extends _Item {
             (identical(other.category, category) ||
                 other.category == category) &&
             (identical(other.owner, owner) || other.owner == owner) &&
-            const DeepCollectionEquality().equals(other._targets, _targets));
+            const DeepCollectionEquality().equals(other._targets, _targets) &&
+            const DeepCollectionEquality().equals(other.status, status));
   }
 
   @JsonKey(ignore: true)
@@ -291,7 +309,8 @@ class _$ItemImpl extends _Item {
       description,
       category,
       owner,
-      const DeepCollectionEquality().hash(_targets));
+      const DeepCollectionEquality().hash(_targets),
+      const DeepCollectionEquality().hash(status));
 
   @JsonKey(ignore: true)
   @override
@@ -316,7 +335,8 @@ abstract class _Item extends Item {
       required final String description,
       final ItemCategory? category,
       final User? owner,
-      final List<Role>? targets}) = _$ItemImpl;
+      final List<Role>? targets,
+      final dynamic status}) = _$ItemImpl;
   _Item._() : super._();
 
   factory _Item.fromJson(Map<String, dynamic> json) = _$ItemImpl.fromJson;
@@ -337,6 +357,8 @@ abstract class _Item extends Item {
   User? get owner;
   @override
   List<Role>? get targets;
+  @override
+  dynamic get status;
   @override
   @JsonKey(ignore: true)
   _$$ItemImplCopyWith<_$ItemImpl> get copyWith =>

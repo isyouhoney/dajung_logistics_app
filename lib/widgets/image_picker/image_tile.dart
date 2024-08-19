@@ -30,7 +30,7 @@ class _ImageTileState extends State<ImageTile> {
         ),
         itemBuilder: (BuildContext context,int index){
           // return Text(index.toString());
-          return  Container(height: 200, padding: const EdgeInsets.all(10),
+          return  Container(height: 200, padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               border: Border.all(

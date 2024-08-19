@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
 class StockField extends StatefulWidget {
-  const StockField({super.key, required this.name, this.count, this.quantity});
+  const StockField({super.key, required this.name, this.isCounted, this.quantity, this.initValue});
   final String name;
-  final ValueChanged<String>? count;
+  final ValueChanged<String>? isCounted;
   final int? quantity;
+  final int? initValue;
 
 
   @override
@@ -20,15 +21,15 @@ class _StockFieldState extends State<StockField> {
 
   @override
   Widget build(BuildContext context) {
-  RxString number = numbers[0].obs;
+    RxString number = widget.initValue != null ? widget.initValue.toString().obs : numbers[0].obs;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(children: [
         Text(widget.name, style: Theme.of(context).textTheme.titleMedium),
         const Spacer(),
-        widget.count!=null?
-        CustomDropdown(width: 80, height: 40, selectedValue: number, list: numbers.value, onChange: (value) => widget.count!(value),):
+        widget.isCounted!=null?
+        CustomDropdown(width: 80, height: 40, selectedValue: number, list: numbers.value, onChange: (value) => widget.isCounted!(value),):
         QuantityField(content: '${widget.quantity} EA')
       ],),
     );
