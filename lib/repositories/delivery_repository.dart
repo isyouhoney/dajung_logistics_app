@@ -9,6 +9,7 @@ import 'package:bakery_app/utils/enums.dart';
 import 'package:bakery_app/utils/secure_storage.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class DeliveryRepository extends GetxController {
 
@@ -32,6 +33,7 @@ class DeliveryRepository extends GetxController {
 
     var responseBody = jsonDecode(response.body);
     var bodyStatusCode = responseBody['statusCode'];
+    // print(responseBody);
 
     if (bodyStatusCode == 200) {
       List data = responseBody['data'];
@@ -62,14 +64,18 @@ class DeliveryRepository extends GetxController {
 
     var responseBody = jsonDecode(response.body);
     var bodyStatusCode = responseBody['statusCode'];
+    // print(responseBody);
 
     if (bodyStatusCode == 200) {
       Map data = responseBody['data'];
-      print(data);
       Order orderData = data['yesterdayOrder'] != null ? data['yesterdayOrder']['recall'] != null ?
-        Order(orderSheet: OrderSheet.fromJson(data['todayOrder']['orderSheet']), orderDate: data['todayOrder']['orderDate'], status: data['todayOrder']['status'], recall: Recall.fromJson(data['yesterdayOrder']['recall'])):
-        Order(orderSheet: OrderSheet.fromJson(data['todayOrder']['orderSheet']), orderDate: data['todayOrder']['orderDate'], status: data['todayOrder']['status']):
-        Order(orderSheet: OrderSheet.fromJson(data['todayOrder']['orderSheet']), orderDate: data['todayOrder']['orderDate'], status: data['todayOrder']['status']);
+          Order.fromJson(data['todayOrder']).copyWith(recall: Recall.fromJson(data['yesterdayOrder']['recall'])):
+          Order.fromJson(data['todayOrder']):
+          Order.fromJson(data['todayOrder']);
+      print(orderData);
+        // Order(orderSheet: OrderSheet.fromJson(data['todayOrder']['orderSheet']), orderDate: data['todayOrder']['orderDate'], status: data['todayOrder']['status'], recall: Recall.fromJson(data['yesterdayOrder']['recall'])):
+        // Order(orderSheet: OrderSheet.fromJson(data['todayOrder']['orderSheet']), orderDate: data['todayOrder']['orderDate'], status: data['todayOrder']['status']):
+        // Order(orderSheet: OrderSheet.fromJson(data['todayOrder']['orderSheet']), orderDate: data['todayOrder']['orderDate'], status: data['todayOrder']['status']);
       return orderData;
     } else {
       logger.e('주문 내역 조회 요청 실패: $responseBody');
@@ -151,9 +157,10 @@ class DeliveryRepository extends GetxController {
   }
 
   // MAIN, DELIVER
-  Future<List?> getDayOrders(DayOfWeek dayOfWeek) async {
-    String dayOfTheWeek = dayOfWeek.kor;
-    final Uri url = Uri.parse('$baseUrl/order/sub?dayOfTheWeek=$dayOfTheWeek');
+  Future<List?> getDayOrders(DateTime date) async {
+    String today = DateFormat('yyyy-MM-dd').format(date);
+    String yesterday = DateFormat('yyyy-MM-dd').format(date.subtract(const Duration(days: 1)));
+    final Uri url = Uri.parse('$baseUrl/order/sub?today=$today&yesterday=$yesterday');
     String? accessToken = await SecureStorage.get(Cached.ACCESS);
 
     if (accessToken == null) {
@@ -175,9 +182,9 @@ class DeliveryRepository extends GetxController {
 
     if (bodyStatusCode == 200) {
       dynamic data = responseBody['data'];
-      List orderItemList = [];
-        orderItemList = data.map((value) => OrderSheet.fromJson(value)).toList();
-      return orderItemList;
+      List orderList = [];
+      orderList = data.map((order) => Order.fromJson(order).copyWith(recall: Recall(recallItems:order['yesterdayOrder']['orderSheet'], images: []))).toList();
+      return orderList;
     } else {
       logger.e('요일별 주문서 조회 요청 실패: $responseBody');
     }

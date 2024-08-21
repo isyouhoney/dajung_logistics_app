@@ -6,8 +6,8 @@ import 'package:bakery_app/view/main/stock/daily_stock.dart';
 import 'package:bakery_app/view/menu/notice/notice_item.dart';
 import 'package:bakery_app/view/menu/notice/notice_screen.dart';
 import 'package:bakery_app/view/sub/additional/additional_request.dart';
+import 'package:bakery_app/view/sub/history/delivery/store_delivery_history.dart';
 import 'package:bakery_app/view/sub/history/order_history.dart';
-import 'package:bakery_app/view/sub/history/sales/sales_history.dart';
 import 'package:bakery_app/view/sub/order/item_order.dart';
 import 'package:bakery_app/viewmodels/auth_service.dart';
 import 'package:bakery_app/viewmodels/notice_service.dart';
@@ -92,12 +92,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
               alignment: AlignmentDirectional.center,
               children: [
                 Image.asset('assets/images/main_img.png', width: 100.w),
-                Text(
-                  '안녕하세요, ${user.ownerName}님!\n지금은 재고 관리 시간입니다.',
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium
-                      ?.copyWith(color: Colors.white),
+                Text('안녕하세요, ${user.ownerName}님\n오늘도 좋은 하루 보내세요!',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),
                   textAlign: TextAlign.center,
                 )
               ],
@@ -134,11 +130,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                         child: Center(child: Text('주문 내역', style: Theme.of(context).textTheme.titleMedium)),
                       )),
                   GestureDetector(
-                      onTap: () => Get.to(() => const SalesHistory()),
+                      onTap: () => Get.to(() => const DeliveryHistory()),
                       child: CustomContainer(
                         width: 40.w,
                         height: 70,
-                        child: Center(child: Text('판매 내역', style: Theme.of(context).textTheme.titleMedium)),
+                        child: Center(child: Text('배송 내역', style: Theme.of(context).textTheme.titleMedium)),
                       )),
                 ],
               ),

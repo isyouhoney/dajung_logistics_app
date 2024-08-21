@@ -2,14 +2,13 @@ import 'package:bakery_app/models/order.dart';
 import 'package:bakery_app/models/recall.dart';
 import 'package:bakery_app/models/user.dart';
 import 'package:bakery_app/repositories/delivery_repository.dart';
-import 'package:bakery_app/utils/enums.dart';
 import 'package:get/get.dart';
 
 class DeliveryService extends GetxService {
   final DeliveryRepository deliveryRepository = DeliveryRepository();
   static DeliveryService get to => Get.find();
   RxList deliveryList = [].obs;
-  // RxList orderList = [].obs;
+  Rx<DateTime> date = DateTime.now().obs;
 
   Future<List?> fetchDeliveryHistory(int skip, int take) async {
     var fetchedDeliveryHistory = await deliveryRepository.getDeliveryHistory(skip, take);
@@ -51,8 +50,8 @@ class DeliveryService extends GetxService {
     }
   }
 
-  Future<List?> fetchDayOrders(DayOfWeek dayOfWeek) async {
-    var fetchedDayOrders = await deliveryRepository.getDayOrders(dayOfWeek);
+  Future<List?> fetchDayOrders(DateTime date) async {
+    var fetchedDayOrders = await deliveryRepository.getDayOrders(date);
     if (fetchedDayOrders != null){
       deliveryList.value = fetchedDayOrders;
       return deliveryList.value;

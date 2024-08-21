@@ -10,10 +10,10 @@ part 'order.g.dart';
 class Order with _$Order {
   const Order._();
   factory Order({
-    required OrderSheet orderSheet,
-    required String orderDate,
+    OrderSheet? orderSheet,
+    String? orderDate,
     List<String>? images,
-    required dynamic status,
+    dynamic status,
     AdditionalRequest? additionalRequests,
     Recall? recall,
 }) = _Order;

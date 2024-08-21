@@ -38,7 +38,7 @@ class _DeliveryReportState extends State<DeliveryReport> {
 
   List<XFile>? returnImageList = [];
   RxList<String>? returnImagePathList = <String>[].obs;
-  List<String>? postReturnImagePathList = <String>[];
+  List<String> postReturnImagePathList = <String>[];
 
   Map<Item,Map> recallItems = {};
   RxBool complete = false.obs;
@@ -57,7 +57,7 @@ class _DeliveryReportState extends State<DeliveryReport> {
   }
 
   Future getRecalls() async {
-    await DeliveryService.to.fetchDayOrders(DayOfWeek.fromKor(DateFormat('E', 'ko_KR').format(DateTime.now()))!);
+    await DeliveryService.to.fetchDayOrders(DeliveryService.to.date.value);
     recallOrderSheet = DeliveryService.to.deliveryList.firstWhere(
           (order) => order.id == widget.orderSheet.id,
       orElse: () => null,
@@ -66,7 +66,7 @@ class _DeliveryReportState extends State<DeliveryReport> {
   }
 
   Future<bool?> postNotice() async {
-    print('imageList : $imageList');
+    // print('imageList : $imageList');
     if (imageList != null) {
       await Future.wait(imageList!.map((image) async => postImagePathList = (await S3Repository.to.getPresignedUrl(image))!).toList());
     }
@@ -78,7 +78,8 @@ class _DeliveryReportState extends State<DeliveryReport> {
       int quantity = map['quantity'];
       recallOrderItems.add(OrderItem(item: item, quantity: quantity));
     });
-    complete.value = (await DeliveryService.to.postDelivery(widget.orderSheet.orderer!,postImagePathList!,recallOrderItems.isNotEmpty ? Recall(images: postReturnImagePathList??[], recallItems: recallOrderItems) : Recall(images: [], recallItems: [])
+    complete.value = (await DeliveryService.to.postDelivery(widget.orderSheet.orderer!,postImagePathList!,
+        recallOrderItems.isNotEmpty ? Recall(images: postReturnImagePathList, recallItems: recallOrderItems) : Recall(images: postReturnImagePathList, recallItems: [])
     ))!;
 
     return complete.value;

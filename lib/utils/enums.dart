@@ -118,6 +118,10 @@ enum DayOfWeek {
     }
     return null;
   }
+
+  int get indexNumber{
+    return DayOfWeek.values.indexOf(this);
+  }
 }
 
 enum DeliveryStatus{

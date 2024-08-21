@@ -66,7 +66,7 @@ ThemeData light = ThemeData(
       // color: Colors.black,
     ),
       headlineLarge : TextStyle(
-          fontSize: 18,
+          fontSize: 22,
         fontWeight: FontWeight.w500),
       headlineMedium : TextStyle(fontSize: 16,
           fontWeight: FontWeight.w500, color: Colors.black),

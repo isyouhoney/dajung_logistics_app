@@ -36,7 +36,7 @@ class CW {
               )
           ),
             backgroundColor: MaterialStatePropertyAll<Color>(color?? CC.mainColor)),
-        child: Text(text, style: TextStyle(color: textColor??Colors.white, fontSize: fontSize ?? 16.sp, fontWeight: FontWeight.bold)),
+        child: Text(text, style: TextStyle(color: textColor??Colors.white, fontSize: fontSize ?? 16, fontWeight: FontWeight.bold)),
       ),
     );
   }

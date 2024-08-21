@@ -129,7 +129,7 @@ class _SmsCertificationState extends State<SmsCertification> {
                       });
                     },
                     verificationFailed: (e) {
-                      Get.snackbar('휴대폰 인증 실패', '유효하지 않은 번호입니다.');
+                      Get.snackbar('휴대폰 인증 실패', e.toString());
                       print(e);
                     },
                     codeSent: (String verificationId, int? forceResendingToken) async {

@@ -43,14 +43,14 @@ class MenuDrawer extends StatelessWidget {
                     //     padding: const EdgeInsets.symmetric(
                     //         vertical: 32.0, horizontal: 30),
                     //     child: Obx(() => _nickName(authController.user))),
-                MenuItem(img: 'assets/icons/event_icon1.svg', title: user.role == Role.MAIN ? '상품 관리' : '주문', item: [
+                user.role == Role.DELIVERY ? const SizedBox() : MenuItem(img: 'assets/icons/event_icon1.svg', title: user.role == Role.MAIN ? '상품 관리' : '주문', item: [
                   MenuContent(text: user.role == Role.MAIN ? '품목 관리' : '상품 주문',onPress: () => Get.to(() => user.role == Role.MAIN ? const ItemManagement() :  const ItemOrder())),
                   MenuContent(text: user.role == Role.MAIN ? '당일 재고 입력' : '추가 요청', onPress: () => Get.to(user.role == Role.MAIN ? const DailyStock() : const AdditionalRequest())),
                 ]),
                 user.role == Role.SUB ? MenuItem(img: 'assets/icons/notice_alert.svg', title: user.role == Role.MAIN ? '데이터 통계' : '내역 확인', item: [
                   MenuContent(text:'주문 내역',onPress: () => Get.to(() => const OrderHistory())),
+                  MenuContent(text: '배송 내역',onPress: () => Get.to(() => const DeliveryHistory())),
                   MenuContent(text:'판매 내역',onPress: () => Get.to(() => const SalesHistory())),
-                  MenuContent(text: '배송 내역',onPress: () => Get.to(() => const DeliveryHistory()))
                 ]): const SizedBox(),
                 // MenuItem(img: 'assets/icons/notice_alert.svg', title: user.role == Role.MAIN ? '데이터 통계' : '내역 확인', item: [
                 //   MenuContent(text: user.role == Role.MAIN ? '주문 데이터 통계' : '주문 내역',onPress: () => Get.to(() => user.role == Role.MAIN ? const DataStatistics() : const OrderHistory())),

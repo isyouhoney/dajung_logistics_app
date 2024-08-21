@@ -14,7 +14,6 @@ class OrderHistory extends StatefulWidget {
 }
 
 class _OrderHistoryState extends State<OrderHistory> {
-  RxList orderList = [].obs;
 
   @override
   void initState() {
@@ -29,21 +28,22 @@ class _OrderHistoryState extends State<OrderHistory> {
   }
 
   void getOrderHistory() async {
-    orderList.value = (await OrderService.to.fetchDayOrderHistory(OrderService.to.selectDay.value, OrderService.to.selectDay.value.add(const Duration(days: 1))))!;
-    print(orderList[0]['data']);
+    (await OrderService.to.fetchDayOrderHistory(OrderService.to.selectDay.value, OrderService.to.selectDay.value.add(const Duration(days: 1))))!;
   }
 
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
       title: '주문 내역',
-      child: Column(children: [
-        DateSelector(dateChanged: (value) => getOrderHistory()),
-        CustomContainer(child: Obx(() => orderList[0]['data'].isEmpty ?const Text('주문 내역이 없습니다.') : SingleChildScrollView(child: Column(children:
-          orderList[0]['data'].map<Widget>((item) => StockField(name: item['itemName'], quantity:item['orderAmount'])).toList()
-          ),
-        )))
-      ],),
+      child: SingleChildScrollView(
+        child: Column(children: [
+          DateSelector(dateChanged: (value) => getOrderHistory()),
+          CustomContainer(child: Obx(() => OrderService.to.orderReports[0]['data'].isEmpty ?const Text('주문 내역이 없습니다.') : SingleChildScrollView(child: Column(children:
+          OrderService.to.orderReports[0]['data'].map<Widget>((item) => StockField(name: item['itemName'], quantity:item['orderAmount'])).toList()
+            ),
+          )))
+        ],),
+      ),
     );
   }
 }

@@ -37,12 +37,13 @@ class _DeliveryCheckState extends State<DeliveryCheck> {
     if (mounted) {
       setState(() {order = fetchedOrder;});
     }
+    if(order?.status == '배송확인') isChecked.value = true;
   }
 
   Future<bool?> checkDelivery()async {
     if(order?.status == '배송완료' && isChecked.value == false) {
-      print('order!.orderDate : ${order!.orderDate}');
-      bool value = await DeliveryService.to.checkDelivery(DateTime.parse(order!.orderDate));
+      // print('order!.orderDate : ${order!.orderDate}');
+      bool value = await DeliveryService.to.checkDelivery(DateTime.parse(order!.orderDate!));
       await DeliveryService.to.fetchDeliveryHistory(0, 20);
       return value;
     } return false;
@@ -51,18 +52,18 @@ class _DeliveryCheckState extends State<DeliveryCheck> {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(title: '배송 확인',
-        bottomSheet: Obx(() => CW.textButton(order?.status != '배송완료' ? '배송 준비중': isChecked.value ? '배송 완료' : '배송 확인',
+        bottomSheet: Obx(() => CW.textButton(order?.status == '배송완료' ? '배송 확인': isChecked.value ? '배송 완료' : '배송 준비중',
             color: isChecked.value || order?.status != '배송완료'? Colors.grey : CC.mainColor,
-            onPressed: () => checkDelivery().then((value) => isChecked.value = value!))),
+            onPressed: () => !isChecked.value ? checkDelivery().then((value) => isChecked.value = value!):null)),
         child: order == null ? const Center(child: CircularProgressIndicator()) :
           SingleChildScrollView(
             child: Column(children: [Padding(padding: const EdgeInsets.only(left: 20),
-                  child: StorenameField(name: order!.orderDate, preIcon: Icons.calendar_month, child: const SizedBox()),),
+                  child: StorenameField(name: order!.orderDate!, preIcon: Icons.calendar_month, child: const SizedBox()),),
                 CustomContainer(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Padding(padding: const EdgeInsets.fromLTRB(5,5,15,5),
                     child: StorenameField(name: '주문 내역', preIcon: Icons.receipt_long, iconColor: CC.mainColor,
                         child: Text('총 ${widget.totalOrderAmount} 개', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey))),),
-                  Column(children: order!.orderSheet.orderItems.map((orderItem) => StockField(name: orderItem.item.itemName, quantity: orderItem.quantity)).toList()),
+                  order!.orderSheet != null ? Column(children: order!.orderSheet!.orderItems.map((orderItem) => StockField(name: orderItem.item.itemName, quantity: orderItem.quantity)).toList()) : const SizedBox(),
                   order!.images != null ? imageList(order!.images!) : const SizedBox(),
                   order!.recall != null ? Column(
                     children: [
@@ -95,7 +96,7 @@ class _DeliveryCheckState extends State<DeliveryCheck> {
       ),
       itemBuilder: (BuildContext context,int index){
         // return Text(index.toString());
-        return  Container(height: 200, padding: const EdgeInsets.all(10),
+        return  Container(height: 200, padding: const EdgeInsets.all(3),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: Border.all(

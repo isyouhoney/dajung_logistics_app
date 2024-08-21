@@ -34,22 +34,28 @@ class _DeliveryHistoryState extends State<DeliveryHistory> {
     listAll = (await DeliveryService.to.fetchDeliveryHistory(skip, take))!;
   }
 
+  void filterOrderHistory(String status) {
+    print('listAll ${listAll}');
+    List newList =[];
+    listAll.forEach((e){
+      e['status'] == status ? newList.add(e) : newList = listAll;
+    });
+    DeliveryService.to.deliveryList.value = newList;
+    print(DeliveryService.to.deliveryList.value);
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(title: '배송 내역', child: SingleChildScrollView(child: Column(children: [
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: CustomDropdown(list: DeliveryStatus.values.map((fruit) => fruit.kor).toList(), selectedValue: selectedStatus,
-          onChange: (value){
-            List newList =[];
-            listAll.forEach((e){
-              e['status'] == value ? newList.add(e) : null;
-            });
-            DeliveryService.to.deliveryList.value = newList;
-          }),
-      ),
-      Obx(() => DeliveryService.to.deliveryList!=[] ? Column(children: DeliveryService.to.deliveryList.map((order) => deliveryCard(order)).toList()) :
-      const CustomContainer(child: Text('내역이 없습니다.')))
+      // Padding(padding: const EdgeInsets.symmetric(horizontal: 15),
+      //   child: CustomDropdown(list: DeliveryStatus.values.map((fruit) => fruit.kor).toList(), selectedValue: selectedStatus,
+      //     onChange: (value){
+      //
+      //       filterOrderHistory(value);
+      //     }),
+      // ),
+      Obx(() => DeliveryService.to.deliveryList.isNotEmpty ? Column(children: DeliveryService.to.deliveryList.map((order) => deliveryCard(order)).toList()) :
+      const Center(child: CustomContainer(child: Text('내역이 없습니다.'))))
       ,
     ],),));
   }

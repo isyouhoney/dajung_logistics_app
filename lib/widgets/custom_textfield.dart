@@ -58,6 +58,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             counterText:widget.counterText? null:'',
             contentPadding: const EdgeInsets.all(10),
             hintText: widget.hintText,
+            hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(color: widget.textColor),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(
