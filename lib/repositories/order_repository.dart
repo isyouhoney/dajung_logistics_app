@@ -84,7 +84,7 @@ class OrderRepository extends GetxController {
   }
 
   // SUB, DIRECT
-  Future<bool?> postOrder(DayOfWeek dayOfWeek, List<OrderItem> orderItems) async {
+  Future<bool?> postOrder(DayOfWeek dayOfWeek, List orderItems) async {
     final Uri url = Uri.parse('$baseUrl/order');
     String? accessToken = await SecureStorage.get(Cached.ACCESS);
 
@@ -118,7 +118,7 @@ class OrderRepository extends GetxController {
   }
 
   // SUB, DIRECT
-  Future<bool?> editOrder(DayOfWeek dayOfWeek, List<OrderItem> orderItems, int orderSheetId) async {
+  Future<bool?> editOrder(DayOfWeek dayOfWeek, List orderItems, int orderSheetId) async {
     final Uri url = Uri.parse('$baseUrl/order/edit');
     String? accessToken = await SecureStorage.get(Cached.ACCESS);
 

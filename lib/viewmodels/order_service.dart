@@ -8,7 +8,7 @@ class OrderService extends GetxService {
   final OrderRepository orderRepository = OrderRepository();
   static OrderService get to => Get.find();
   List<OrderSheet> orderSheets = [];
-  RxList<OrderItem> dailyOrderList = <OrderItem>[].obs;
+  RxList<OrderItem?> dailyOrderList = <OrderItem>[].obs;
   Rx<DateTime> selectDay = DateTime.now().obs;
   RxList orderReports = [].obs;
   List initList = [];
@@ -19,7 +19,7 @@ class OrderService extends GetxService {
   RxDouble settlementAmount = 0.0.obs;
   RxDouble dayAverageAmount = 0.0.obs;
 
-  Future<bool?> postOrders(DayOfWeek dayOfWeek, List<OrderItem> orderItems) async {
+  Future<bool?> postOrders(DayOfWeek dayOfWeek, List orderItems) async {
     bool? fetchedOrders;
     if(initList.isEmpty){
       print('post');

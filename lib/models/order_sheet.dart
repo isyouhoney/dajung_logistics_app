@@ -14,12 +14,9 @@ class OrderSheet with _$OrderSheet {
     required dynamic dayOfTheWeek,
     bool? activated,
     User? orderer,
-    required List<OrderItem> orderItems,
+    required List<OrderItem?> orderItems,
 }) = _OrderSheet;
 
   factory OrderSheet.fromJson(Map<String, dynamic> json) =>
-      _$OrderSheetFromJson({
-        ...json,
-        'dayOfTheWeek': DayOfWeek.fromKor(json['dayOfTheWeek']),
-      });
+      _$OrderSheetFromJson(json);
 }

@@ -1,4 +1,4 @@
-import 'package:bakery_app/models/order_sheet.dart';
+import 'package:bakery_app/models/order.dart';
 import 'package:bakery_app/utils/themeData.dart';
 import 'package:bakery_app/view/main/stock/stock_field.dart';
 import 'package:bakery_app/view/ride/delivery_report.dart';
@@ -10,8 +10,8 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class DeliveryPanel extends StatefulWidget {
-  const DeliveryPanel({super.key, required this.orderSheet});
-  final OrderSheet orderSheet;
+  const DeliveryPanel({super.key, required this.order});
+  final Order order;
 
   @override
   State<DeliveryPanel> createState() =>
@@ -43,8 +43,8 @@ class _DeliveryPanelState extends State<DeliveryPanel> {
                     padding: const EdgeInsets.only(left: 10),
                     child: Row(
                       children: [
-                        Text(widget.orderSheet.orderer!.storeName!, style: Theme.of(context).textTheme.titleMedium),
-                        CopyIcon(copyText: widget.orderSheet.orderer!.address!),
+                        Text(widget.order.orderSheet!.orderer!.storeName!, style: Theme.of(context).textTheme.titleMedium),
+                        CopyIcon(copyText: widget.order.orderSheet!.orderer!.address!),
                       ],
                     ),
                   ));
@@ -53,9 +53,11 @@ class _DeliveryPanelState extends State<DeliveryPanel> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        Column(children: widget.orderSheet.orderItems.map((e) => StockField(name: e.item.itemName, quantity: e.quantity)).toList()),
+                        widget.order.orderSheet!.orderItems.isNotEmpty ? Column(children: widget.order.orderSheet!.orderItems.map((e) =>
+                            StockField(name: e!.item.itemName, quantity: e!.quantity)).toList())
+                            : const Text('오늘의 주문이 없습니다.'),
                         const SizedBox(height: 5,),
-                        CW.textButton('배송 보고', onPressed: () => Get.to(() => DeliveryReport(orderSheet: widget.orderSheet)), height: 45, color: CC.subColor),
+                        CW.textButton('배송 보고', onPressed: () => Get.to(() => DeliveryReport(order: widget.order)), height: 45, color: CC.subColor),
                       ],
                     )
                   ),

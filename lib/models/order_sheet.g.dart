@@ -15,7 +15,8 @@ _$OrderSheetImpl _$$OrderSheetImplFromJson(Map<String, dynamic> json) =>
           ? null
           : User.fromJson(json['orderer'] as Map<String, dynamic>),
       orderItems: (json['orderItems'] as List<dynamic>)
-          .map((e) => OrderItem.fromJson(e as Map<String, dynamic>))
+          .map((e) =>
+              e == null ? null : OrderItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

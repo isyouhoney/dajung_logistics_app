@@ -156,7 +156,7 @@ class DeliveryRepository extends GetxController {
     }
   }
 
-  // MAIN, DELIVER
+  // DELIVER
   Future<List?> getDayOrders(DateTime date) async {
     String today = DateFormat('yyyy-MM-dd').format(date);
     String yesterday = DateFormat('yyyy-MM-dd').format(date.subtract(const Duration(days: 1)));
@@ -178,12 +178,18 @@ class DeliveryRepository extends GetxController {
 
     var responseBody = jsonDecode(response.body);
     var bodyStatusCode = responseBody['statusCode'];
-    print(responseBody);
+    // print(responseBody);
 
     if (bodyStatusCode == 200) {
       dynamic data = responseBody['data'];
-      List orderList = [];
-      orderList = data.map((order) => Order.fromJson(order).copyWith(recall: Recall(recallItems:order['yesterdayOrder']['orderSheet'], images: []))).toList();
+      List<Order> orderList = [];
+      orderList = data.map<Order>((order) {
+      print(order['dayOfTheWeek']);
+        List<OrderItem> recallItems = (order['yesterdayOrder']['orderSheet']['orderItems'] as List)
+            .map((orderItem) => OrderItem.fromJson(orderItem as Map<String, dynamic>)).toList();
+        return Order.fromJson(order['todayOrder']).copyWith(recall: Recall(images: [], recallItems: recallItems));
+      }).toList();
+
       return orderList;
     } else {
       logger.e('요일별 주문서 조회 요청 실패: $responseBody');

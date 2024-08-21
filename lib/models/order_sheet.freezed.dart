@@ -24,7 +24,7 @@ mixin _$OrderSheet {
   dynamic get dayOfTheWeek => throw _privateConstructorUsedError;
   bool? get activated => throw _privateConstructorUsedError;
   User? get orderer => throw _privateConstructorUsedError;
-  List<OrderItem> get orderItems => throw _privateConstructorUsedError;
+  List<OrderItem?> get orderItems => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,7 +43,7 @@ abstract class $OrderSheetCopyWith<$Res> {
       dynamic dayOfTheWeek,
       bool? activated,
       User? orderer,
-      List<OrderItem> orderItems});
+      List<OrderItem?> orderItems});
 
   $UserCopyWith<$Res>? get orderer;
 }
@@ -87,7 +87,7 @@ class _$OrderSheetCopyWithImpl<$Res, $Val extends OrderSheet>
       orderItems: null == orderItems
           ? _value.orderItems
           : orderItems // ignore: cast_nullable_to_non_nullable
-              as List<OrderItem>,
+              as List<OrderItem?>,
     ) as $Val);
   }
 
@@ -117,7 +117,7 @@ abstract class _$$OrderSheetImplCopyWith<$Res>
       dynamic dayOfTheWeek,
       bool? activated,
       User? orderer,
-      List<OrderItem> orderItems});
+      List<OrderItem?> orderItems});
 
   @override
   $UserCopyWith<$Res>? get orderer;
@@ -160,7 +160,7 @@ class __$$OrderSheetImplCopyWithImpl<$Res>
       orderItems: null == orderItems
           ? _value._orderItems
           : orderItems // ignore: cast_nullable_to_non_nullable
-              as List<OrderItem>,
+              as List<OrderItem?>,
     ));
   }
 }
@@ -173,7 +173,7 @@ class _$OrderSheetImpl extends _OrderSheet {
       required this.dayOfTheWeek,
       this.activated,
       this.orderer,
-      required final List<OrderItem> orderItems})
+      required final List<OrderItem?> orderItems})
       : _orderItems = orderItems,
         super._();
 
@@ -188,9 +188,9 @@ class _$OrderSheetImpl extends _OrderSheet {
   final bool? activated;
   @override
   final User? orderer;
-  final List<OrderItem> _orderItems;
+  final List<OrderItem?> _orderItems;
   @override
-  List<OrderItem> get orderItems {
+  List<OrderItem?> get orderItems {
     if (_orderItems is EqualUnmodifiableListView) return _orderItems;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_orderItems);
@@ -246,7 +246,7 @@ abstract class _OrderSheet extends OrderSheet {
       required final dynamic dayOfTheWeek,
       final bool? activated,
       final User? orderer,
-      required final List<OrderItem> orderItems}) = _$OrderSheetImpl;
+      required final List<OrderItem?> orderItems}) = _$OrderSheetImpl;
   _OrderSheet._() : super._();
 
   factory _OrderSheet.fromJson(Map<String, dynamic> json) =
@@ -261,7 +261,7 @@ abstract class _OrderSheet extends OrderSheet {
   @override
   User? get orderer;
   @override
-  List<OrderItem> get orderItems;
+  List<OrderItem?> get orderItems;
   @override
   @JsonKey(ignore: true)
   _$$OrderSheetImplCopyWith<_$OrderSheetImpl> get copyWith =>

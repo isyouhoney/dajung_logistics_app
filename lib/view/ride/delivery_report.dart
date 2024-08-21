@@ -1,4 +1,5 @@
 import 'package:bakery_app/models/item.dart';
+import 'package:bakery_app/models/order.dart';
 import 'package:bakery_app/models/order_item.dart';
 import 'package:bakery_app/models/order_sheet.dart';
 import 'package:bakery_app/models/recall.dart';
@@ -20,8 +21,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class DeliveryReport extends StatefulWidget {
-  const DeliveryReport({super.key, required this.orderSheet});
-  final OrderSheet orderSheet;
+  const DeliveryReport({super.key, required this.order});
+  final Order order;
 
   @override
   State<DeliveryReport> createState() => _DeliveryReportState();
@@ -47,23 +48,23 @@ class _DeliveryReportState extends State<DeliveryReport> {
   void initState() {
     super.initState();
     getTotal();
-    getRecalls();
+    // getRecalls();
   }
   
   void getTotal(){
-    for (var value in widget.orderSheet.orderItems) {
-      total += value.quantity;
-    }
+    for (var value in widget.order.orderSheet!.orderItems) {
+    total += value!.quantity;
+  }
   }
 
-  Future getRecalls() async {
-    await DeliveryService.to.fetchDayOrders(DeliveryService.to.date.value);
-    recallOrderSheet = DeliveryService.to.deliveryList.firstWhere(
-          (order) => order.id == widget.orderSheet.id,
-      orElse: () => null,
-    );
-
-  }
+  // Future getRecalls() async {
+  //   await DeliveryService.to.fetchDayOrders(DeliveryService.to.date.value);
+  //   recallOrderSheet = DeliveryService.to.deliveryList.firstWhere(
+  //         (order) => order.id == widget.order.orderSheet!.id,
+  //     orElse: () => null,
+  //   );
+  //
+  // }
 
   Future<bool?> postNotice() async {
     // print('imageList : $imageList');
@@ -78,7 +79,7 @@ class _DeliveryReportState extends State<DeliveryReport> {
       int quantity = map['quantity'];
       recallOrderItems.add(OrderItem(item: item, quantity: quantity));
     });
-    complete.value = (await DeliveryService.to.postDelivery(widget.orderSheet.orderer!,postImagePathList!,
+    complete.value = (await DeliveryService.to.postDelivery(widget.order.orderSheet!.orderer!,postImagePathList!,
         recallOrderItems.isNotEmpty ? Recall(images: postReturnImagePathList, recallItems: recallOrderItems) : Recall(images: postReturnImagePathList, recallItems: [])
     ))!;
 
@@ -88,30 +89,28 @@ class _DeliveryReportState extends State<DeliveryReport> {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(title: '배송 및 회수 확인',
-      bottomSheet: Obx(() => CW.textButton(complete.value ? '배송이 완료되었습니다.' : '배송 완료 보고', onPressed: () => !complete.value ? postNotice() : null, color: complete.value ? Colors.grey : CC.mainColor)), child: SingleChildScrollView(child: Column(children: [
-        FoldPanel(initExpand: true, titleWidget: StorenameField(name: widget.orderSheet.orderer!.storeName!, child: Text('총 $total 개', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey))),
+      bottomSheet: Obx(() => CW.textButton(complete.value ? '배송이 완료되었습니다.' : '배송 완료 보고',
+          onPressed: () => !complete.value ? postNotice() : null,
+          color: complete.value ? Colors.grey : CC.mainColor)),
+        child: SingleChildScrollView(child: Column(children: [
+        FoldPanel(initExpand: true, titleWidget: StorenameField(name: widget.order.orderSheet!.orderer!.storeName!,
+            child: Text('총 $total 개', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey))),
             bodyWidget: SingleChildScrollView(child: Column(children:
-        widget.orderSheet.orderItems.map((e) => StockField(name: e.item.itemName, quantity: e.quantity)).toList()))),
+        widget.order.orderSheet!.orderItems.map((e) => StockField(name: e!.item.itemName, quantity: e.quantity)).toList()))),
           CustomContainer(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             titleField('배송 사진 등록', const Icon(Icons.camera_alt_outlined)),
             ImageTile(imageList: imageList!, imagePathList: imagePathList!, imageSource: ImageSource.camera,)
           ],)),
           CustomContainer(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             titleField('회수 물량', const Icon(Icons.remove_circle_outline)),
-              Obx(() => Column(
-                children: DeliveryService.to.deliveryList
-                    .where((e) => e.id == widget.orderSheet.id)
-                    .expand<Widget>((e) => e.orderItems.isNotEmpty
-                    ? e.orderItems.map<Widget>((orderItem) => StockField(
+              Column(
+                children: widget.order.recall != null
+                    ? widget.order.recall!.recallItems.map<Widget>((orderItem) => StockField(
                   name: orderItem.item.itemName,
                   isCounted: (String value) {
                     recallItems[orderItem.item] = {'quantity': int.parse(value)};
                   },
-                )).toList()
-                    : [const Text('회수할 상품이 없습니다.')])
-                    .toList(),
-              )),
-
+                )).toList() : [const Text('회수할 상품이 없습니다.')]),
               titleField('회수 사진 등록', const Icon(Icons.camera_alt_outlined)),
             ImageTile(imageList: returnImageList!, imagePathList: returnImagePathList!, imageSource: ImageSource.camera)
           ]))])

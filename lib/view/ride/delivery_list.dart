@@ -36,10 +36,9 @@ class _DeliveryListState extends State<DeliveryList> {
         child: Obx(() => Text(dateFormat(DeliveryService.to.date.value), style: Theme.of(context).textTheme.titleLarge)),
       ),
       DayOfWeekSelector(onChange: (value) => getList()),
-      Obx(() => DeliveryService.to.deliveryList.isNotEmpty ? Column(children: DeliveryService.to.deliveryList.map((orderSheet) => DeliveryPanel(orderSheet: orderSheet)).toList())
-              :const Center(child: Padding(
-          padding: EdgeInsets.only(top: 80),
-      child: Text('배송 리스트가 없습니다.'),
+      Obx(() => DeliveryService.to.deliveryList.isNotEmpty ? Column(children: DeliveryService.to.deliveryList.map((order) =>
+          DeliveryPanel(order: order)).toList())
+              :const Center(child: Padding(padding: EdgeInsets.only(top: 80), child: Text('배송 리스트가 없습니다.'),
     )))
     ],),));
   }

@@ -43,7 +43,7 @@ class _AddOrderItemState extends State<AddOrderItem> {
 
   Future getItemNameList(String category) async {
     List<String> newList = ['제품명'];
-    List<String> orderItemNames = OrderService.to.dailyOrderList.map((orderItem) => orderItem.item.itemName).toList();
+    List<String?> orderItemNames = OrderService.to.dailyOrderList.map((orderItem) => orderItem?.item.itemName).toList();
 
     for (var e in itemList) {
       if(e.category.categoryName == category  && !orderItemNames.contains(e.itemName)) {

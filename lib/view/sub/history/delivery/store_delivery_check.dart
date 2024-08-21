@@ -63,7 +63,7 @@ class _DeliveryCheckState extends State<DeliveryCheck> {
                   Padding(padding: const EdgeInsets.fromLTRB(5,5,15,5),
                     child: StorenameField(name: '주문 내역', preIcon: Icons.receipt_long, iconColor: CC.mainColor,
                         child: Text('총 ${widget.totalOrderAmount} 개', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey))),),
-                  order!.orderSheet != null ? Column(children: order!.orderSheet!.orderItems.map((orderItem) => StockField(name: orderItem.item.itemName, quantity: orderItem.quantity)).toList()) : const SizedBox(),
+                  order!.orderSheet != null ? Column(children: order!.orderSheet!.orderItems.map((orderItem) => StockField(name: orderItem!.item.itemName, quantity: orderItem.quantity)).toList()) : const SizedBox(),
                   order!.images != null ? imageList(order!.images!) : const SizedBox(),
                   order!.recall != null ? Column(
                     children: [
