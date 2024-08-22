@@ -30,19 +30,21 @@ class _DeliveryPanelState extends State<DeliveryPanel> {
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
-      insidePadding: 8,
+      paddingLTRB: const EdgeInsets.symmetric(vertical: 8),
       child: ExpansionPanelList.radio(
           expandedHeaderPadding:EdgeInsets.zero,
           elevation: 0,
           expansionCallback: (int index, onTap) => isExpanded.value = onTap,
           children:[
             ExpansionPanelRadio(
+              backgroundColor: Colors.transparent,
                 canTapOnHeader: true,
                 headerBuilder: (BuildContext context, bool isExpanded) {
                   return Align(alignment: Alignment.centerLeft,child: Padding(
-                    padding: const EdgeInsets.only(left: 10),
+                    padding: const EdgeInsets.only(left: 15),
                     child: Row(
                       children: [
+                        const Icon(Icons.store),
                         Text(widget.order.orderSheet!.orderer!.storeName!, style: Theme.of(context).textTheme.titleMedium),
                         CopyIcon(copyText: widget.order.orderSheet!.orderer!.address!),
                       ],
@@ -54,10 +56,16 @@ class _DeliveryPanelState extends State<DeliveryPanel> {
                     child: Column(
                       children: [
                         widget.order.orderSheet!.orderItems.isNotEmpty ? Column(children: widget.order.orderSheet!.orderItems.map((e) =>
-                            StockField(name: e!.item.itemName, quantity: e!.quantity)).toList())
-                            : const Text('오늘의 주문이 없습니다.'),
+                            StockField(name: e!.item.itemName, quantity: e.quantity)).toList())
+                            : Padding(
+                              padding: EdgeInsets.symmetric(vertical: 8.h),
+                              child: Text('오늘의 주문이 없습니다.', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey),),
+                            ),
                         const SizedBox(height: 5,),
-                        CW.textButton('배송 보고', onPressed: () => Get.to(() => DeliveryReport(order: widget.order)), height: 45, color: CC.subColor),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: CW.textButton(widget.order.orderSheet!.orderItems.isNotEmpty ? '배송 보고' : '회수 보고', onPressed: () => Get.to(() => DeliveryReport(order: widget.order)), height: 45, color: CC.subColor),
+                        ),
                       ],
                     )
                   ),

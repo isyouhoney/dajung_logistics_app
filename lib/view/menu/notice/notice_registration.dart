@@ -46,7 +46,7 @@ class _NoticeRegistrationState extends State<NoticeRegistration> {
       await Future.wait(imageList!.map((image) async => await S3Repository.to.getPresignedUrl(image)).toList());
     }
     bool? status = await NoticeService.to.postNotices(
-      Notice(title: titleController.text, content: contentController.text, topFixed: false, images: S3Repository.to.objectUrl,),
+      Notice(title: titleController.text, content: contentController.text, topFixed: false, images: S3Repository.to.objectUrl),
     );
 
     return status;

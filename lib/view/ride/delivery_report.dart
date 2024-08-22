@@ -43,31 +43,22 @@ class _DeliveryReportState extends State<DeliveryReport> {
 
   Map<Item,Map> recallItems = {};
   RxBool complete = false.obs;
-  
+
   @override
   void initState() {
     super.initState();
     getTotal();
-    // getRecalls();
-  }
-  
-  void getTotal(){
-    for (var value in widget.order.orderSheet!.orderItems) {
-    total += value!.quantity;
-  }
   }
 
-  // Future getRecalls() async {
-  //   await DeliveryService.to.fetchDayOrders(DeliveryService.to.date.value);
-  //   recallOrderSheet = DeliveryService.to.deliveryList.firstWhere(
-  //         (order) => order.id == widget.order.orderSheet!.id,
-  //     orElse: () => null,
-  //   );
-  //
-  // }
+  void getTotal(){
+    for (var value in widget.order.orderSheet!.orderItems) {
+      total += value!.quantity;
+    }
+  }
 
   Future<bool?> postNotice() async {
     // print('imageList : $imageList');
+    // print('returnImageList : $returnImageList');
     if (imageList != null) {
       await Future.wait(imageList!.map((image) async => postImagePathList = (await S3Repository.to.getPresignedUrl(image))!).toList());
     }
@@ -85,34 +76,31 @@ class _DeliveryReportState extends State<DeliveryReport> {
 
     return complete.value;
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(title: '배송 및 회수 확인',
-      bottomSheet: Obx(() => CW.textButton(complete.value ? '배송이 완료되었습니다.' : '배송 완료 보고',
+      bottomSheet: Obx(() => CW.textButton(complete.value ? '배송/회수 완료되었습니다.' : '배송/회수 완료 보고',
           onPressed: () => !complete.value ? postNotice() : null,
           color: complete.value ? Colors.grey : CC.mainColor)),
-        child: SingleChildScrollView(child: Column(children: [
+      child: SingleChildScrollView(child: Column(children: [
         FoldPanel(initExpand: true, titleWidget: StorenameField(name: widget.order.orderSheet!.orderer!.storeName!,
             child: Text('총 $total 개', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey))),
-            bodyWidget: SingleChildScrollView(child: Column(children:
-        widget.order.orderSheet!.orderItems.map((e) => StockField(name: e!.item.itemName, quantity: e.quantity)).toList()))),
-          CustomContainer(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            titleField('배송 사진 등록', const Icon(Icons.camera_alt_outlined)),
+            bodyWidget: SingleChildScrollView(child: Column(children: widget.order.orderSheet!.orderItems.map((e) =>
+                StockField(name: e!.item.itemName, quantity: e.quantity)).toList()))),
+        widget.order.orderSheet!.orderItems.isNotEmpty ?
+        CustomContainer(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            titleField('배송 사진 등록', const Icon(Icons.camera_alt_outlined, color: Colors.grey,)),
             ImageTile(imageList: imageList!, imagePathList: imagePathList!, imageSource: ImageSource.camera,)
-          ],)),
-          CustomContainer(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            titleField('회수 물량', const Icon(Icons.remove_circle_outline)),
-              Column(
-                children: widget.order.recall != null
-                    ? widget.order.recall!.recallItems.map<Widget>((orderItem) => StockField(
-                  name: orderItem.item.itemName,
-                  isCounted: (String value) {
-                    recallItems[orderItem.item] = {'quantity': int.parse(value)};
-                  },
-                )).toList() : [const Text('회수할 상품이 없습니다.')]),
-              titleField('회수 사진 등록', const Icon(Icons.camera_alt_outlined)),
-            ImageTile(imageList: returnImageList!, imagePathList: returnImagePathList!, imageSource: ImageSource.camera)
+          ],)) : const SizedBox(),
+        CustomContainer(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          titleField('회수 물량', Icon(Icons.remove_circle_outline, color: CC.redColor,)),
+            Column(children: widget.order.recall != null ? widget.order.recall!.recallItems.map<Widget>((orderItem) =>
+                StockField(name: orderItem.item.itemName,
+                isCounted: (String value) => recallItems[orderItem.item] = {'quantity': int.parse(value)}
+              )).toList() : [const Text('회수할 상품이 없습니다.')]),
+            titleField('회수 사진 등록', const Icon(Icons.camera_alt_outlined, color: Colors.grey,)),
+          ImageTile(imageList: returnImageList!, imagePathList: returnImagePathList!, imageSource: ImageSource.camera)
           ]))])
     ));
   }

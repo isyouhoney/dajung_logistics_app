@@ -10,7 +10,7 @@ class CopyIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        padding: const EdgeInsets.fromLTRB(10,10,0,10),
         child: Row(
           children: [
             SvgPicture.asset('assets/icons/copy_icon.svg', height: 18),

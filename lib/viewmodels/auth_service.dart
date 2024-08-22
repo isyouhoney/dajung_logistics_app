@@ -59,7 +59,7 @@ class AuthService extends GetxService {
       await SecureStorage.set(Cached.SIGNIN, 'true');
       Get.snackbar('${user.ownerName}님, 반갑습니다!','오늘도 좋은 하루 보내세요.');
       print(user!.role);
-      user!.role == Role.DELIVERY? Get.to(() => const DeliveryList()): Get.offAllNamed('/');
+      user!.role == Role.DELIVERY? Get.offAll(() => const DeliveryList()): Get.offAllNamed('/');
     } else {
       CW.dajungDialog(context,'다음 사유로 로그인에 실패하였습니다.\n: $user', '확인',() => Get.back(), false);
       return user;

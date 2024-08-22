@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 
 class CustomContainer extends StatelessWidget {
-  const CustomContainer({super.key, required this.child, this.width, this.height, this.insidePadding, this.color});
+  const CustomContainer({super.key, required this.child, this.width, this.height, this.insidePadding, this.color, this.paddingLTRB});
   final Widget child;
   final double? width;
   final double? height;
   final double? insidePadding;
+  final EdgeInsets? paddingLTRB;
   final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: Container(
         width: width,
         height: height,
-        padding: EdgeInsets.all(insidePadding??10),
+        padding: paddingLTRB??EdgeInsets.all(insidePadding??10),
         decoration: BoxDecoration(
     color: color ?? Colors.white,
     borderRadius: BorderRadius.circular(14),

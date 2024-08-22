@@ -141,12 +141,12 @@ class DeliveryRepository extends GetxController {
       }),
     );
 
-    print(store.toJson());
+    // print(store.toJson());
     print(images);
     print(recall.toJson());
     var responseBody = jsonDecode(response.body);
     var bodyStatusCode = responseBody['statusCode'];
-    print(responseBody);
+    // print(responseBody);
 
     if (bodyStatusCode == 200) {
       return true;
@@ -184,7 +184,6 @@ class DeliveryRepository extends GetxController {
       dynamic data = responseBody['data'];
       List<Order> orderList = [];
       orderList = data.map<Order>((order) {
-      print(order['dayOfTheWeek']);
         List<OrderItem> recallItems = (order['yesterdayOrder']['orderSheet']['orderItems'] as List)
             .map((orderItem) => OrderItem.fromJson(orderItem as Map<String, dynamic>)).toList();
         return Order.fromJson(order['todayOrder']).copyWith(recall: Recall(images: [], recallItems: recallItems));
