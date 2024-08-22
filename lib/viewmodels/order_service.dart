@@ -8,7 +8,7 @@ class OrderService extends GetxService {
   final OrderRepository orderRepository = OrderRepository();
   static OrderService get to => Get.find();
   List<OrderSheet> orderSheets = [];
-  RxList<OrderItem?> dailyOrderList = <OrderItem>[].obs;
+  RxList<OrderItem> dailyOrderList = <OrderItem>[].obs;
   Rx<DateTime> selectDay = DateTime.now().obs;
   RxList orderReports = [].obs;
   List initList = [];

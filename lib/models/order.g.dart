@@ -7,9 +7,8 @@ part of 'order.dart';
 // **************************************************************************
 
 _$OrderImpl _$$OrderImplFromJson(Map<String, dynamic> json) => _$OrderImpl(
-      orderSheet: json['orderSheet'] == null
-          ? null
-          : OrderSheet.fromJson(json['orderSheet'] as Map<String, dynamic>),
+      orderSheet:
+          OrderSheet.fromJson(json['orderSheet'] as Map<String, dynamic>),
       orderDate: json['orderDate'] as String?,
       images:
           (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
