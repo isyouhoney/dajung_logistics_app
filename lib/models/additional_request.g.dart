@@ -9,6 +9,7 @@ part of 'additional_request.dart';
 _$AdditionalRequestImpl _$$AdditionalRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$AdditionalRequestImpl(
+      id: (json['id'] as num?)?.toInt(),
       orderItem: OrderItem.fromJson(json['orderItem'] as Map<String, dynamic>),
       requestDate: json['requestDate'] as String,
       request: json['request'] == null
@@ -23,6 +24,7 @@ _$AdditionalRequestImpl _$$AdditionalRequestImplFromJson(
 Map<String, dynamic> _$$AdditionalRequestImplToJson(
         _$AdditionalRequestImpl instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'orderItem': instance.orderItem,
       'requestDate': instance.requestDate,
       'request': instance.request,

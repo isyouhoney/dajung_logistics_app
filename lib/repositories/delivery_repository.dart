@@ -141,9 +141,6 @@ class DeliveryRepository extends GetxController {
       }),
     );
 
-    // print(store.toJson());
-    print(images);
-    print(recall.toJson());
     var responseBody = jsonDecode(response.body);
     var bodyStatusCode = responseBody['statusCode'];
     // print(responseBody);

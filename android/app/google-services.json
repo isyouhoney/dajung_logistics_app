@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:641319945837:android:53532842abd5e9943c6164",
+        "mobilesdk_app_id": "1:641319945837:android:e0ddccab645fec6a3c6164",
         "android_client_info": {
-          "package_name": "com.allev.dajung_bakery"
+          "package_name": "com.allev.bakeryApp"
         }
       },
       "oauth_client": [],

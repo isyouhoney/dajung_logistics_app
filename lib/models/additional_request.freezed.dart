@@ -20,6 +20,7 @@ AdditionalRequest _$AdditionalRequestFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$AdditionalRequest {
+  int? get id => throw _privateConstructorUsedError;
   OrderItem get orderItem => throw _privateConstructorUsedError;
   String get requestDate => throw _privateConstructorUsedError;
   User? get request => throw _privateConstructorUsedError;
@@ -39,7 +40,8 @@ abstract class $AdditionalRequestCopyWith<$Res> {
       _$AdditionalRequestCopyWithImpl<$Res, AdditionalRequest>;
   @useResult
   $Res call(
-      {OrderItem orderItem,
+      {int? id,
+      OrderItem orderItem,
       String requestDate,
       User? request,
       User? accept,
@@ -63,6 +65,7 @@ class _$AdditionalRequestCopyWithImpl<$Res, $Val extends AdditionalRequest>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? orderItem = null,
     Object? requestDate = null,
     Object? request = freezed,
@@ -70,6 +73,10 @@ class _$AdditionalRequestCopyWithImpl<$Res, $Val extends AdditionalRequest>
     Object? status = freezed,
   }) {
     return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       orderItem: null == orderItem
           ? _value.orderItem
           : orderItem // ignore: cast_nullable_to_non_nullable
@@ -135,7 +142,8 @@ abstract class _$$AdditionalRequestImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {OrderItem orderItem,
+      {int? id,
+      OrderItem orderItem,
       String requestDate,
       User? request,
       User? accept,
@@ -160,6 +168,7 @@ class __$$AdditionalRequestImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? orderItem = null,
     Object? requestDate = null,
     Object? request = freezed,
@@ -167,6 +176,10 @@ class __$$AdditionalRequestImplCopyWithImpl<$Res>
     Object? status = freezed,
   }) {
     return _then(_$AdditionalRequestImpl(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       orderItem: null == orderItem
           ? _value.orderItem
           : orderItem // ignore: cast_nullable_to_non_nullable
@@ -195,7 +208,8 @@ class __$$AdditionalRequestImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$AdditionalRequestImpl extends _AdditionalRequest {
   _$AdditionalRequestImpl(
-      {required this.orderItem,
+      {this.id,
+      required this.orderItem,
       required this.requestDate,
       this.request,
       this.accept,
@@ -205,6 +219,8 @@ class _$AdditionalRequestImpl extends _AdditionalRequest {
   factory _$AdditionalRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$AdditionalRequestImplFromJson(json);
 
+  @override
+  final int? id;
   @override
   final OrderItem orderItem;
   @override
@@ -218,7 +234,7 @@ class _$AdditionalRequestImpl extends _AdditionalRequest {
 
   @override
   String toString() {
-    return 'AdditionalRequest(orderItem: $orderItem, requestDate: $requestDate, request: $request, accept: $accept, status: $status)';
+    return 'AdditionalRequest(id: $id, orderItem: $orderItem, requestDate: $requestDate, request: $request, accept: $accept, status: $status)';
   }
 
   @override
@@ -226,6 +242,7 @@ class _$AdditionalRequestImpl extends _AdditionalRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AdditionalRequestImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.orderItem, orderItem) ||
                 other.orderItem == orderItem) &&
             (identical(other.requestDate, requestDate) ||
@@ -237,8 +254,8 @@ class _$AdditionalRequestImpl extends _AdditionalRequest {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, orderItem, requestDate, request,
-      accept, const DeepCollectionEquality().hash(status));
+  int get hashCode => Object.hash(runtimeType, id, orderItem, requestDate,
+      request, accept, const DeepCollectionEquality().hash(status));
 
   @JsonKey(ignore: true)
   @override
@@ -257,7 +274,8 @@ class _$AdditionalRequestImpl extends _AdditionalRequest {
 
 abstract class _AdditionalRequest extends AdditionalRequest {
   factory _AdditionalRequest(
-      {required final OrderItem orderItem,
+      {final int? id,
+      required final OrderItem orderItem,
       required final String requestDate,
       final User? request,
       final User? accept,
@@ -267,6 +285,8 @@ abstract class _AdditionalRequest extends AdditionalRequest {
   factory _AdditionalRequest.fromJson(Map<String, dynamic> json) =
       _$AdditionalRequestImpl.fromJson;
 
+  @override
+  int? get id;
   @override
   OrderItem get orderItem;
   @override

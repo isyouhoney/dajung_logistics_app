@@ -4,10 +4,11 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class FoldPanel extends StatefulWidget {
-  const FoldPanel({super.key, required this.initExpand, required this.titleWidget, required this.bodyWidget});
+  const FoldPanel({super.key, required this.initExpand, required this.titleWidget, required this.bodyWidget, this.height});
   final bool initExpand;
   final Widget titleWidget;
   final Widget bodyWidget;
+  final double? height;
 
   @override
   State<FoldPanel> createState() =>
@@ -30,6 +31,7 @@ class _FoldPanelState extends State<FoldPanel> {
       child: ExpansionPanelList.radio(
           expandedHeaderPadding:EdgeInsets.zero,
           elevation: 0,
+          initialOpenPanelValue: widget.initExpand,
           expansionCallback: (int index, onTap) => isExpanded.value = onTap,
           children:[
             ExpansionPanelRadio(
@@ -40,7 +42,7 @@ class _FoldPanelState extends State<FoldPanel> {
                     child: widget.titleWidget
                   ));
                 },
-                body: SizedBox(height: 25.h,
+                body: SizedBox(height: widget.height ?? 25.h,
                   child: SingleChildScrollView(
                       child: widget.bodyWidget
                   ),

@@ -64,7 +64,7 @@ class _DeliveryPanelState extends State<DeliveryPanel> {
                         const SizedBox(height: 5,),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: CW.textButton(widget.order.orderSheet!.orderItems.isNotEmpty ? '배송 보고' : '회수 보고', onPressed: () => Get.to(() => DeliveryReport(order: widget.order)), height: 45, color: CC.subColor),
+                          child: CW.textButton(widget.order.orderSheet!.orderItems.isNotEmpty ? '배송 보고' : '회수 보고', onPressed: () => Get.to(() => DeliveryReport(order: widget.order)), height: 45, color: CC.mainColorShaded),
                         ),
                       ],
                     )

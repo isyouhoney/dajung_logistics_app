@@ -29,4 +29,11 @@ class RequestService extends GetxService {
     }
   }
 
+  Future<void> acceptRequest(int id) async {
+    var acceptedRequest = await requestRepository.acceptRequest(id);
+    if (acceptedRequest != null){
+    } else {
+      print('추가요청 수락을 실패했습니다.');
+    }
+  }
 }

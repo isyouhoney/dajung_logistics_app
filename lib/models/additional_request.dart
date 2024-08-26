@@ -9,6 +9,7 @@ part 'additional_request.g.dart';
 class AdditionalRequest with _$AdditionalRequest {
   const AdditionalRequest._();
   factory AdditionalRequest({
+    int? id,
     required OrderItem orderItem,
     required String requestDate,
     User? request,

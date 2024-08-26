@@ -32,6 +32,7 @@ class _DeliveryReportState extends State<DeliveryReport> {
   int total = 0;
 
   OrderSheet recallOrderSheet = OrderSheet(dayOfTheWeek: DayOfWeek.fromKor(DateFormat('E', 'ko_KR').format(DateTime.now())), orderItems: []);
+  Map<Item,Map> recallItems = {};
 
   List<XFile>? imageList = [];
   RxList<String>? imagePathList = <String>[].obs;
@@ -41,7 +42,7 @@ class _DeliveryReportState extends State<DeliveryReport> {
   RxList<String>? returnImagePathList = <String>[].obs;
   List<String> postReturnImagePathList = <String>[];
 
-  Map<Item,Map> recallItems = {};
+  RxBool isLoading = false.obs;
   RxBool complete = false.obs;
 
   @override
@@ -51,44 +52,57 @@ class _DeliveryReportState extends State<DeliveryReport> {
   }
 
   void getTotal(){
-    for (var value in widget.order.orderSheet!.orderItems) {
-      total += value!.quantity;
+    for (var value in widget.order.orderSheet.orderItems) {
+      total += value.quantity;
     }
   }
 
   Future<bool?> postNotice() async {
-    // print('imageList : $imageList');
-    // print('returnImageList : $returnImageList');
-    if (imageList != null) {
-      await Future.wait(imageList!.map((image) async => postImagePathList = (await S3Repository.to.getPresignedUrl(image))!).toList());
-    }
-    if (returnImageList != null) {
-      await Future.wait(returnImageList!.map((image) async => postReturnImagePathList = (await S3Repository.to.getPresignedUrl(image))!).toList());
-    }
-    List<OrderItem> recallOrderItems = [];
-    recallItems.forEach((item, map) {
-      int quantity = map['quantity'];
-      recallOrderItems.add(OrderItem(item: item, quantity: quantity));
-    });
-    complete.value = (await DeliveryService.to.postDelivery(widget.order.orderSheet!.orderer!,postImagePathList!,
-        recallOrderItems.isNotEmpty ? Recall(images: postReturnImagePathList, recallItems: recallOrderItems) : Recall(images: postReturnImagePathList, recallItems: [])
-    ))!;
+    isLoading.value = true;
 
-    return complete.value;
+    try {
+      if (imageList != null) {
+        await Future.wait(imageList!.map((image) async =>
+        postImagePathList = (await S3Repository.to.getPresignedUrl(image))!)
+            .toList());
+      }
+      if (returnImageList != null) {
+        await Future.wait(returnImageList!.map((image) async =>
+        postReturnImagePathList =
+        (await S3Repository.to.getPresignedUrl(image))!).toList());
+      }
+      List<OrderItem> recallOrderItems = [];
+      recallItems.forEach((item, map) {
+        int quantity = map['quantity'];
+        recallOrderItems.add(OrderItem(item: item, quantity: quantity));
+      });
+      complete.value = (await DeliveryService.to.postDelivery(
+          widget.order.orderSheet.orderer!, postImagePathList!,
+          recallOrderItems.isNotEmpty
+              ? Recall(
+              images: postReturnImagePathList, recallItems: recallOrderItems)
+              : Recall(images: postReturnImagePathList, recallItems: [])
+      ))!;
+
+      return complete.value;
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(title: '배송 및 회수 확인',
-      bottomSheet: Obx(() => CW.textButton(complete.value ? '배송/회수 완료되었습니다.' : '배송/회수 완료 보고',
-          onPressed: () => !complete.value ? postNotice() : null,
-          color: complete.value ? Colors.grey : CC.mainColor)),
+      bottomSheet: Obx(() => isLoading.value ? loadingButton()
+          : CW.textButton(complete.value ? '배송/회수 완료되었습니다.' : '배송/회수 완료 보고',
+          onPressed: () => !complete.value && !isLoading.value ? postNotice() : null,
+          color: complete.value || isLoading.value ? Colors.grey : CC.mainColor)),
       child: SingleChildScrollView(child: Column(children: [
-        FoldPanel(initExpand: true, titleWidget: StorenameField(name: widget.order.orderSheet!.orderer!.storeName!,
+        FoldPanel(initExpand: true, titleWidget: StorenameField(name: widget.order.orderSheet.orderer!.storeName!,
             child: Text('총 $total 개', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey))),
-            bodyWidget: SingleChildScrollView(child: Column(children: widget.order.orderSheet!.orderItems.map((e) =>
-                StockField(name: e!.item.itemName, quantity: e.quantity)).toList()))),
-        widget.order.orderSheet!.orderItems.isNotEmpty ?
+            bodyWidget: SingleChildScrollView(child: Column(children: widget.order.orderSheet.orderItems.map((e) =>
+                StockField(name: e.item.itemName, quantity: e.quantity)).toList()))),
+        widget.order.orderSheet.orderItems.isNotEmpty ?
         CustomContainer(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             titleField('배송 사진 등록', const Icon(Icons.camera_alt_outlined, color: Colors.grey,)),
             ImageTile(imageList: imageList!, imagePathList: imagePathList!, imageSource: ImageSource.camera,)
@@ -116,5 +130,15 @@ class _DeliveryReportState extends State<DeliveryReport> {
         ],
       ),
     );
+  }
+
+  Widget loadingButton(){
+    return Container(
+        width: double.maxFinite,
+        height: 50,
+        decoration: BoxDecoration(
+          color: Colors.grey,
+          borderRadius: BorderRadius.circular(12),),
+        child: const Center(child: SizedBox(width:25, height:25, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 5)))) ;
   }
 }

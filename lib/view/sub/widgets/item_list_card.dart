@@ -1,5 +1,6 @@
 import 'package:bakery_app/models/additional_request.dart';
 import 'package:bakery_app/utils/themeData.dart';
+import 'package:bakery_app/viewmodels/request_service.dart';
 import 'package:bakery_app/widgets/custom_container.dart';
 import 'package:bakery_app/widgets/custom_widget.dart';
 import 'package:flutter/material.dart';
@@ -15,13 +16,6 @@ class ItemListCard extends StatefulWidget {
 }
 
 class _ItemListCardState extends State<ItemListCard> {
-  // late RxString status;
-  //
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   status.value = widget.request.status;
-  // }
   @override
   Widget build(BuildContext context) {
     return CustomContainer(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -40,8 +34,9 @@ class _ItemListCardState extends State<ItemListCard> {
               Text('${widget.request.orderItem.item.itemName} - ${widget.request.orderItem.quantity} EA', style: Theme.of(context).textTheme.labelMedium?.copyWith(height: 1.5)),
             ])),
       ),
-      // Obx(()=>CW.textButton(status.value, height: 40, radius: 10, onPressed: (){}))
-      CW.textButton(widget.request.status, height: 40, radius: 10, onPressed: (){})
+      CW.textButton(widget.request.status, height: 40, radius: 10, onPressed: (){
+        widget.request.status == '요청중' ? RequestService.to.acceptRequest(widget.request.id!):null;
+      }),
     ],),);
   }
 }

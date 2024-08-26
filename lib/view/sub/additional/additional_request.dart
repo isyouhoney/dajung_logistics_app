@@ -3,10 +3,13 @@ import 'package:bakery_app/utils/themeData.dart';
 import 'package:bakery_app/view/sub/additional/request_additional_item.dart';
 import 'package:bakery_app/view/sub/widgets/item_list_card.dart';
 import 'package:bakery_app/viewmodels/request_service.dart';
+import 'package:bakery_app/widgets/banner_field.dart';
 import 'package:bakery_app/widgets/custom_widget.dart';
 import 'package:bakery_app/widgets/default_layout.dart';
+import 'package:bakery_app/widgets/fold_pannel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class AdditionalRequest extends StatefulWidget {
   const AdditionalRequest({super.key});
@@ -27,22 +30,25 @@ class _AdditionalRequestState extends State<AdditionalRequest> {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(title: '제품 요청',
-      bottomSheet: CW.textButton('제품 요청하기', onPressed: () => showDialog(context: context, builder: (ctx) => const RequestAdditionalItem()), color: CC.mainColorOpacity), child:
-    Obx(()=>SingleChildScrollView(
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+      bottomSheet: CW.textButton('제품 요청하기', onPressed: () => showDialog(context: context, builder: (ctx) => const RequestAdditionalItem()), color: CC.mainColorOpacity),
+      child: Obx(()=>SingleChildScrollView(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text('진행중인 요청', style: Theme.of(context).textTheme.titleMedium),
+            FoldPanel(initExpand: true, titleWidget: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('진행중인 요청', style: Theme.of(context).textTheme.titleMedium),
+                Text('${RequestService.to.requestList.length}건', style: Theme.of(context).textTheme.titleMedium),
+              ],
             ),
-            RequestService.to.requestList.isEmpty? const Center(child: Padding(padding: EdgeInsets.all(30),
-              child: Text('현재 진행중인 요청이 없습니다.'),)):
-            Obx(() => Column(children: RequestService.to.requestList.value.map((value) => ItemListCard(request: value)).toList())),
-            const SizedBox(height: 10,),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text('나의 요청', style: Theme.of(context).textTheme.titleMedium),
-            ),
+                bodyWidget: RequestService.to.requestList.isEmpty?
+                  Center(child: Padding(padding: EdgeInsets.symmetric(vertical: 7.5.h), child: const Text('현재 진행중인 요청이 없습니다.'))):
+                  Obx(() => BannerField(list:RequestService.to.requestList.value.map((value) => ItemListCard(request: value)).toList())),
+                height: 24.h),
+            Padding(padding: const EdgeInsets.fromLTRB(15,5,0,5),
+              child: Row(children: [
+                  const Icon(Icons.add_shopping_cart),
+                  const SizedBox(width: 5,),
+                  Text('나의 요청', style: Theme.of(context).textTheme.titleMedium),],),),
             RequestService.to.myRequestHistory.isEmpty? const Center(child: Padding(padding: EdgeInsets.all(30),
               child: Text('나의 요청 기록이 없습니다.'),)):
             Obx(() => Column(children: RequestService.to.myRequestHistory.value.map((value) => ItemListCard(request: value)).toList())),

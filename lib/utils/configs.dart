@@ -67,7 +67,7 @@ class InitialSettings {
       minimumFetchInterval: const Duration(hours: 1),
     ));
     await remoteConfig.setDefaults(const {
-      'app_version': 18,
+      'app_version': 2,
     });
 
     // Fetch the values from Firebase Remote Config

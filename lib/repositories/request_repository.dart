@@ -86,4 +86,35 @@ class RequestRepository extends GetxController {
       return false;
     }
   }
+
+  Future<bool?> acceptRequest(int id) async {
+    final Uri url = Uri.parse('$baseUrl/additional-request/accept');
+    String? accessToken = await SecureStorage.get(Cached.ACCESS);
+
+    if (accessToken == null) {
+      logger.e('액세스 토큰이 없습니다.');
+      return false;
+    }
+
+    final response = await http.patch(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $accessToken',
+      },
+      body: jsonEncode({
+        'id':id,
+      }),
+    );
+
+    var responseBody = jsonDecode(response.body);
+    var bodyStatusCode = responseBody['statusCode'];
+
+    if (bodyStatusCode == 200) {
+      return true;
+    } else {
+      logger.e('제품 등록 요청 실패: $responseBody');
+      return false;
+    }
+  }
 }
