@@ -29,11 +29,23 @@ class RequestService extends GetxService {
     }
   }
 
-  Future<void> acceptRequest(int id) async {
+  Future<bool> acceptRequest(int id) async {
     var acceptedRequest = await requestRepository.acceptRequest(id);
     if (acceptedRequest != null){
+      return true;
     } else {
       print('추가요청 수락을 실패했습니다.');
+      return false;
+    }
+  }
+
+  Future<bool> cancelRequest(int id) async {
+    var canceledRequest = await requestRepository.cancelRequest(id);
+    if (canceledRequest != null){
+      return true;
+    } else {
+      print('추가요청 수락을 실패했습니다.');
+      return false;
     }
   }
 }

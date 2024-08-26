@@ -1,5 +1,7 @@
 import 'package:bakery_app/models/additional_request.dart';
+import 'package:bakery_app/utils/enums.dart';
 import 'package:bakery_app/utils/themeData.dart';
+import 'package:bakery_app/viewmodels/auth_service.dart';
 import 'package:bakery_app/viewmodels/request_service.dart';
 import 'package:bakery_app/widgets/custom_container.dart';
 import 'package:bakery_app/widgets/custom_widget.dart';
@@ -16,6 +18,8 @@ class ItemListCard extends StatefulWidget {
 }
 
 class _ItemListCardState extends State<ItemListCard> {
+  RxBool isActivated = true.obs;
+
   @override
   Widget build(BuildContext context) {
     return CustomContainer(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -34,9 +38,17 @@ class _ItemListCardState extends State<ItemListCard> {
               Text('${widget.request.orderItem.item.itemName} - ${widget.request.orderItem.quantity} EA', style: Theme.of(context).textTheme.labelMedium?.copyWith(height: 1.5)),
             ])),
       ),
-      CW.textButton(widget.request.status, height: 40, radius: 10, onPressed: (){
-        widget.request.status == '요청중' ? RequestService.to.acceptRequest(widget.request.id!):null;
-      }),
+      Obx(() => CW.textButton(height: 40, radius: 10,
+          color: !isActivated.value ? Colors.grey :
+          widget.request.request?.id != AuthService.to.user?.id ? CC.errorColor : CC.mainColor,
+          widget.request.status == '요청중' ? widget.request.request?.id == AuthService.to.user?.id ? '요청취소' : '수락하기': widget.request.status,
+          onPressed: (){
+            isActivated.value ? widget.request.request?.id != AuthService.to.user?.id ?
+            RequestService.to.acceptRequest(widget.request.id!).then((value) => isActivated.value = true) :
+            RequestService.to.cancelRequest(widget.request.id!).then((value) => isActivated.value = true) : null;
+            RequestService.to.fetchRequests(RequestedBy.byMe);
+            RequestService.to.fetchRequests(RequestedBy.byOthers);
+      })),
     ],),);
   }
 }

@@ -63,13 +63,14 @@ class _DeliveryReportState extends State<DeliveryReport> {
     try {
       if (imageList != null) {
         await Future.wait(imageList!.map((image) async =>
-        postImagePathList = (await S3Repository.to.getPresignedUrl(image))!)
-            .toList());
+        postImagePathList = (await S3Repository.to.getPresignedUrl(image))!).toList());
+        print(postImagePathList);
+        S3Repository.to.objectUrl.clear();
       }
       if (returnImageList != null) {
         await Future.wait(returnImageList!.map((image) async =>
-        postReturnImagePathList =
-        (await S3Repository.to.getPresignedUrl(image))!).toList());
+        postReturnImagePathList = (await S3Repository.to.getPresignedUrl(image))!).toList());
+        print(postReturnImagePathList);
       }
       List<OrderItem> recallOrderItems = [];
       recallItems.forEach((item, map) {

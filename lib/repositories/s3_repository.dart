@@ -54,8 +54,8 @@ class S3Repository extends GetxController {
 
   Future<List<String>?> uploadImageToS3(String presignedUrl, XFile? _image, String contentType, String filename) async {
     try {
-      List<String> getUrl= [];
-      objectUrl.clear();
+      // List<String> getUrl= [];
+      // objectUrl.clear();
       final bytes = await _image!.readAsBytes();
 
       // S3 버킷에 이미지 업로드 요청
@@ -69,9 +69,9 @@ class S3Repository extends GetxController {
 
       if (uploadImageResponse.statusCode == 200) {
         objectUrl.add('$s3Url/$filename');
-        getUrl.add('$s3Url/$filename');
-        print('getUrl : $getUrl');
-        return getUrl;
+        // getUrl.add('$s3Url/$filename');
+        // print('getUrl : $getUrl');
+        return objectUrl;
       } else {
         print('Failed to upload a image: ${uploadImageResponse.body}');
       }

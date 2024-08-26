@@ -29,7 +29,7 @@ class _AdditionalRequestState extends State<AdditionalRequest> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultLayout(title: '제품 요청',
+    return DefaultLayout(title: '제품 ㅌㅌ요청',
       bottomSheet: CW.textButton('제품 요청하기', onPressed: () => showDialog(context: context, builder: (ctx) => const RequestAdditionalItem()), color: CC.mainColorOpacity),
       child: Obx(()=>SingleChildScrollView(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start,

@@ -69,10 +69,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                 // badgeNumber: 1
               )),
         );
-        setState(() {
+        // setState(() {
           messageString = message.notification!.body!;
           // print("Foreground 메시지 수신: ${message.data}");
-        });
+        // });
       }
     });
   }
