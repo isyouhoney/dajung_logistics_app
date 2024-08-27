@@ -10,8 +10,11 @@ import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ItemListCard extends StatefulWidget {
-  const ItemListCard({super.key, required this.request});
+  const ItemListCard({super.key, required this.request, required this.onPressed, required this.color, required this.text});
   final AdditionalRequest request;
+  final Function(bool) onPressed;
+  final Color color;
+  final String text;
 
   @override
   State<ItemListCard> createState() => _ItemListCardState();
@@ -39,13 +42,14 @@ class _ItemListCardState extends State<ItemListCard> {
             ])),
       ),
       Obx(() => CW.textButton(height: 40, radius: 10,
-          color: !isActivated.value ? Colors.grey :
-          widget.request.request?.id != AuthService.to.user?.id ? CC.errorColor : CC.mainColor,
-          widget.request.status == '요청중' ? widget.request.request?.id == AuthService.to.user?.id ? '요청취소' : '수락하기': widget.request.status,
-          onPressed: (){
-            isActivated.value ? widget.request.request?.id != AuthService.to.user?.id ?
-            RequestService.to.acceptRequest(widget.request.id!).then((value) => isActivated.value = true) :
-            RequestService.to.cancelRequest(widget.request.id!).then((value) => isActivated.value = true) : null;
+          color: !isActivated.value ? Colors.grey : widget.color,
+          widget.text,
+          onPressed: () async {
+            // isActivated.value ? widget.request.request?.id != AuthService.to.user?.id ?
+            // RequestService.to.acceptRequest(widget.request.id!).then((value) => isActivated.value = true) :
+            // RequestService.to.cancelRequest(widget.request.id!).then((value) => isActivated.value = true) : null;
+            await widget.onPressed(isActivated.value).call();
+            print(isActivated);
             RequestService.to.fetchRequests(RequestedBy.byMe);
             RequestService.to.fetchRequests(RequestedBy.byOthers);
       })),

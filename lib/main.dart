@@ -18,6 +18,7 @@ import 'package:bakery_app/viewmodels/item_service.dart';
 import 'package:bakery_app/viewmodels/notice_service.dart';
 import 'package:bakery_app/viewmodels/order_service.dart';
 import 'package:bakery_app/viewmodels/production_service.dart';
+import 'package:bakery_app/viewmodels/report_service.dart';
 import 'package:bakery_app/viewmodels/request_service.dart';
 import 'package:bakery_app/viewmodels/search_place_service.dart';
 import 'package:bakery_app/viewmodels/userType_service.dart';
@@ -205,6 +206,7 @@ class InitialBinding extends Bindings {
     Get.lazyPut(()=>DeliveryService());
     Get.put(NoticeRepository());
     Get.put(NoticeService());
+    Get.lazyPut(()=>ReportService());
   }
 }
 

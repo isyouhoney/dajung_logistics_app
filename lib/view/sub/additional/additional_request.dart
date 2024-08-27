@@ -8,7 +8,7 @@ import 'package:bakery_app/widgets/custom_widget.dart';
 import 'package:bakery_app/widgets/default_layout.dart';
 import 'package:bakery_app/widgets/fold_pannel.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class AdditionalRequest extends StatefulWidget {
@@ -29,7 +29,7 @@ class _AdditionalRequestState extends State<AdditionalRequest> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultLayout(title: '제품 ㅌㅌ요청',
+    return DefaultLayout(title: '제품 요청',
       bottomSheet: CW.textButton('제품 요청하기', onPressed: () => showDialog(context: context, builder: (ctx) => const RequestAdditionalItem()), color: CC.mainColorOpacity),
       child: Obx(()=>SingleChildScrollView(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,8 +41,17 @@ class _AdditionalRequestState extends State<AdditionalRequest> {
               ],
             ),
                 bodyWidget: RequestService.to.requestList.isEmpty?
-                  Center(child: Padding(padding: EdgeInsets.symmetric(vertical: 7.5.h), child: const Text('현재 진행중인 요청이 없습니다.'))):
-                  Obx(() => BannerField(list:RequestService.to.requestList.value.map((value) => ItemListCard(request: value)).toList())),
+                  Center(child: Padding(padding: EdgeInsets.symmetric(vertical: 7.5.h),
+                      child: const Text('현재 진행중인 요청이 없습니다.'))):
+                  Obx(() => BannerField(list:RequestService.to.requestList.value.map((value) =>
+                      ItemListCard(request: value, onPressed: (isActivated) {
+                        isActivated ? RequestService.to.acceptRequest(value.id!).then((success) {
+                          if(success){
+                            CW.dajungDialog(context,'${value.orderItem.item.itemName}/${value.orderItem.quantity}개 요청을 수락하였습니다.','확인', () => Get.back(), false);
+                            isActivated = false;
+                          }
+                    }) : null;
+                  }, color: CC.errorColor, text: '수락하기')).toList())),
                 height: 24.h),
             Padding(padding: const EdgeInsets.fromLTRB(15,5,0,5),
               child: Row(children: [
@@ -51,7 +60,15 @@ class _AdditionalRequestState extends State<AdditionalRequest> {
                   Text('나의 요청', style: Theme.of(context).textTheme.titleMedium),],),),
             RequestService.to.myRequestHistory.isEmpty? const Center(child: Padding(padding: EdgeInsets.all(30),
               child: Text('나의 요청 기록이 없습니다.'),)):
-            Obx(() => Column(children: RequestService.to.myRequestHistory.value.map((value) => ItemListCard(request: value)).toList())),
+            Obx(() => Column(children: RequestService.to.myRequestHistory.value.map((value) =>
+                ItemListCard(request: value, onPressed: (isActivated) {
+                  isActivated ? RequestService.to.cancelRequest(value.id!).then((success) {
+                    if(success){
+                      CW.dajungDialog(context,'요청을 취소하였습니다.','확인', () => Get.back(), false);
+                      isActivated = false;
+                    }
+              }) : null;
+            }, color: CC.mainColor, text: value.status == '요청중' ? '요청취소' : value.status)).toList())),
           ],
         ),
       ),

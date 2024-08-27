@@ -1,9 +1,10 @@
 import 'package:bakery_app/utils/themeData.dart';
-import 'package:bakery_app/viewmodels/order_service.dart';
+import 'package:bakery_app/viewmodels/report_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:intl/intl.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class SalesCalendar extends StatefulWidget {
@@ -17,41 +18,21 @@ class SalesCalendar extends StatefulWidget {
 
 class _SalesCalendarState extends State<SalesCalendar> {
 
-  RxMap dayTotals = {}.obs;
-  RxMap dayOrderItems = {}.obs;
-
   List getOrderData(DateTime day) {
-    WidgetsBinding.instance!.addPostFrameCallback((_){
-    if(OrderService.to.orderReports.isNotEmpty){
-        num dayTotal = 0;
-        dayOrderItems.clear();
-        dayTotals.clear();
-
-      OrderService.to.orderReports.forEach((orderSheet){
-        dayTotal = 0;
-        orderSheet['data'].forEach((item){
-          dayTotal += item['salePrice'];
-        });
-        // order['data'].forEach((item){
-        //   dayTotal += item['saleAmount'];
-        // });
-        dayOrderItems[DateTime.parse(orderSheet['date'])] = orderSheet['data'];
-        dayTotals[DateTime.parse(orderSheet['date'])] = dayTotal;
-        print(dayOrderItems);
-        print(dayTotals);
-
-      });
-    }});
-    return dayTotals[day] ?? [];
+    DateTime localDay = DateTime(day.year, day.month, day.day);
+    for (DateTime date in ReportService.to.dayTotals.keys) {
+      if (date.year == localDay.year && date.month == localDay.month && date.day == localDay.day) {
+        return ReportService.to.dayTotals[date] ?? [];
+      }
+    }
+    return [];
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Column(
+    return Column(
         children: [
-          Obx(()=>Column(
+          Obx(() => ReportService.to.dayTotals.isNotEmpty ? Column(
             children: [
               TableCalendar(
                 locale: 'ko_KR',
@@ -59,13 +40,16 @@ class _SalesCalendarState extends State<SalesCalendar> {
                 lastDay: DateTime(2050, 1, 1),
                 focusedDay: widget.selectDay.value,
                 headerStyle: HeaderStyle(formatButtonVisible: false, titleCentered: true,
+                    headerPadding: EdgeInsets.zero,
+                    titleTextStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
                     leftChevronIcon: Icon(Icons.chevron_left, color: CC.mainColor,),
                     rightChevronIcon: Icon(Icons.chevron_right, color: CC.mainColor,),
                 ),
-                calendarStyle: CalendarStyle(weekendTextStyle : TextStyle(color: CC.errorColor),
+                calendarStyle: CalendarStyle(
+                  weekendTextStyle : TextStyle(color: CC.errorColor),
                   selectedDecoration : BoxDecoration(
-                    color: CC.mainColor,
-                    shape: BoxShape.circle,
+                      color: CC.mainColor,
+                      shape: BoxShape.circle,
                   ),
                   todayDecoration : BoxDecoration(
                     color: CC.subColor,
@@ -80,43 +64,68 @@ class _SalesCalendarState extends State<SalesCalendar> {
                 },
                 onPageChanged: (focusedDay) {
                   widget.selectDay.value = focusedDay;
-                  OrderService.to.getOrderHistory(widget.selectDay.value);
-                  // print('focusDay: ${widget.focusDay}');
+                  ReportService.to.getOrderHistory(widget.selectDay.value);
                 },
                 eventLoader: getOrderData,
-                calendarBuilders: CalendarBuilders(
-                markerBuilder: (context, day, order) {
+                calendarBuilders: CalendarBuilders(markerBuilder: (context, day, order) {
                     if(order.isNotEmpty) {
-                      return Text('${order[0].toString()}원');
+                      return order[0] != 0 ? Text(NumberFormat('###,###,###,###').format(order[0]).toString(), style: TextStyle(fontSize: 10, color: CC.mainColorShaded, fontWeight: FontWeight.w700)) : const SizedBox();
                     }
                     return null;
                 })
                   ),
               const SizedBox(height: 10,),
-              Text('${DateFormat('MM월 dd일 ').format(widget.selectDay.value)} 판매내역', style: Theme.of(context).textTheme.titleMedium,),
+              Text('${DateFormat('MM월 dd일 ').format(widget.selectDay.value)} 판매내역', style: Theme.of(context).textTheme.titleMedium),
+              const SizedBox(height: 10,),
             ],
+          ) : const CircularProgressIndicator(),
           ),
-          ),
-          Obx(()=> dayOrderItems[widget.selectDay.value] != null ? Column(children: [
-            const Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-            Text('상품명'),
-            Text('주문'),
-            Text('회수'),
-            Text('판매'),
-            Text('판매금액'),
-            ],),
-            dayOrderItems[widget.selectDay.value].map((dayOrder){
-            Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-              Text(dayOrder['itemName']),
-              Text('${dayOrder['orderAmount'].toString()}개'),
-              Text('${dayOrder['recallAmount'].toString()}개'),
-              Text('${(dayOrder['orderAmount']-dayOrder['recallAmount']).toString()}개'),
-              Text(dayOrder['saleAmount']),
-            ],);
-          })]):const Center(child: Padding(
-            padding: EdgeInsets.only(top: 80),
-            child: Text('판매 내역이 없습니다.'),
-          )))
+          Obx(() {
+            DateTime selectedDate = DateTime(widget.selectDay.value.year, widget.selectDay.value.month, widget.selectDay.value.day);
+            var dayOrderItemsForSelectedDate = ReportService.to.dayOrderItems[selectedDate];
+
+            if (dayOrderItemsForSelectedDate != null && dayOrderItemsForSelectedDate.isNotEmpty) {
+              return Column(
+                children: [
+                  tableFormat('상품명', '주문', '회수', '판매', '판매금액', isTitle: true),
+                  ...dayOrderItemsForSelectedDate.map<Widget>((dayOrder) {
+                    String formattedPrice = NumberFormat('###,###,###,###').format(dayOrder['salePrice']).toString();
+                    return tableFormat(
+                        dayOrder['itemName'], '${dayOrder['orderAmount']}개',
+                        '${dayOrder['recallAmount']}개',
+                        '${dayOrder['orderAmount'] - dayOrder['recallAmount']}개', '$formattedPrice 원');
+                  }).toList(),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Align(alignment: Alignment.centerRight,child: Text('Total ${NumberFormat('###,###,###,###').format(ReportService.to.dayTotals[selectedDate]?[0])}원', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: CC.mainColorShaded))),
+                  )
+                ],
+              );
+            } else {
+              return const Center(
+                child: Padding(
+                  padding: EdgeInsets.only(top: 80),
+                  child: Text('판매 내역이 없습니다.'),
+                ),
+              );
+            }
+          })
+
+        ],
+    );
+  }
+
+  Widget tableFormat(String name, String orderNum, String recallNum, String saleNum, String price, {bool isTitle = false}){
+    return Padding(
+      padding: const EdgeInsets.all(5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(width: 35.w, child: Align(alignment: isTitle? Alignment.center : Alignment.centerLeft, child: Text(name, style: isTitle ? Theme.of(context).textTheme.titleMedium?.copyWith(color:CC.mainColorShaded) : Theme.of(context).textTheme.titleMedium))),
+          SizedBox(width: 12.w, child: Text(orderNum, style: isTitle ? Theme.of(context).textTheme.titleMedium?.copyWith(color:CC.mainColorShaded) : Theme.of(context).textTheme.bodyLarge)),
+          SizedBox(width: 12.w, child: Text(recallNum, style: isTitle ? Theme.of(context).textTheme.titleMedium?.copyWith(color:CC.mainColorShaded) : Theme.of(context).textTheme.bodyLarge)),
+          SizedBox(width: 12.w, child: Text(saleNum, style: isTitle ? Theme.of(context).textTheme.titleMedium?.copyWith(color:CC.mainColorShaded) : Theme.of(context).textTheme.bodyLarge)),
+          SizedBox(width: 20.w, child: Align(alignment: isTitle? Alignment.center : Alignment.centerRight, child : Text(price, style: isTitle ? Theme.of(context).textTheme.titleMedium?.copyWith(color:CC.mainColorShaded) : Theme.of(context).textTheme.bodyLarge))),
         ],
       ),
     );

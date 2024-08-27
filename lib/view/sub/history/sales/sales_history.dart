@@ -1,6 +1,6 @@
 import 'package:bakery_app/utils/themeData.dart';
 import 'package:bakery_app/view/sub/history/sales/sales_calendar.dart';
-import 'package:bakery_app/viewmodels/order_service.dart';
+import 'package:bakery_app/viewmodels/report_service.dart';
 import 'package:bakery_app/widgets/custom_container.dart';
 import 'package:bakery_app/widgets/default_layout.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +22,7 @@ class _SalesHistoryState extends State<SalesHistory> {
   @override
   void initState() {
     super.initState();
-    OrderService.to.getOrderHistory(selectDay.value);
+    ReportService.to.getOrderHistory(selectDay.value);
   }
 
 
@@ -34,12 +34,12 @@ class _SalesHistoryState extends State<SalesHistory> {
         padding: const EdgeInsets.all(4),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Center(child: Obx(()=>Text('${selectDay.value.month}월 판매 내역', style: Theme.of(context).textTheme.titleMedium))),
-          Obx(() => Text('총액 : ${NumberFormat('###,###,###,###').format(OrderService.to.totalAmount.value)} 원', style: Theme.of(context).textTheme.titleSmall?.copyWith(height: 1.8))),
-            Obx(() => Text('정산 예정금액 : ${NumberFormat('###,###,###,###').format(OrderService.to.settlementAmount.value)} 원', style: Theme.of(context).textTheme.titleSmall?.copyWith(height: 1.4))),
-              Obx(() => Text('일 평균 매출 : ${NumberFormat('###,###,###,###').format(OrderService.to.dayAverageAmount.value)} 원', style: Theme.of(context).textTheme.titleSmall?.copyWith(height: 1.4))),
+          Obx(() => Text('총액 : ${NumberFormat('###,###,###,###').format(ReportService.to.totalAmount.value)} 원', style: Theme.of(context).textTheme.titleSmall?.copyWith(height: 1.8))),
+            Obx(() => Text('정산 예정금액 : ${NumberFormat('###,###,###,###').format(ReportService.to.settlementAmount.value)} 원', style: Theme.of(context).textTheme.titleSmall?.copyWith(height: 1.4))),
+              Obx(() => Text('일 평균 매출 : ${NumberFormat('###,###,###,###').format(ReportService.to.dayAverageAmount.value)} 원', style: Theme.of(context).textTheme.titleSmall?.copyWith(height: 1.4))),
         ],),
       )),
-      SalesCalendar(selectDay: selectDay, focusDay: focusDay,),
+      SalesCalendar(selectDay: selectDay, focusDay: focusDay),
 
     ],),));
   }
