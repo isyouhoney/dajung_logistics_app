@@ -12,7 +12,9 @@ _$ItemImpl _$$ItemImplFromJson(Map<String, dynamic> json) => _$ItemImpl(
       price: (json['price'] as num).toInt(),
       image: json['image'] as String,
       description: json['description'] as String,
-      category: ItemCategory.fromJson(json['category'] as Map<String, dynamic>),
+      category: json['category'] == null
+          ? null
+          : ItemCategory.fromJson(json['category'] as Map<String, dynamic>),
       owner: json['owner'] == null
           ? null
           : User.fromJson(json['owner'] as Map<String, dynamic>),

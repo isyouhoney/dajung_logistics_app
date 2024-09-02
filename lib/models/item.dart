@@ -15,7 +15,7 @@ class Item with _$Item {
     required int price,
     required String image,
     required String description,
-    required ItemCategory category,
+    ItemCategory? category,
     User? owner,
     List<Role>? targets,
     dynamic status,
