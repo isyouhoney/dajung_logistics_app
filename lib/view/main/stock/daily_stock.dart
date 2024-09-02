@@ -4,6 +4,7 @@ import 'package:bakery_app/utils/timeFormatting.dart';
 import 'package:bakery_app/view/main/stock/stock_field.dart';
 import 'package:bakery_app/view/main/stock/order_stock_panel.dart';
 import 'package:bakery_app/viewmodels/item_service.dart';
+import 'package:bakery_app/viewmodels/order_service.dart';
 import 'package:bakery_app/viewmodels/production_service.dart';
 import 'package:bakery_app/widgets/custom_container.dart';
 import 'package:bakery_app/widgets/custom_widget.dart';
@@ -32,6 +33,7 @@ class _DailyStockState extends State<DailyStock> {
   Future getProduction() async {
     await ItemService.to.fetchItems();
     await ProductionService.to.fetchTodayProduction();
+    await OrderService.to.fetchDayTotalOrders();
     List<Item> itemsToRemove = [];
 
     if(ProductionService.to.productionList.isNotEmpty){
@@ -69,7 +71,7 @@ class _DailyStockState extends State<DailyStock> {
       child: ListView(
         children: [Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(padding: const EdgeInsets.only(left: 20),
-            child: Text(dateFormat(DateTime.now().add(const Duration(days: 1))), style: Theme.of(context).textTheme.titleMedium),
+            child: Text(dateFormat(DateTime.now().add(const Duration(days: 2))), style: Theme.of(context).textTheme.titleMedium),
           ),
           const OrderStockPanel(),
           CustomContainer(height:62.h, width: 100.w,

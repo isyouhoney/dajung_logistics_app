@@ -140,10 +140,12 @@ class DeliveryRepository extends GetxController {
         'recall' : recall.toJson(),
       }),
     );
+    print(images);
+    print(recall.toJson());
 
     var responseBody = jsonDecode(response.body);
     var bodyStatusCode = responseBody['statusCode'];
-    // print(responseBody);
+    print(responseBody);
 
     if (bodyStatusCode == 200) {
       return true;

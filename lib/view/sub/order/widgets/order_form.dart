@@ -25,14 +25,13 @@ class _OrderFormState extends State<OrderForm> {
   @override
   Widget build(BuildContext context) {
   final padding = WidgetsBinding.instance.window.padding;
-  // final padding = MediaQuery.of(context).padding;
   final isios = 100.h-(padding.top+padding.bottom+30);
   final isandroid = 100.h-(AppBar().preferredSize.height+padding.top+30+12.w);
     return CustomContainer(
         width: 100.w,
         height: Platform.isAndroid ? isandroid : isios,
         child: SingleChildScrollView(child: Column(children: [Obx(() => Column(children:
-              OrderService.to.dailyOrderList.value.map((e) => orderItemWidget(context, e!)).toList())),
+              OrderService.to.dailyOrderList.map((e) => orderItemWidget(context, e)).toList())),
               const AddItemButton(nextPage: AddOrderItem())],)
           ),
         );
@@ -46,9 +45,9 @@ class _OrderFormState extends State<OrderForm> {
         mainWidget: CustomDropdown(width: 80, height: 40,
           list: numbers, selectedValue: orderItem.quantity.toString().obs,
           onChange: (quantity){
-            final updatedList = OrderService.to.dailyOrderList.value.map((oItem) {
-              if (oItem?.item.itemName == orderItem.item.itemName) {
-                return OrderItem(item: oItem!.item, quantity: int.parse(quantity));
+            final updatedList = OrderService.to.dailyOrderList.map((oItem) {
+              if (oItem.item.itemName == orderItem.item.itemName) {
+                return OrderItem(item: oItem.item, quantity: int.parse(quantity));
               }
               return oItem;
             }).toList();
@@ -60,18 +59,15 @@ class _OrderFormState extends State<OrderForm> {
               bool isChanged = false;
 
               for (int i = 0; i < OrderService.to.initList.length; i++) {
-                if (OrderService.to.dailyOrderList[i]?.item.itemName == OrderService.to.initList[i].item.itemName) {
-                  if (OrderService.to.dailyOrderList[i]?.quantity != OrderService.to.initList[i].quantity) {
+                if (OrderService.to.dailyOrderList[i].item.itemName == OrderService.to.initList[i].item.itemName) {
+                  if (OrderService.to.dailyOrderList[i].quantity != OrderService.to.initList[i].quantity) {
                     isChanged = true;
                     break;
                   }
                 }
               }
-
               OrderService.to.isChanged.value = isChanged;
             }
-
-
           },
         ),
         subWidget: Padding(padding: const EdgeInsets.symmetric(vertical: 5),

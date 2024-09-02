@@ -7,6 +7,7 @@ class ProductionService extends GetxService {
   static ProductionService get to => Get.find();
   final RxString addItemCategory = '카테고리'.obs;
   final RxString addItemImage = ''.obs;
+
   RxList productionList = [].obs;
   int id = -1;
 
@@ -25,7 +26,6 @@ class ProductionService extends GetxService {
   Future fetchTodayProduction() async {
     var fetchedProduction = await productionRepository.getTodayProductions();
     if (fetchedProduction != null){
-      print(fetchedProduction);
       if (fetchedProduction != null) {
         id = fetchedProduction['id'];
         productionList.value = fetchedProduction['products'];

@@ -57,8 +57,7 @@ class AuthService extends GetxService {
       _user.value = user;
       isLoggedIn.value = true;
       await SecureStorage.set(Cached.SIGNIN, 'true');
-      Get.snackbar('${user.ownerName}님, 반갑습니다!','오늘도 좋은 하루 보내세요.');
-      print(user!.role);
+      Get.snackbar('${user.storeName}님, 반갑습니다!','오늘도 좋은 하루 보내세요.');
       user!.role == Role.DELIVERY? Get.offAll(() => const DeliveryList()): Get.offAllNamed('/');
     } else {
       CW.dajungDialog(context,'다음 사유로 로그인에 실패하였습니다.\n: $user', '확인',() => Get.back(), false);

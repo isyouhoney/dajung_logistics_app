@@ -1,8 +1,10 @@
 import 'package:bakery_app/repositories/order_repository.dart';
+import 'package:bakery_app/repositories/production_repository.dart';
 import 'package:get/get.dart';
 
 class ReportService extends GetxService {
   final OrderRepository orderRepository = OrderRepository();
+  final ProductionRepository productionRepository = ProductionRepository();
   static ReportService get to => Get.find();
 
   RxList orderReports = [].obs;
@@ -13,6 +15,8 @@ class ReportService extends GetxService {
   RxMap<DateTime, List> dayTotals = <DateTime, List>{}.obs;
   RxMap dayOrderItems = {}.obs;
 
+  Rx<DateTime> startDate = DateTime.now().obs;
+  Rx<DateTime> endDate = DateTime.now().add(const Duration(days: 1)).obs;
 
   Future<List?> fetchDayOrderHistory(DateTime orderStartDate,DateTime orderEndDate) async {
     var fetchedDayOrderHistory = await orderRepository.getOrderHistory(orderStartDate, orderEndDate);
@@ -64,6 +68,18 @@ class ReportService extends GetxService {
         dayTotals[DateTime.parse(orderReport['date'])] = [dayTotal];
       });
       print(dayOrderItems);
+    }
+  }
+
+  // MAIN
+  Future<List?> fetchProdutionHistory(DateTime orderStartDate,DateTime orderEndDate) async {
+    var fetchedDayOrderHistory = await productionRepository.getProductionHistory(orderStartDate, orderEndDate);
+    if (fetchedDayOrderHistory != null){
+      orderReports.value = fetchedDayOrderHistory;
+      loadOrderData();
+      return orderReports;
+    } else {
+      print('주문/제작 기록을 불러오는데 실패했습니다.');
     }
   }
 }

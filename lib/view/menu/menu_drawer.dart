@@ -5,7 +5,6 @@ import 'package:bakery_app/view/main/data/data_statistics.dart';
 import 'package:bakery_app/view/main/item/item_management.dart';
 import 'package:bakery_app/view/main/stock/daily_stock.dart';
 import 'package:bakery_app/view/menu/menu_items.dart';
-import 'package:bakery_app/view/menu/notice/notice_registration.dart';
 import 'package:bakery_app/view/menu/notice/notice_screen.dart';
 import 'package:bakery_app/view/sub/additional/additional_request.dart';
 import 'package:bakery_app/view/sub/history/delivery/store_delivery_history.dart';
@@ -54,8 +53,8 @@ class MenuDrawer extends StatelessWidget {
                   MenuContent(text:'판매 내역',onPress: () => Get.to(() => const SalesHistory())),
                 ]): const SizedBox(),
                 // MenuItem(img: 'assets/icons/notice_alert.svg', title: user.role == Role.MAIN ? '데이터 통계' : '내역 확인', item: [
-                //   MenuContent(text: user.role == Role.MAIN ? '주문 데이터 통계' : '주문 내역',onPress: () => Get.to(() => user.role == Role.MAIN ? const DataStatistics() : const OrderHistory())),
-                //   MenuContent(text: user.role == Role.MAIN ? '생산 데이터 통계' : '판매 내역',onPress: () => Get.to(() => user.role == Role.MAIN ? const DataStatistics() : const SalesHistory())),
+                //   MenuContent(text: user.role == Role.MAIN ? '데이터 통계' : '주문 내역',onPress: () => Get.to(() => user.role == Role.MAIN ? const DataStatistics() : const OrderHistory())),
+                //   user.role == Role.SUB ? MenuContent(text: '판매 내역',onPress: () => Get.to(() => const SalesHistory())): const SizedBox(),
                 //   user.role == Role.SUB ? MenuContent(text: '배송 내역',onPress: () => Get.to(() => const DeliveryHistory())): const SizedBox(),
                 // ]),
                 MenuItem(img: 'assets/icons/support_client.svg', title: '고객지원', item: [

@@ -62,30 +62,30 @@ class _DeliveryReportState extends State<DeliveryReport> {
 
     try {
       if (imageList != null) {
-        await Future.wait(imageList!.map((image) async =>
-        postImagePathList = (await S3Repository.to.getPresignedUrl(image))!).toList());
-        print(postImagePathList);
+        await Future.wait(imageList!.map((image) async => await S3Repository.to.getPresignedUrl(image)).toList());
+        postImagePathList = List<String>.from(S3Repository.to.objectUrl);
         S3Repository.to.objectUrl.clear();
       }
       if (returnImageList != null) {
-        await Future.wait(returnImageList!.map((image) async =>
-        postReturnImagePathList = (await S3Repository.to.getPresignedUrl(image))!).toList());
-        print(postReturnImagePathList);
+        await Future.wait(returnImageList!.map((image) async => await S3Repository.to.getPresignedUrl(image)).toList());
+        postReturnImagePathList = List<String>.from(S3Repository.to.objectUrl);
+        S3Repository.to.objectUrl.clear();
       }
+
       List<OrderItem> recallOrderItems = [];
       recallItems.forEach((item, map) {
         int quantity = map['quantity'];
         recallOrderItems.add(OrderItem(item: item, quantity: quantity));
       });
-      complete.value = (await DeliveryService.to.postDelivery(
-          widget.order.orderSheet.orderer!, postImagePathList!,
+
+      complete.value = (await DeliveryService.to.postDelivery(widget.order.orderSheet.orderer!, postImagePathList!,
           recallOrderItems.isNotEmpty
-              ? Recall(
-              images: postReturnImagePathList, recallItems: recallOrderItems)
+              ? Recall(images: postReturnImagePathList, recallItems: recallOrderItems)
               : Recall(images: postReturnImagePathList, recallItems: [])
       ))!;
 
       return complete.value;
+
     } finally {
       isLoading.value = false;
     }

@@ -15,6 +15,8 @@ class OrderService extends GetxService {
   RxBool isChanged = false.obs;
   int orderSheetId=-1;
 
+  RxList orderList = [].obs;
+
 
   Future<bool?> postOrders(DayOfWeek dayOfWeek, List orderItems) async {
     bool? fetchedOrders;
@@ -63,7 +65,8 @@ class OrderService extends GetxService {
   Future<List?> fetchDayTotalOrders() async {
     var fetchedDayTotalOrders = await orderRepository.getDayTotalOrders();
     if (fetchedDayTotalOrders != null){
-      return fetchedDayTotalOrders;
+      orderList.value = fetchedDayTotalOrders;
+      return orderList;
     } else {
       print('일일 주문량을 불러오는데 실패했습니다.');
     }

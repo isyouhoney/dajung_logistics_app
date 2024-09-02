@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
               alignment: AlignmentDirectional.center,
               children: [
                 Image.asset('assets/images/main_img.png', width: 100.w),
-                Text('안녕하세요, ${user.ownerName}님\n오늘도 좋은 하루 보내세요!',
+                Text('안녕하세요, ${user.storeName}님\n오늘도 좋은 하루 보내세요!',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),
                   textAlign: TextAlign.center,
                 )
