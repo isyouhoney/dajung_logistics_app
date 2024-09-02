@@ -25,7 +25,7 @@ mixin _$Item {
   int get price => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  ItemCategory? get category => throw _privateConstructorUsedError;
+  ItemCategory get category => throw _privateConstructorUsedError;
   User? get owner => throw _privateConstructorUsedError;
   List<Role>? get targets => throw _privateConstructorUsedError;
   dynamic get status => throw _privateConstructorUsedError;
@@ -46,12 +46,12 @@ abstract class $ItemCopyWith<$Res> {
       int price,
       String image,
       String description,
-      ItemCategory? category,
+      ItemCategory category,
       User? owner,
       List<Role>? targets,
       dynamic status});
 
-  $ItemCategoryCopyWith<$Res>? get category;
+  $ItemCategoryCopyWith<$Res> get category;
   $UserCopyWith<$Res>? get owner;
 }
 
@@ -73,7 +73,7 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
     Object? price = null,
     Object? image = null,
     Object? description = null,
-    Object? category = freezed,
+    Object? category = null,
     Object? owner = freezed,
     Object? targets = freezed,
     Object? status = freezed,
@@ -99,10 +99,10 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      category: freezed == category
+      category: null == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
-              as ItemCategory?,
+              as ItemCategory,
       owner: freezed == owner
           ? _value.owner
           : owner // ignore: cast_nullable_to_non_nullable
@@ -120,12 +120,8 @@ class _$ItemCopyWithImpl<$Res, $Val extends Item>
 
   @override
   @pragma('vm:prefer-inline')
-  $ItemCategoryCopyWith<$Res>? get category {
-    if (_value.category == null) {
-      return null;
-    }
-
-    return $ItemCategoryCopyWith<$Res>(_value.category!, (value) {
+  $ItemCategoryCopyWith<$Res> get category {
+    return $ItemCategoryCopyWith<$Res>(_value.category, (value) {
       return _then(_value.copyWith(category: value) as $Val);
     });
   }
@@ -156,13 +152,13 @@ abstract class _$$ItemImplCopyWith<$Res> implements $ItemCopyWith<$Res> {
       int price,
       String image,
       String description,
-      ItemCategory? category,
+      ItemCategory category,
       User? owner,
       List<Role>? targets,
       dynamic status});
 
   @override
-  $ItemCategoryCopyWith<$Res>? get category;
+  $ItemCategoryCopyWith<$Res> get category;
   @override
   $UserCopyWith<$Res>? get owner;
 }
@@ -182,7 +178,7 @@ class __$$ItemImplCopyWithImpl<$Res>
     Object? price = null,
     Object? image = null,
     Object? description = null,
-    Object? category = freezed,
+    Object? category = null,
     Object? owner = freezed,
     Object? targets = freezed,
     Object? status = freezed,
@@ -208,10 +204,10 @@ class __$$ItemImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String,
-      category: freezed == category
+      category: null == category
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
-              as ItemCategory?,
+              as ItemCategory,
       owner: freezed == owner
           ? _value.owner
           : owner // ignore: cast_nullable_to_non_nullable
@@ -237,7 +233,7 @@ class _$ItemImpl extends _Item {
       required this.price,
       required this.image,
       required this.description,
-      this.category,
+      required this.category,
       this.owner,
       final List<Role>? targets,
       this.status})
@@ -258,7 +254,7 @@ class _$ItemImpl extends _Item {
   @override
   final String description;
   @override
-  final ItemCategory? category;
+  final ItemCategory category;
   @override
   final User? owner;
   final List<Role>? _targets;
@@ -333,7 +329,7 @@ abstract class _Item extends Item {
       required final int price,
       required final String image,
       required final String description,
-      final ItemCategory? category,
+      required final ItemCategory category,
       final User? owner,
       final List<Role>? targets,
       final dynamic status}) = _$ItemImpl;
@@ -352,7 +348,7 @@ abstract class _Item extends Item {
   @override
   String get description;
   @override
-  ItemCategory? get category;
+  ItemCategory get category;
   @override
   User? get owner;
   @override
