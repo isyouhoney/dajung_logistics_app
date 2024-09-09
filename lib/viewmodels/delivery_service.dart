@@ -59,4 +59,13 @@ class DeliveryService extends GetxService {
       print('요일별 주문서을 불러오는데 실패했습니다.');
     }
   }
+
+  Future<Map?> fetchReport(int? todayOrderId, int? yesterdayOrderId) async {
+    var fetchedDayOrders = await deliveryRepository.getReport(todayOrderId, yesterdayOrderId);
+    if (fetchedDayOrders != null){
+      return fetchedDayOrders;
+    } else {
+      print('요일별 주문서을 불러오는데 실패했습니다.');
+    }
+  }
 }

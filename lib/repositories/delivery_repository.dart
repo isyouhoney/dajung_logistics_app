@@ -68,11 +68,13 @@ class DeliveryRepository extends GetxController {
 
     if (bodyStatusCode == 200) {
       Map data = responseBody['data'];
+      // print(data['yesterdayOrder']);
+      // print(data['yesterdayOrder']['recall']);
       Order orderData = data['yesterdayOrder'] != null ? data['yesterdayOrder']['recall'] != null ?
           Order.fromJson(data['todayOrder']).copyWith(recall: Recall.fromJson(data['yesterdayOrder']['recall'])):
           Order.fromJson(data['todayOrder']):
           Order.fromJson(data['todayOrder']);
-      print(orderData);
+      // print(orderData);
         // Order(orderSheet: OrderSheet.fromJson(data['todayOrder']['orderSheet']), orderDate: data['todayOrder']['orderDate'], status: data['todayOrder']['status'], recall: Recall.fromJson(data['yesterdayOrder']['recall'])):
         // Order(orderSheet: OrderSheet.fromJson(data['todayOrder']['orderSheet']), orderDate: data['todayOrder']['orderDate'], status: data['todayOrder']['status']):
         // Order(orderSheet: OrderSheet.fromJson(data['todayOrder']['orderSheet']), orderDate: data['todayOrder']['orderDate'], status: data['todayOrder']['status']);
@@ -140,12 +142,12 @@ class DeliveryRepository extends GetxController {
         'recall' : recall.toJson(),
       }),
     );
-    print(images);
-    print(recall.toJson());
+    print('deliveryImages : $images');
+    print('recall : $recall');
 
     var responseBody = jsonDecode(response.body);
     var bodyStatusCode = responseBody['statusCode'];
-    print(responseBody);
+    // print(responseBody);
 
     if (bodyStatusCode == 200) {
       return true;
@@ -177,20 +179,53 @@ class DeliveryRepository extends GetxController {
 
     var responseBody = jsonDecode(response.body);
     var bodyStatusCode = responseBody['statusCode'];
-    // print(responseBody);
+    print(responseBody);
 
     if (bodyStatusCode == 200) {
       dynamic data = responseBody['data'];
       List<Order> orderList = [];
+
       orderList = data.map<Order>((order) {
-        List<OrderItem> recallItems = (order['yesterdayOrder']['orderSheet']['orderItems'] as List)
-            .map((orderItem) => OrderItem.fromJson(orderItem as Map<String, dynamic>)).toList();
-        return Order.fromJson(order['todayOrder']).copyWith(recall: Recall(images: [], recallItems: recallItems));
+        List<OrderItem> recallItems =
+          (order['yesterdayOrder']['orderSheet']['orderItems'] as List).map((orderItem) =>
+              OrderItem.fromJson(orderItem as Map<String, dynamic>)).toList();
+
+        return Order.fromJson(order['todayOrder']).copyWith(recall: Recall(images: [], recallItems: recallItems), yesterdayId: order['yesterdayOrder']['id']);
       }).toList();
 
       return orderList;
     } else {
-      logger.e('요일별 주문서 조회 요청 실패: $responseBody');
+      logger.e('배송목록 조회 요청 실패: $responseBody');
+    }
+  }
+
+  // DELIVER
+  Future<Map?> getReport(int? todayOrderId, int? yesterdayOrderId) async {
+    final Uri url = Uri.parse('$baseUrl/order/delivery?todayOrderId=$todayOrderId&yesterdayOrderId=$yesterdayOrderId');
+    String? accessToken = await SecureStorage.get(Cached.ACCESS);
+
+    if (accessToken == null) {
+      logger.e('액세스 토큰이 없습니다.');
+      return null;
+    }
+
+    final response = await http.get(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $accessToken',
+      },
+    );
+
+    var responseBody = jsonDecode(response.body);
+    var bodyStatusCode = responseBody['statusCode'];
+    // print(responseBody);
+
+    if (bodyStatusCode == 200) {
+      dynamic data = responseBody['data'];
+      return data;
+    } else {
+      logger.e('배송보고 정보 조회 요청 실패: $responseBody');
     }
   }
 }

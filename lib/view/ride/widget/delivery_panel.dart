@@ -55,8 +55,8 @@ class _DeliveryPanelState extends State<DeliveryPanel> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        widget.order.orderSheet!.orderItems.isNotEmpty ? Column(children: widget.order.orderSheet!.orderItems.map((e) =>
-                            StockField(name: e!.item.itemName, quantity: e.quantity)).toList())
+                        widget.order.orderSheet.orderItems.isNotEmpty ? Column(children: widget.order.orderSheet.orderItems.map((e) =>
+                            StockField(name: e.item.itemName, quantity: e.quantity)).toList())
                             : Padding(
                               padding: EdgeInsets.symmetric(vertical: 8.h),
                               child: Text('오늘의 주문이 없습니다.', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey),),
@@ -64,7 +64,7 @@ class _DeliveryPanelState extends State<DeliveryPanel> {
                         const SizedBox(height: 5,),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: CW.textButton(widget.order.orderSheet!.orderItems.isNotEmpty ? '배송 보고' : '회수 보고', onPressed: () => Get.to(() => DeliveryReport(order: widget.order)), height: 45, color: CC.mainColorShaded),
+                          child: CW.textButton(widget.order.orderSheet.orderItems.isNotEmpty ? '배송 보고' : '회수 보고', onPressed: () => Get.to(() => DeliveryReport(order: widget.order)), height: 45, color: CC.mainColorShaded),
                         ),
                       ],
                     )

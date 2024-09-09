@@ -56,45 +56,43 @@ class _SmsCertificationState extends State<SmsCertification> {
       mainAxisSize: MainAxisSize.min,
       children: [
         CustomTextField(
-          onChanged: (value)=>widget.name(value),
+          onChanged: (value) => widget.name(value),
             hintText: '성함',
             validator: (val) {
               return null;
             },
             controller: nameController,
         ),
-    widget.loginId!=null?Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-    Form(
-    key: emailFormKey,
-    child:CustomTextField(
-              onChanged: (value)=>widget.loginId!(value),
-              hintText: '이메일',
-              validator: (val) {
-                if(!RegExp(
-                    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-                    .hasMatch(val!)){
-                  return '잘못된 이메일 형식입니다. 올바른 이메일 형식으로 입력해주세요.';
+        widget.loginId != null ? Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Form(
+          key: emailFormKey,
+          child:CustomTextField(
+            onChanged: (value) => widget.loginId!(value),
+            hintText: '이메일',
+            validator: (val) {
+              if(!RegExp(
+                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                  .hasMatch(val!)){
+                return '잘못된 이메일 형식입니다. 올바른 이메일 형식으로 입력해주세요.';
+              }
+              return null;
+            },
+            controller: idController,
+            width: widget.noDuplicateCheck!=true? 100.w - 130 : 100.w-20,
+          )),
+          widget.noDuplicateCheck!=true?Padding(
+            padding: const EdgeInsets.fromLTRB(10,5,0,5),
+            child: Obx(()=>CW.textButton(!isDuplicate.value ? '사용 가능':'중복 체크', width: 100, height: 50,
+              color: !isDuplicate.value ? Colors.grey : CC.mainColor,
+              onPressed: () async {
+                if(emailFormKey.currentState!.validate()){
+                isDuplicate.value = (await AuthService.to.checkEmail(idController.text))!;
+                isDuplicate.value ? CW.dajungDialog(context,'${idController.text}은\n이미 사용중인 이메일입니다.','확인', () => Get.back(), false):
+                CW.dajungDialog(context,'${idController.text}은\n사용 가능한 이메일입니다.','확인', () { Get.back();FocusScope.of(context).requestFocus(FocusNode());}, false);
                 }
-                return null;
-              },
-              controller: idController,
-              width: widget.noDuplicateCheck!=true? 100.w - 130 : 100.w-20,
+              }
             )),
-            widget.noDuplicateCheck!=true?Padding(
-              padding: const EdgeInsets.fromLTRB(10,5,0,5),
-              child: Obx(()=>CW.textButton(!isDuplicate.value ? '사용 가능':'중복 체크', width: 100, height: 50,
-                color: !isDuplicate.value ? Colors.grey : CC.mainColor,
-                onPressed: () async {
-                  if(emailFormKey.currentState!.validate()){
-                  isDuplicate.value = (await AuthService.to.checkEmail(idController.text))!;
-                  isDuplicate.value ? CW.dajungDialog(context,'${idController.text}은\n이미 사용중인 이메일입니다.','확인', () => Get.back(), false):
-                  CW.dajungDialog(context,'${idController.text}은\n사용 가능한 이메일입니다.','확인', () { Get.back();FocusScope.of(context).requestFocus(FocusNode());}, false);
-                  }
-                }
-              )),
-            ):const SizedBox(),
+          ):const SizedBox(),
         const SizedBox(height: 20),
           ],
         ):const SizedBox(),

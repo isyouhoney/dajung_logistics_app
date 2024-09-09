@@ -15,8 +15,7 @@ import 'package:bakery_app/widgets/fold_pannel.dart';
 import 'package:bakery_app/widgets/image_picker/image_tile.dart';
 import 'package:bakery_app/widgets/storename_field.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
@@ -32,7 +31,7 @@ class _DeliveryReportState extends State<DeliveryReport> {
   int total = 0;
 
   OrderSheet recallOrderSheet = OrderSheet(dayOfTheWeek: DayOfWeek.fromKor(DateFormat('E', 'ko_KR').format(DateTime.now())), orderItems: []);
-  Map<Item,Map> recallItems = {};
+  RxMap<Item,Map> recallItems = <Item,Map>{}.obs;
 
   List<XFile>? imageList = [];
   RxList<String>? imagePathList = <String>[].obs;
@@ -45,15 +44,38 @@ class _DeliveryReportState extends State<DeliveryReport> {
   RxBool isLoading = false.obs;
   RxBool complete = false.obs;
 
+  RxMap reportData = {}.obs;
+
   @override
   void initState() {
     super.initState();
     getTotal();
+    getReport();
   }
 
   void getTotal(){
     for (var value in widget.order.orderSheet.orderItems) {
       total += value.quantity;
+    }
+  }
+
+  void getReport() async {
+    if(widget.order.status == "배송완료"){
+      complete.value = true;
+      reportData.value = (await DeliveryService.to.fetchReport(widget.order.id, widget.order.yesterdayId))!;
+
+      if(reportData['deliveryImages'] != null) imagePathList?.value = List<String>.from(reportData['deliveryImages']);
+
+      if (widget.order.yesterdayId != null && reportData['recall'] != null) {
+        returnImagePathList?.value = List<String>.from(reportData['recall']['images']);
+        reportData['recall']['recallItems'].forEach((order) {
+          recallItems.value[Item.fromJson(order).copyWith(id: null)] = {'quantity': order['quantity']};
+          recallItems.refresh();
+        });
+      }
+    } else {
+      widget.order.recall!.recallItems.map((recallItem) => recallItems.value[recallItem.item.copyWith(id: null)] = {'quantity': 0});
+      recallItems.refresh();
     }
   }
 
@@ -71,9 +93,17 @@ class _DeliveryReportState extends State<DeliveryReport> {
         postReturnImagePathList = List<String>.from(S3Repository.to.objectUrl);
         S3Repository.to.objectUrl.clear();
       }
+      if(reportData.isNotEmpty){
+        reportData['deliveryImages'] != null ?
+            postImagePathList?.addAll((reportData['deliveryImages'] as List<dynamic>).map((e) => e.toString()).toList())
+            : null;
+        reportData['recall'] != null ?
+            postReturnImagePathList.addAll((reportData['recall']['images'] as List<dynamic>).map((e) => e.toString()).toList())
+            : null;
+      }
 
       List<OrderItem> recallOrderItems = [];
-      recallItems.forEach((item, map) {
+      recallItems.value.forEach((item, map) {
         int quantity = map['quantity'];
         recallOrderItems.add(OrderItem(item: item, quantity: quantity));
       });
@@ -88,6 +118,7 @@ class _DeliveryReportState extends State<DeliveryReport> {
 
     } finally {
       isLoading.value = false;
+      Future.delayed(const Duration(seconds: 1), () => Get.back());
     }
   }
 
@@ -98,24 +129,35 @@ class _DeliveryReportState extends State<DeliveryReport> {
           : CW.textButton(complete.value ? '배송/회수 완료되었습니다.' : '배송/회수 완료 보고',
           onPressed: () => !complete.value && !isLoading.value ? postNotice() : null,
           color: complete.value || isLoading.value ? Colors.grey : CC.mainColor)),
+
       child: SingleChildScrollView(child: Column(children: [
         FoldPanel(initExpand: true, titleWidget: StorenameField(name: widget.order.orderSheet.orderer!.storeName!,
             child: Text('총 $total 개', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey))),
             bodyWidget: SingleChildScrollView(child: Column(children: widget.order.orderSheet.orderItems.map((e) =>
                 StockField(name: e.item.itemName, quantity: e.quantity)).toList()))),
+
         widget.order.orderSheet.orderItems.isNotEmpty ?
         CustomContainer(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             titleField('배송 사진 등록', const Icon(Icons.camera_alt_outlined, color: Colors.grey,)),
-            ImageTile(imageList: imageList!, imagePathList: imagePathList!, imageSource: ImageSource.camera,)
+            ImageTile(imageList: imageList!, imagePathList: imagePathList!, imageSource: ImageSource.camera, onAdded: (value) => complete.value = false)
           ],)) : const SizedBox(),
+
         CustomContainer(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           titleField('회수 물량', Icon(Icons.remove_circle_outline, color: CC.redColor,)),
-            Column(children: widget.order.recall != null ? widget.order.recall!.recallItems.map<Widget>((orderItem) =>
-                StockField(name: orderItem.item.itemName,
-                isCounted: (String value) => recallItems[orderItem.item] = {'quantity': int.parse(value)}
-              )).toList() : [const Text('회수할 상품이 없습니다.')]),
+            Obx(() => Column(children: recallItems.value.isNotEmpty ? recallItems.value.keys.map<Widget>((recallItem) =>
+                StockField(
+                  name: recallItem.itemName,
+                  initValue: recallItems.value[recallItem]?['quantity'],
+                  isCounted: (String value) {
+                    recallItems.value[recallItem] = {'quantity': int.parse(value)};
+                    complete.value = false;
+                  }
+              )).toList() : [const Padding(
+                padding: EdgeInsets.fromLTRB(0,10,0,20),
+                child: Center(child: Text('회수할 상품이 없습니다.')),
+              )])),
             titleField('회수 사진 등록', const Icon(Icons.camera_alt_outlined, color: Colors.grey,)),
-          ImageTile(imageList: returnImageList!, imagePathList: returnImagePathList!, imageSource: ImageSource.camera)
+          ImageTile(imageList: returnImageList!, imagePathList: returnImagePathList!, imageSource: ImageSource.camera, onAdded: (value) => complete.value = false)
           ]))])
     ));
   }

@@ -20,13 +20,16 @@ Order _$OrderFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Order {
-  OrderSheet get orderSheet => throw _privateConstructorUsedError;
+  int? get id => throw _privateConstructorUsedError;
   String? get orderDate => throw _privateConstructorUsedError;
   List<String>? get images => throw _privateConstructorUsedError;
+  String? get note => throw _privateConstructorUsedError;
   dynamic get status => throw _privateConstructorUsedError;
+  OrderSheet get orderSheet => throw _privateConstructorUsedError;
   AdditionalRequest? get additionalRequests =>
       throw _privateConstructorUsedError;
   Recall? get recall => throw _privateConstructorUsedError;
+  int? get yesterdayId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -39,12 +42,15 @@ abstract class $OrderCopyWith<$Res> {
       _$OrderCopyWithImpl<$Res, Order>;
   @useResult
   $Res call(
-      {OrderSheet orderSheet,
+      {int? id,
       String? orderDate,
       List<String>? images,
+      String? note,
       dynamic status,
+      OrderSheet orderSheet,
       AdditionalRequest? additionalRequests,
-      Recall? recall});
+      Recall? recall,
+      int? yesterdayId});
 
   $OrderSheetCopyWith<$Res> get orderSheet;
   $AdditionalRequestCopyWith<$Res>? get additionalRequests;
@@ -64,18 +70,21 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? orderSheet = null,
+    Object? id = freezed,
     Object? orderDate = freezed,
     Object? images = freezed,
+    Object? note = freezed,
     Object? status = freezed,
+    Object? orderSheet = null,
     Object? additionalRequests = freezed,
     Object? recall = freezed,
+    Object? yesterdayId = freezed,
   }) {
     return _then(_value.copyWith(
-      orderSheet: null == orderSheet
-          ? _value.orderSheet
-          : orderSheet // ignore: cast_nullable_to_non_nullable
-              as OrderSheet,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       orderDate: freezed == orderDate
           ? _value.orderDate
           : orderDate // ignore: cast_nullable_to_non_nullable
@@ -84,10 +93,18 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      note: freezed == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      orderSheet: null == orderSheet
+          ? _value.orderSheet
+          : orderSheet // ignore: cast_nullable_to_non_nullable
+              as OrderSheet,
       additionalRequests: freezed == additionalRequests
           ? _value.additionalRequests
           : additionalRequests // ignore: cast_nullable_to_non_nullable
@@ -96,6 +113,10 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
           ? _value.recall
           : recall // ignore: cast_nullable_to_non_nullable
               as Recall?,
+      yesterdayId: freezed == yesterdayId
+          ? _value.yesterdayId
+          : yesterdayId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 
@@ -141,12 +162,15 @@ abstract class _$$OrderImplCopyWith<$Res> implements $OrderCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {OrderSheet orderSheet,
+      {int? id,
       String? orderDate,
       List<String>? images,
+      String? note,
       dynamic status,
+      OrderSheet orderSheet,
       AdditionalRequest? additionalRequests,
-      Recall? recall});
+      Recall? recall,
+      int? yesterdayId});
 
   @override
   $OrderSheetCopyWith<$Res> get orderSheet;
@@ -167,18 +191,21 @@ class __$$OrderImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? orderSheet = null,
+    Object? id = freezed,
     Object? orderDate = freezed,
     Object? images = freezed,
+    Object? note = freezed,
     Object? status = freezed,
+    Object? orderSheet = null,
     Object? additionalRequests = freezed,
     Object? recall = freezed,
+    Object? yesterdayId = freezed,
   }) {
     return _then(_$OrderImpl(
-      orderSheet: null == orderSheet
-          ? _value.orderSheet
-          : orderSheet // ignore: cast_nullable_to_non_nullable
-              as OrderSheet,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       orderDate: freezed == orderDate
           ? _value.orderDate
           : orderDate // ignore: cast_nullable_to_non_nullable
@@ -187,10 +214,18 @@ class __$$OrderImplCopyWithImpl<$Res>
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      note: freezed == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String?,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      orderSheet: null == orderSheet
+          ? _value.orderSheet
+          : orderSheet // ignore: cast_nullable_to_non_nullable
+              as OrderSheet,
       additionalRequests: freezed == additionalRequests
           ? _value.additionalRequests
           : additionalRequests // ignore: cast_nullable_to_non_nullable
@@ -199,6 +234,10 @@ class __$$OrderImplCopyWithImpl<$Res>
           ? _value.recall
           : recall // ignore: cast_nullable_to_non_nullable
               as Recall?,
+      yesterdayId: freezed == yesterdayId
+          ? _value.yesterdayId
+          : yesterdayId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -207,12 +246,15 @@ class __$$OrderImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$OrderImpl extends _Order {
   _$OrderImpl(
-      {required this.orderSheet,
+      {this.id,
       this.orderDate,
       final List<String>? images,
+      this.note,
       this.status,
+      required this.orderSheet,
       this.additionalRequests,
-      this.recall})
+      this.recall,
+      this.yesterdayId})
       : _images = images,
         super._();
 
@@ -220,7 +262,7 @@ class _$OrderImpl extends _Order {
       _$$OrderImplFromJson(json);
 
   @override
-  final OrderSheet orderSheet;
+  final int? id;
   @override
   final String? orderDate;
   final List<String>? _images;
@@ -234,15 +276,21 @@ class _$OrderImpl extends _Order {
   }
 
   @override
+  final String? note;
+  @override
   final dynamic status;
+  @override
+  final OrderSheet orderSheet;
   @override
   final AdditionalRequest? additionalRequests;
   @override
   final Recall? recall;
+  @override
+  final int? yesterdayId;
 
   @override
   String toString() {
-    return 'Order(orderSheet: $orderSheet, orderDate: $orderDate, images: $images, status: $status, additionalRequests: $additionalRequests, recall: $recall)';
+    return 'Order(id: $id, orderDate: $orderDate, images: $images, note: $note, status: $status, orderSheet: $orderSheet, additionalRequests: $additionalRequests, recall: $recall, yesterdayId: $yesterdayId)';
   }
 
   @override
@@ -250,27 +298,34 @@ class _$OrderImpl extends _Order {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$OrderImpl &&
-            (identical(other.orderSheet, orderSheet) ||
-                other.orderSheet == orderSheet) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.orderDate, orderDate) ||
                 other.orderDate == orderDate) &&
             const DeepCollectionEquality().equals(other._images, _images) &&
+            (identical(other.note, note) || other.note == note) &&
             const DeepCollectionEquality().equals(other.status, status) &&
+            (identical(other.orderSheet, orderSheet) ||
+                other.orderSheet == orderSheet) &&
             (identical(other.additionalRequests, additionalRequests) ||
                 other.additionalRequests == additionalRequests) &&
-            (identical(other.recall, recall) || other.recall == recall));
+            (identical(other.recall, recall) || other.recall == recall) &&
+            (identical(other.yesterdayId, yesterdayId) ||
+                other.yesterdayId == yesterdayId));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      orderSheet,
+      id,
       orderDate,
       const DeepCollectionEquality().hash(_images),
+      note,
       const DeepCollectionEquality().hash(status),
+      orderSheet,
       additionalRequests,
-      recall);
+      recall,
+      yesterdayId);
 
   @JsonKey(ignore: true)
   @override
@@ -288,28 +343,37 @@ class _$OrderImpl extends _Order {
 
 abstract class _Order extends Order {
   factory _Order(
-      {required final OrderSheet orderSheet,
+      {final int? id,
       final String? orderDate,
       final List<String>? images,
+      final String? note,
       final dynamic status,
+      required final OrderSheet orderSheet,
       final AdditionalRequest? additionalRequests,
-      final Recall? recall}) = _$OrderImpl;
+      final Recall? recall,
+      final int? yesterdayId}) = _$OrderImpl;
   _Order._() : super._();
 
   factory _Order.fromJson(Map<String, dynamic> json) = _$OrderImpl.fromJson;
 
   @override
-  OrderSheet get orderSheet;
+  int? get id;
   @override
   String? get orderDate;
   @override
   List<String>? get images;
   @override
+  String? get note;
+  @override
   dynamic get status;
+  @override
+  OrderSheet get orderSheet;
   @override
   AdditionalRequest? get additionalRequests;
   @override
   Recall? get recall;
+  @override
+  int? get yesterdayId;
   @override
   @JsonKey(ignore: true)
   _$$OrderImplCopyWith<_$OrderImpl> get copyWith =>

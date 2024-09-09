@@ -22,7 +22,7 @@ class ItemDetail extends StatelessWidget {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Center(child: Image.network(item.image, height: 30.h,)),
           Text(item.itemName, style: const TextStyle(height: 2),),
-          item.category != null ? Text(item.category!.categoryName, style: const TextStyle(height: 2)) : const SizedBox(),
+          Text(item.category!.categoryName, style: const TextStyle(height: 2)),
           Text('가격 : ${item.price}', style: const TextStyle(height: 2)),
           CustomTextField(hintText: item.description, maxLine: 5, readOnly: true,),
         ],),

@@ -10,12 +10,15 @@ part 'order.g.dart';
 class Order with _$Order {
   const Order._();
   factory Order({
-    required OrderSheet orderSheet,
+    int? id,
     String? orderDate,
     List<String>? images,
+    String? note,
     dynamic status,
+    required OrderSheet orderSheet,
     AdditionalRequest? additionalRequests,
     Recall? recall,
+    int? yesterdayId,
 }) = _Order;
 
   factory Order.fromJson(Map<String, dynamic> json) =>

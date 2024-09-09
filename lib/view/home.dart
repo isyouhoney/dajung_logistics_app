@@ -14,9 +14,7 @@ import 'package:bakery_app/viewmodels/notice_service.dart';
 import 'package:bakery_app/widgets/custom_container.dart';
 import 'package:bakery_app/widgets/default_layout.dart';
 import 'package:bakery_app/widgets/home_section.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -28,53 +26,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
-  var messageString = "";
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    foregroundNotification();
     NoticeService.to.fetchNotices(0, 3);
-  }
-
-  void foregroundNotification() {
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-      RemoteNotification? notification = message.notification;
-      // final SharedPreferences prefs = await SharedPreferences.getInstance();
-      // bool? isLogin = prefs.getBool('isLogin');
-      // if (isLogin != true) {
-      //   Get.offAllNamed('/login');
-      //   return;
-      // } //else if (message.data['url'] != null) {
-      //   await Get.toNamed('/${message.data['url']}', arguments: message.data['targetId']);
-      //   return;
-      // }
-
-      if (notification != null) {
-        FlutterLocalNotificationsPlugin().show(
-          notification.hashCode,
-          notification.title,
-          notification.body,
-          const NotificationDetails(
-              android: AndroidNotificationDetails(
-                'high_importance_channel',
-                'high_importance_notification',
-                importance: Importance.max,
-              ),
-              iOS: DarwinNotificationDetails(
-                presentAlert: true,
-                presentBadge: true,
-                presentSound: true,
-                // badgeNumber: 1
-              )),
-        );
-        // setState(() {
-          messageString = message.notification!.body!;
-          // print("Foreground 메시지 수신: ${message.data}");
-        // });
-      }
-    });
   }
 
   @override
@@ -118,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                             child: Center(child: Text(user.role == Role.MAIN ? '일일 생산 등록' : '수시 요청', style: Theme.of(context).textTheme.titleMedium)))),
                   ],
                 )),
-            user.role == Role.SUB ? HomeSection(
+            user.role == Role.SUB || user.role == Role.DIRECT ? HomeSection(
               title: '데이터 확인',
               child: Row(mainAxisAlignment: MainAxisAlignment.center,
                 children: [
