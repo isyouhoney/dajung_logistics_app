@@ -1,11 +1,9 @@
 import 'dart:convert';
 import 'package:bakery_app/models/order.dart';
 import 'package:bakery_app/models/order_item.dart';
-import 'package:bakery_app/models/order_sheet.dart';
 import 'package:bakery_app/models/recall.dart';
 import 'package:bakery_app/models/user.dart';
 import 'package:bakery_app/utils/configs.dart';
-import 'package:bakery_app/utils/enums.dart';
 import 'package:bakery_app/utils/secure_storage.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:http/http.dart' as http;
@@ -68,16 +66,10 @@ class DeliveryRepository extends GetxController {
 
     if (bodyStatusCode == 200) {
       Map data = responseBody['data'];
-      // print(data['yesterdayOrder']);
-      // print(data['yesterdayOrder']['recall']);
       Order orderData = data['yesterdayOrder'] != null ? data['yesterdayOrder']['recall'] != null ?
           Order.fromJson(data['todayOrder']).copyWith(recall: Recall.fromJson(data['yesterdayOrder']['recall'])):
           Order.fromJson(data['todayOrder']):
           Order.fromJson(data['todayOrder']);
-      // print(orderData);
-        // Order(orderSheet: OrderSheet.fromJson(data['todayOrder']['orderSheet']), orderDate: data['todayOrder']['orderDate'], status: data['todayOrder']['status'], recall: Recall.fromJson(data['yesterdayOrder']['recall'])):
-        // Order(orderSheet: OrderSheet.fromJson(data['todayOrder']['orderSheet']), orderDate: data['todayOrder']['orderDate'], status: data['todayOrder']['status']):
-        // Order(orderSheet: OrderSheet.fromJson(data['todayOrder']['orderSheet']), orderDate: data['todayOrder']['orderDate'], status: data['todayOrder']['status']);
       return orderData;
     } else {
       logger.e('주문 내역 조회 요청 실패: $responseBody');
@@ -108,7 +100,7 @@ class DeliveryRepository extends GetxController {
 
     var responseBody = jsonDecode(response.body);
     var bodyStatusCode = responseBody['statusCode'];
-    print(responseBody);
+    // print(responseBody);
 
     if (bodyStatusCode == 200) {
       return true;
@@ -142,8 +134,6 @@ class DeliveryRepository extends GetxController {
         'recall' : recall.toJson(),
       }),
     );
-    print('deliveryImages : $images');
-    print('recall : $recall');
 
     var responseBody = jsonDecode(response.body);
     var bodyStatusCode = responseBody['statusCode'];
@@ -179,7 +169,7 @@ class DeliveryRepository extends GetxController {
 
     var responseBody = jsonDecode(response.body);
     var bodyStatusCode = responseBody['statusCode'];
-    print(responseBody);
+    // print(responseBody);
 
     if (bodyStatusCode == 200) {
       dynamic data = responseBody['data'];

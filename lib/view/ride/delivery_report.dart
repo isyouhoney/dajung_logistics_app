@@ -60,6 +60,7 @@ class _DeliveryReportState extends State<DeliveryReport> {
   }
 
   void getReport() async {
+    print('widget.order.status : ${widget.order.status}');
     if(widget.order.status == "배송완료"){
       complete.value = true;
       reportData.value = (await DeliveryService.to.fetchReport(widget.order.id, widget.order.yesterdayId))!;
@@ -74,7 +75,8 @@ class _DeliveryReportState extends State<DeliveryReport> {
         });
       }
     } else {
-      widget.order.recall!.recallItems.map((recallItem) => recallItems.value[recallItem.item.copyWith(id: null)] = {'quantity': 0});
+      print('widget.order.recall!.recallItems : ${widget.order.recall!.recallItems}');
+      widget.order.recall!.recallItems.forEach((recallItem) => recallItems.value[recallItem.item.copyWith(id: null)] = {'quantity': 0});
       recallItems.refresh();
     }
   }

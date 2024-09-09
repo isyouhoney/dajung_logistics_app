@@ -39,9 +39,7 @@ class _ImageTileState extends State<ImageTile> {
             child: index < widget.imagePathList.length ?
             GestureDetector(child: widget.imagePathList.value[index].contains('http') ?
             Image.network(widget.imagePathList.value[index]) : Image.file(File(widget.imagePathList.value[index])),
-              onTap: () {
-              Get.to(() => ImageViewer(url: widget.imagePathList.value[index]));
-                }) :
+              onTap: () => Get.to(() => ImageViewer(url: widget.imagePathList.value[index]))) :
             Center(child: IconButton(onPressed: () async => await S3Repository.to.getImage(widget.imageSource ?? ImageSource.gallery).then((image) {
               widget.imageList.add(image);
               widget.imagePathList.add(image.path);
