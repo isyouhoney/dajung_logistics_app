@@ -3,7 +3,6 @@ import 'package:bakery_app/utils/themeData.dart';
 import 'package:bakery_app/view/sub/history/delivery/store_delivery_check.dart';
 import 'package:bakery_app/viewmodels/delivery_service.dart';
 import 'package:bakery_app/widgets/custom_container.dart';
-import 'package:bakery_app/widgets/custom_dropdown.dart';
 import 'package:bakery_app/widgets/custom_widget.dart';
 import 'package:bakery_app/widgets/default_layout.dart';
 import 'package:bakery_app/widgets/quantity_field.dart';
@@ -47,13 +46,6 @@ class _DeliveryHistoryState extends State<DeliveryHistory> {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(title: '배송 내역', child: SingleChildScrollView(child: Column(children: [
-      // Padding(padding: const EdgeInsets.symmetric(horizontal: 15),
-      //   child: CustomDropdown(list: DeliveryStatus.values.map((fruit) => fruit.kor).toList(), selectedValue: selectedStatus,
-      //     onChange: (value){
-      //
-      //       filterOrderHistory(value);
-      //     }),
-      // ),
       Obx(() => DeliveryService.to.deliveryList.isNotEmpty ? Column(children: DeliveryService.to.deliveryList.map((order) => deliveryCard(order)).toList()) :
       const Center(child: CustomContainer(child: Text('내역이 없습니다.'))))
       ,

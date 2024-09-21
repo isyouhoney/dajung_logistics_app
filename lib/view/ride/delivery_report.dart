@@ -70,13 +70,13 @@ class _DeliveryReportState extends State<DeliveryReport> {
       if (widget.order.yesterdayId != null && reportData['recall'] != null) {
         returnImagePathList?.value = List<String>.from(reportData['recall']['images']);
         reportData['recall']['recallItems'].forEach((order) {
-          recallItems.value[Item.fromJson(order).copyWith(id: null)] = {'quantity': order['quantity']};
+          recallItems.value[Item.fromJson(order)] = {'quantity': order['quantity']};
           recallItems.refresh();
         });
       }
     } else {
       print('widget.order.recall!.recallItems : ${widget.order.recall!.recallItems}');
-      widget.order.recall!.recallItems.forEach((recallItem) => recallItems.value[recallItem.item.copyWith(id: null)] = {'quantity': 0});
+      widget.order.recall!.recallItems.forEach((recallItem) => recallItems.value[recallItem.item] = {'quantity': 0});
       recallItems.refresh();
     }
   }

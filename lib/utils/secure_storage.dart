@@ -8,7 +8,7 @@ class SecureStorage with _Cache2Pref {
   }
 
   static Future<bool> set(Cached key, dynamic data) async {
-    await _storage..write(key: _Cache2Pref.wrap(key), value: data);
+    await _storage.write(key: _Cache2Pref.wrap(key), value: data);
     return true;
   }
 

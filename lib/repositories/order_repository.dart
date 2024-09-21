@@ -55,7 +55,7 @@ class OrderRepository extends GetxController {
   }
   // MAIN
   Future<List?> getDayTotalOrders() async {
-    String dayOfTheWeek = DateFormat('E', 'ko_KR').format(DateTime.now().add(const Duration(days: 1)));
+    String dayOfTheWeek = DateFormat('E', 'ko_KR').format(DateTime.now().add(const Duration(days: 2)));
     final Uri url = Uri.parse('$baseUrl/order/sub-total?dayOfTheWeek=$dayOfTheWeek');
     String? accessToken = await SecureStorage.get(Cached.ACCESS);
 

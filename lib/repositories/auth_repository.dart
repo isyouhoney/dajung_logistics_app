@@ -205,6 +205,8 @@ class AuthRepository extends GetxController{
 
         await SecureStorage.saveToken(accessToken, refreshToken);
         await SecureStorage.set(Cached.FCM, fcmToken!);
+        // String? isLogin = await SecureStorage.get(Cached.ACCESS);
+        // print('isLogin : $isLogin');
 
         return User.fromJson(result['user']);
       } else {

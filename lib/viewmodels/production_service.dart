@@ -31,7 +31,7 @@ class ProductionService extends GetxService {
         productionList.value = fetchedProduction['products'];
       }
     } else {
-      print('생산목록을 불러오는데 실패했습니다.');
+      print('금일 생산목록을 불러오는데 실패했습니다.');
     }
   }
 

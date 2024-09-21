@@ -21,13 +21,16 @@ class _OrderStockPanelState extends State<OrderStockPanel> {
                 padding: const EdgeInsets.only(left: 10),
                 child: Text('제품 주문량', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey)),
               )),
-            bodyWidget: SizedBox(height: 30.h,
-              child: Obx(() => SingleChildScrollView(
+            bodyWidget:
+            // SizedBox(height: 10.h,
+            //   child:
+              Obx(() => SingleChildScrollView(
                 child: OrderService.to.orderList.isNotEmpty ? Column(children:
                 OrderService.to.orderList.map((e) => StockField(name: e['itemName'], quantity: e['quantity'])).toList()
                 ) : const Center(child: CircularProgressIndicator(),
                 ),
               )),
-            ), initExpand: true,
+            // ),
+      initExpand: true,
         );
 }}

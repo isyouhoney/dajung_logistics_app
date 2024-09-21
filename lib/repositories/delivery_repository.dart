@@ -62,7 +62,7 @@ class DeliveryRepository extends GetxController {
 
     var responseBody = jsonDecode(response.body);
     var bodyStatusCode = responseBody['statusCode'];
-    // print(responseBody);
+    // print(responseBody['data']['yesterdayOrder']['recall']);
 
     if (bodyStatusCode == 200) {
       Map data = responseBody['data'];

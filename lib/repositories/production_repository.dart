@@ -56,7 +56,7 @@ class ProductionRepository extends GetxController {
 
     var responseBody = jsonDecode(response.body);
     var bodyStatusCode = responseBody['statusCode'];
-    // print('getTodayProductions : ${responseBody}');
+    print('getTodayProductions : ${responseBody}');
 
     if (bodyStatusCode == 200) {
       if(responseBody['data'] != null){
@@ -69,7 +69,7 @@ class ProductionRepository extends GetxController {
   }
 
   Future<bool?> postProduction(List<Product> products) async {
-    String postDate = DateFormat('yyyy-MM-dd').format(DateTime.now().add(const Duration(days: 1))).toString();
+    String postDate = DateFormat('yyyy-MM-dd').format(DateTime.now().add(const Duration(days: 2))).toString();
     final Uri url = Uri.parse('$baseUrl/production');
     String? accessToken = await SecureStorage.get(Cached.ACCESS);
 
@@ -103,7 +103,7 @@ class ProductionRepository extends GetxController {
   }
 
   Future<bool?> editProduction(int id, List<Product> products) async {
-    String postDate = DateFormat('yyyy-MM-dd').format(DateTime.now().add(const Duration(days: 1))).toString();
+    String postDate = DateFormat('yyyy-MM-dd').format(DateTime.now().add(const Duration(days: 2))).toString();
     final Uri url = Uri.parse('$baseUrl/production/edit');
     String? accessToken = await SecureStorage.get(Cached.ACCESS);
 
@@ -127,12 +127,12 @@ class ProductionRepository extends GetxController {
 
     var responseBody = jsonDecode(response.body);
     var bodyStatusCode = responseBody['statusCode'];
-    print(responseBody);
+    print('edit : ${responseBody}');
 
     if (bodyStatusCode == 200) {
       return true;
     } else {
-      logger.e('일일 생산량 등록 요청 실패: ${response.statusCode}');
+      logger.e('일일 생산량 수정 요청 실패: ${response.statusCode}');
       return false;
     }
   }

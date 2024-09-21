@@ -36,7 +36,10 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   try {
+    await Firebase.initializeApp();
     print("백그라운드 메시지 처리.. ${message.data}");
+    // final url = message.data['url'];
+    // return url;
   } catch (e) {
     print("백그라운드 메시지 처리 중 오류 발생: $e");
   }
@@ -56,8 +59,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  FlutterLocalNotification.init();
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FlutterLocalNotification.init(_firebaseMessagingBackgroundHandler);
   await dotenv.load(fileName: '.env');
   InitialBinding().dependencies();
 

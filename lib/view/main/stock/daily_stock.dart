@@ -31,24 +31,41 @@ class _DailyStockState extends State<DailyStock> {
   }
 
   Future getProduction() async {
-    await ItemService.to.fetchItems();
-    await ProductionService.to.fetchTodayProduction();
-    await OrderService.to.fetchDayTotalOrders();
+    await ItemService.to.fetchItems(); // ItemService.to.itemList
+    await ProductionService.to.fetchTodayProduction(); //ProductionService.to.productionList
+    await OrderService.to.fetchDayTotalOrders(); // OrderService.to.orderList
     List<Item> itemsToRemove = [];
 
     if(ProductionService.to.productionList.isNotEmpty){
-    for (var product in ProductionService.to.productionList) {
-      for (var item in ItemService.to.itemList) {
-        if (product['itemName'] == item.itemName) {
-          products[item] = {'total': product['total']};
-          itemsToRemove.add(item);
+      print(1);
+      for (var product in ProductionService.to.productionList) {
+        for (var item in ItemService.to.itemList) {
+          if (product['itemName'] == item.itemName) {
+            products[item] = {'total': product['total']};
+            itemsToRemove.add(item);
+          }
         }
       }
-    }
 
-    for (var item in itemsToRemove) {
-      ItemService.to.itemList.remove(item);
-    }}
+      for (var item in itemsToRemove) {
+        ItemService.to.itemList.remove(item);
+      }
+    } else {
+      print(2);
+      for (var orderItem in OrderService.to.orderList) {
+        for (var item in ItemService.to.itemList) {
+          if (orderItem['itemName'] == item.itemName) {
+            products[item] = {'total': orderItem['quantity']};
+            itemsToRemove.add(item);
+          }
+        }
+      }
+
+      for (var item in itemsToRemove) {
+        ItemService.to.itemList.remove(item);
+      }
+    }
+    // print(products);
   }
 
   Future<bool?> postProduction() async {
@@ -93,6 +110,7 @@ class _DailyStockState extends State<DailyStock> {
                   Obx(() => Column(
                     children: ItemService.to.itemList.isNotEmpty ? ItemService.to.itemList.map<Widget>((e) => StockField(
                       name: e.itemName,
+                      // initValue: e.value['total'],
                       isCounted: (String value) {
                           products[e] = {'total': int.parse(value)};
                           ItemService.to.itemList.remove(e);

@@ -29,10 +29,10 @@ class _ItemOrderState extends State<ItemOrder> {
     OrderService.to.isChanged.value = false;
     OrderService.to.dailyOrderList.value = [];
     OrderService.to.initList = [];
-    print('initList : ${OrderService.to.initList}');
+    // print('initList : ${OrderService.to.initList}');
     await OrderService.to.fetchOrderSheets();
     await OrderService.to.fetchTodayOrderSheets(dayOfWeek);
-    print('initList : ${OrderService.to.initList}');
+    // print('initList : ${OrderService.to.initList}');
   }
 
   @override
